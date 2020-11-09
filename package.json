@@ -34,7 +34,7 @@
     "vue-input-code": "^1.5.0",
     "vue-pincode-input": "^0.4.0",
     "vue2-animate": "^2.1.4",
-    "vue2-gmap-custom-marker": "^5.6.0",
+    "vue2-gmap-custom-marker": "^5.6.2",
     "vue2-google-maps": "^0.10.7",
     "vuelidate": "^0.7.5"
   },
@@ -42,6 +42,7 @@
     "@quasar/app": "^2.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.15.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-loader": "^3.0.3",
     "eslint-plugin-import": "^2.14.0",

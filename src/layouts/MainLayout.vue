@@ -2,6 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-header reveal class="bg-red">
       <q-toolbar>
+        <q-icon name="fas fa-map-marker-alt" />
         <q-toolbar-title>{{ title }}</q-toolbar-title>
         <q-btn dense flat round icon="fas fa-bars" @click="right = !right" />
       </q-toolbar>
@@ -18,7 +19,7 @@
       <div class="q-pa-md">
         <q-list>
           <q-item
-            :to="item.menuRouter"
+            @click="selectItem(item)"
             clickable
             v-ripple
             v-for="(item, index) in menu"
@@ -95,47 +96,6 @@
               <q-icon size="22px" name="fas fa-user" color="grey-7" />
               <div class="footer-item">Perfil</div>
             </q-btn>
-            <!-- <q-btn
-              round
-              flat
-              color="grey-9"
-              stack
-              no-caps
-              size="16px"
-              class="q-mt-sm col-xs-3"
-            >
-              <q-icon size="22px" name="place" color="grey-7" />
-              <div class="footer-item">Nearest</div>
-            </q-btn>
-            <q-btn
-              round
-              flat
-              color="grey-9"
-              stack
-              no-caps
-              size="16px"
-              class="q-mt-sm col-xs-3"
-              @click="$router.push('/cart')"
-            >
-              <q-icon size="22px" name="shopping_basket" color="grey-7" />
-              <q-badge v-if="carro.length > 0" color="primary" floating>{{
-                carro.length
-              }}</q-badge>
-              <div class="footer-item">Cart</div>
-            </q-btn>
-            <q-btn
-              round
-              flat
-              color="grey-9"
-              stack
-              no-caps
-              size="16px"
-              class="q-mt-sm col-xs-3"
-              @click="$router.push('/profile')"
-            >
-              <q-icon size="22px" name="person" color="grey-7" />
-              <div class="footer-item">Profile</div>
-            </q-btn> -->
           </div>
         </q-toolbar-title>
       </q-toolbar>
@@ -147,6 +107,24 @@
 export default {
   name: "MainLayout",
   components: {},
+  computed: {
+    Register() {
+      return this.$store.state.login.register;
+    },
+    userVerify() {
+      return this.$store.state.login.userVerify;
+    },
+    title() {
+      return this.$store.state.global.title;
+    }
+  },
+  mounted() {
+    if (!this.Register) {
+      this.$router.push("/login");
+    } else {
+      //this.$store.commit("global/setTitle", "Dónde Estás?");
+    }
+  },
   data() {
     return {
       right: false,
@@ -154,7 +132,7 @@ export default {
         {
           icon: "fas fa-home",
           caption: "Inicio",
-          menuRouter: "/login"
+          menuRouter: "/home"
         },
         {
           icon: "fas fa-map-marker-alt",
@@ -170,14 +148,42 @@ export default {
         },
         {
           icon: "fas fa-balance-scale",
-          caption: "Información Legal"
+          caption: "Información Legal",
+          function: ""
+        },
+        {
+          icon: "fas fa-door-open",
+          caption: "Salir",
+          function: "logout"
         }
       ],
-      title: "Donde Estas?",
       tab: "tab1",
       link: "",
       leftDrawerOpen: false
     };
+  },
+  methods: {
+    selectItem(item) {
+      if (item.menuRouter) {
+        this.$router.push(item.menuRouter);
+      } else {
+        if (item.function) {
+          eval("this." + item.function + "()");
+        }
+      }
+    },
+    async logout() {
+      this.$store.commit("login/setRegister", false);
+      this.$store.commit("login/setUserVerify", "");
+      this.$store.commit("login/setVerify", false);
+      try {
+        await this.$Auth.signOut();
+        this.$router.push("/login");
+      } catch (error) {
+        console.log("error signing out: ", error);
+        this.$router.push("/");
+      }
+    }
   }
 };
 </script>

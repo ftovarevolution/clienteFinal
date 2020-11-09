@@ -1,65 +1,78 @@
-<template>
-  <q-page-container>
-    <q-page
-      class="flex flex-center page-login justify-start items-start content-start"
-    >
-      <q-toolbar class="bg-white text-blue">
-        <q-btn to="/registro" flat round icon="fal fa-arrow-left" />
-        <q-toolbar-title>Código de Confirmación</q-toolbar-title>
-      </q-toolbar>
+<!--<template>
+  <q-page
+    class="flex flex-center page-login justify-start items-start content-start"
+  >
+    <q-toolbar class="bg-white text-blue">
+      <q-btn to="/registro" flat round icon="fal fa-arrow-left" />
+      <q-toolbar-title> </q-toolbar-title>
+    </q-toolbar>
+    <div class="title1">
+      Código de Confirmación
+    </div>
+    <div class="subtitle1">
+      Le hemos enviado un email con el código de confrmación.
+    </div>
+    <div class="subtitle1">
+      Para completar la verificación introduzca el código de 6 digitos.
+    </div>
 
-      <q-card style="width: 700px; max-width: 80vw;">
-        <q-card-section class="q-ma-xs q-ma-xs">
-          <div class="subtitle1">
-            Le hemos enviado un email con el código de confrmación.
-          </div>
-          <div class="subtitle1">
-            Para completar la verificación introduzca el código de 6 digitos.
-          </div>
-          <vue-input-code
-            span-size="20px"
-            type="number"
-            :number="6"
-            height="50px"
-            span-color="#f35252"
-            input-color="#3498db"
-            input-size="24px"
-            :code="code"
-          ></vue-input-code>
-          <q-card-section style="text-align: center;">
-            <q-btn
-              flat
-              style="color: red"
-              @click="requestCode"
-              label="Reenviar código"
-            />
-          </q-card-section>
-          <div style="text-align=center; margin-top: 10px;">
-            <q-btn
-              style="width: 260px; height: 36px"
-              align="center"
-              class="glossy"
-              rounded
-              color="blue"
-              label="Continuar"
-              @click="onVerifyCode"
-            />
-          </div>
-        </q-card-section>
-      </q-card>
-    </q-page>
-  </q-page-container>
-</template>
+    <vue-input-code
+      span-size="20px"
+      type="number"
+      :number="6"
+      height="50px"
+      span-color="#f35252"
+      input-color="#3498db"
+      input-size="24px"
+      :code="code"
+      :getinput="getInput"
+      :success="success"
+    ></vue-input-code>
+
+    <div style="text-align: center; margin-top: 90px;">
+      <q-btn
+        style="width: 260px; height: 36px"
+        align="center"
+        class="glossy"
+        rounded
+        color="blue"
+        label="Continuar"
+        @click="onVerifyCode"
+      />
+    </div>
+
+    <q-btn
+      @click="enviaCodigo"
+      flat
+      style="color: blue; margin-top: 10px;"
+      label="Enviar de nuevo el código"
+    />
+
+    <q-footer class="bg-white text-primary">
+      <div style="text-align: center; margin-bottom: 16px;">
+        <a style="color: grey;"
+          >Nuestros
+          <router-link to="/page1">Terminos y Condiciones</router-link>
+        </a>
+      </div>
+    </q-footer>
+  </q-page>
+</template> -->
 
 <script>
+import VueInputCode from "vue-input-code";
 import { Quasar, Notify, QSpace, Dialog } from "quasar";
+
 export default {
-  name: "Verify",
   props: {
     code: {
       type: Array,
       default: () => [],
       required: true
+    },
+    success: {
+      type: Function,
+      default: () => {}
     },
     error: {
       type: Function,
@@ -68,6 +81,10 @@ export default {
     customValidate: {
       type: Function,
       default: undefined
+    },
+    getInput: {
+      type: Function,
+      default: () => {}
     },
     spanSize: {
       type: String,
@@ -107,90 +124,44 @@ export default {
   },
   data() {
     return {
-      shape: 0,
-      codigo: null
+      code: ""
     };
   },
-  computed: {
-    verifyCode() {
-      return this.$store.state.login.verifyCode;
-    },
-    userVerify() {
-      return this.$store.state.login.userVerify;
-    }
-  },
   methods: {
-    getInput() {},
-    requestCode() {
-      const self = this;
-      self.$Auth
-        .resendSignUp(self.userVerify)
-        .then(() => {
-          return self.$q
-            .dialog({
-              title: "Aviso",
-              message: "Nuevo codigo solicitado",
-              ok: {
-                push: true,
-                color: "negative"
-              },
-              persistent: true
-            })
-            .onOk(() => {
-              self.$refs.codigovalida.resetValidation();
-              self.codigo = "";
-              self.onClick();
-            });
-        })
-        .catch(e => {
-          // console.log(e);
-          return self.$q.dialog({
-            title: "Error",
-            message: "Hubo un error en la solicitud del codigo",
-            ok: {
-              push: true,
-              color: "positive"
-            },
-            persistent: true
-          });
-        });
+    enviaCodigo() {
+      this.$q.notify({
+        message: "Se ha enviado de nuevo el código."
+      });
     },
+    onSubmit() {},
+    onReset() {},
     onVerifyCode() {
       const self = this;
-      if (self.code.length < 6) {
-        self.$q.dialog({
-          title: "Alerta!",
-          message: "Debe completar el codigo de 6 digitos",
-          ok: {
-            push: true,
-            color: "negative"
-          },
-          persistent: true
-        });
-        return;
+      if (!self.$refs.codigovalida.validate()) {
+        return self.$q
+          .dialog({
+            title: "Error",
+            message: "Datos Incorrectos..",
+            ok: {
+              push: true,
+              color: "negative"
+            },
+            persistent: true
+          })
+          .onOk(() => {
+            self.$refs.codigovalida.resetValidation();
+            self.codigo = "";
+            self.$refs.codigovalida.focus();
+          });
       }
-      if (!this.userVerify) {
-        this.$router.push("/login");
-        return;
-      }
-
-      const codeUnico =
-        self.code[0] +
-        self.code[1] +
-        self.code[2] +
-        self.code[3] +
-        self.code[4] +
-        self.code[5];
-      console.log("onVerifyCode -> userVerify", this.userVerify);
       self.$q.loading.show({
-        spinnerColor: "primary",
-        messageColor: "primary",
-        backgroundColor: "white",
+        spinnerColor: "white",
+        messageColor: "white",
+        backgroundColor: "primary",
         message: "Conectando"
       });
-
       self.$Auth
-        .confirmSignUp(self.userVerify, codeUnico, {
+        .confirmSignUp(self.userVerify, self.codigo, {
           forceAliasCreation: true
         })
         .then(data => {
@@ -206,9 +177,7 @@ export default {
               persistent: true
             })
             .onOk(() => {
-              this.$store.commit("login/setRegister", true);
-              this.$store.commit("login/setVerify", true);
-              this.$router.push("/home");
+              self.onClick();
             });
         })
         .catch(err => {
@@ -255,12 +224,6 @@ export default {
               });
           }
         });
-    },
-    onClick() {
-      this.codigo = null;
-      this.shape = 0;
-      this.$store.commit("login/setVerify", false);
-      this.$store.commit("login/setUserVerify", null);
     }
   }
 };
@@ -289,6 +252,8 @@ export default {
     margin-top: 10px
     width: 100%;
     height: 100%;
+    margin-right: 25px
+    margin-left: 25px
 
 .input1
     margin-left: 10px
