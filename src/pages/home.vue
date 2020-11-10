@@ -61,6 +61,36 @@
           </gmap-custom-marker>
         </div>
       </GmapMap>
+
+      <div class="text-h5 text-red text-center" style="margin-top: 10px;">
+        ¿Es esta tu ubicación?
+      </div>
+      <div class="text-h8 text-red text-center">
+        Necesitamos confirmar tu ubicación. Tambien puedes buscar por una
+        dirección guardada.
+      </div>
+      <div style="text-align: center; margin-top: 10px;">
+        <q-btn
+          style="width: 280px; height: 46px"
+          align="center"
+          class="glossy"
+          rounded
+          color="primary"
+          label="Mis Direcciones"
+          @click="mydirection"
+        />
+      </div>
+      <div style="text-align: center; margin-top: 10px;">
+        <q-btn
+          style="width: 280px; height: 46px"
+          align="center"
+          class="glossy"
+          rounded
+          color="primary"
+          label="Confirmar Ubicación"
+          @click="confirm"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -140,6 +170,10 @@ export default {
     }, 2000);
   },
   methods: {
+    confirm() {
+      this.$router.push("/services");
+    },
+    mydirection() {},
     getMarkerPosition(e) {
       console.log("***********", e);
     },
@@ -377,7 +411,7 @@ export default {
         self.markers[self.campo].direccion = null;
         self.markers[self.campo].enbusqueda = true;
       } else if (field === "listo") {
-        console.log("listo a buscar direccion ");
+        console.log("Buscando Direccion");
         self.buscaDireccion(self.posicion_manual, self.campo);
         self.markers[self.campo].activo = true;
         setTimeout(() => {

@@ -120,7 +120,7 @@ export default {
   },
   mounted() {
     if (!this.Register) {
-      this.$router.push("/login");
+      //this.$router.push("/login");
     } else {
       //this.$store.commit("global/setTitle", "Dónde Estás?");
     }
@@ -152,9 +152,14 @@ export default {
           function: ""
         },
         {
+          icon: "fad fa-sign-out-alt",
+          caption: "Logout",
+          function: "logout"
+        },
+        {
           icon: "fas fa-door-open",
           caption: "Salir",
-          function: "logout"
+          function: "exit"
         }
       ],
       tab: "tab1",
@@ -172,11 +177,13 @@ export default {
         }
       }
     },
+    exit() {},
     async logout() {
       this.$store.commit("login/setRegister", false);
       this.$store.commit("login/setUserVerify", "");
       this.$store.commit("login/setVerify", false);
       try {
+        localStorage.register = "false";
         await this.$Auth.signOut();
         this.$router.push("/login");
       } catch (error) {

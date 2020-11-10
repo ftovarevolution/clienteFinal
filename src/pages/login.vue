@@ -3,7 +3,7 @@
     <q-page
       class="flex flex-center page-login justify-start items-start content-start"
     >
-      <q-toolbar class="bg-white text-blue">
+      <q-toolbar class="bg-white text-primary">
         <q-btn to="/" flat round icon="fal fa-arrow-left" />
         <q-toolbar-title> </q-toolbar-title>
       </q-toolbar>
@@ -24,11 +24,12 @@
               label="Correo electrónico"
             >
               <template v-slot:prepend>
-                <q-icon name="fal fa-envelope" />
+                <q-icon color="primary" name="fal fa-envelope" />
               </template>
               <template v-slot:append>
                 <q-btn
                   flat
+                  color="primary"
                   icon="fal fa-times"
                   class="cursor-pointer q-mr-sm"
                   @click="email = ''"
@@ -46,10 +47,11 @@
               :rules="[$rules.required('Campo Obligatorio..')]"
             >
               <template v-slot:prepend>
-                <q-icon name="fal fa-lock-alt" />
+                <q-icon color="primary" name="fal fa-lock-alt" />
               </template>
               <template v-slot:append>
                 <q-btn
+                  color="primary"
                   v-show="!isPwd"
                   flat
                   icon="fal fa-eye"
@@ -60,6 +62,7 @@
                 <q-btn
                   v-show="isPwd"
                   flat
+                  color="primary"
                   icon="fal fa-eye-slash"
                   class="cursor-pointer q-mr-sm"
                   @click="isPwd = false"
@@ -67,31 +70,43 @@
                 />
               </template>
             </q-input>
+            <q-toggle
+              v-model="valuelogin"
+              color="green"
+              label="Mantenerme conectado"
+            />
+          </q-card-section>
+          <q-card-section>
+            <q-btn
+              class="full-width text-weight-light text-center"
+              size="md"
+              flat
+              text-color="primary"
+              color="primary"
+              no-caps
+              @click="menuPass"
+              label="He olvidado mi contraseña"
+            />
           </q-card-section>
         </q-card>
-        <div style="text-align: center; margin-top: 30px;">
-          <router-link to="/forgotpassword"
-            >Olvidaste tu contraseña?</router-link
-          >
-        </div>
         <div style="text-align: center; margin-top: 30px;">
           <q-btn
             style="width: 260px; height: 36px"
             align="center"
             class="glossy"
             rounded
-            color="blue"
+            color="primary"
             label="Iniciar"
             @click="signIn"
           />
         </div>
       </q-form>
-
+      <MenuPass></MenuPass>
       <q-footer class="bg-white text-primary">
         <div style="text-align: center; margin-bottom: 16px;">
           <a style="color: grey;"
             >Al continuar aceptas nuestros
-            <router-link to="/page1">Terminos y Condiciones</router-link>
+            <router-link to="/page1">Términos y Condiciones</router-link>
           </a>
         </div>
       </q-footer>
@@ -100,15 +115,59 @@
 </template>
 
 <script>
+const MenuPass = () =>
+  import(/*webpackChunkName: "MenuPass" */ "./../components/menupass");
 export default {
+  components: {
+    MenuPass
+  },
   data() {
     return {
-      password: "123456789",
+      valuelogin: null,
+      password: "",
       isPwd: true,
-      name: "Franklin",
-      email: "ftovar.evolution@gmail.com",
+      name: "",
+      email: "",
+      // password: "123456789",
+      // name: "Franklin",
+      // email: "ftovar.evolution@gmail.com",
       pass: ""
     };
+  },
+  mounted() {
+    const self = this;
+    if (localStorage.valuelogin) {
+      if (localStorage.valuelogin === "1") {
+        self.valuelogin = true;
+      } else {
+        self.valuelogin = false;
+        localStorage.email = "";
+      }
+    } else {
+      if (!self.valuelogin) {
+        self.valuelogin = false;
+        localStorage.email = "";
+      }
+    }
+    if (self.valuelogin) {
+      if (localStorage.email) {
+        this.email = localStorage.email;
+      }
+    } else {
+    }
+  },
+  watch: {
+    email(newVal) {
+      localStorage.email = newVal;
+    },
+    valuelogin(newValuelogin) {
+      if (newValuelogin === true) {
+        localStorage.valuelogin = "1";
+      } else {
+        localStorage.valuelogin = "0";
+        this.email = "";
+      }
+    }
   },
   methods: {
     async signIn() {
@@ -132,6 +191,7 @@ export default {
           self.$store.commit("login/setUserVerify", self.email);
           self.$store.commit("login/setVerify", true);
           self.$store.commit("login/setRegister", true);
+          localStorage.register = "true";
           this.$router.push("/home");
         })
         .catch(err => {
@@ -140,6 +200,7 @@ export default {
           self.$q.loading.hide();
           if (err.code === "NotAuthorizedException") {
             if (err.message === "User is disabled.") {
+              localStorage.register = "false";
               return self.$q.dialog({
                 title: "Alerta!",
                 message: "Usuario Bloqueado",
@@ -150,6 +211,7 @@ export default {
                 persistent: true
               });
             } else {
+              localStorage.register = "false";
               return self.$q.dialog({
                 title: "Alerta!",
                 message: "Usuario / Contraseña Invalidos",
@@ -162,11 +224,13 @@ export default {
             }
           }
           if (err.code === "UserNotConfirmedException") {
+            localStorage.register = "false";
             self.$store.commit("login/setUserVerify", self.email);
             self.$store.commit("login/setVerify", true);
             this.$router.push("/verificacion");
           }
           if (err.code === "UserNotFoundException") {
+            localStorage.register = "false";
             self.$q.dialog({
               title: "Alerta!",
               message: "Usuario NO existe",
@@ -179,6 +243,9 @@ export default {
             this.$router.push("/registro");
           }
         });
+    },
+    menuPass() {
+      this.$store.commit("user/setdialogMenuPass", true);
     },
     onReset() {}
   }

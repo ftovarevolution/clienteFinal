@@ -10,7 +10,7 @@
       Código de Confirmación
     </div>
     <div class="subtitle1">
-      Le hemos enviado un email con el código de confrmación.
+      Le hemos enviado un email con el código de confirmación.
     </div>
     <div class="subtitle1">
       Para completar la verificación introduzca el código de 6 digitos.
@@ -52,7 +52,7 @@
       <div style="text-align: center; margin-bottom: 16px;">
         <a style="color: grey;"
           >Nuestros
-          <router-link to="/page1">Terminos y Condiciones</router-link>
+          <router-link to="/page1">Términos y Condiciones</router-link>
         </a>
       </div>
     </q-footer>

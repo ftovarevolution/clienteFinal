@@ -104,7 +104,7 @@
           <q-toggle
             class="text-primary q-mb-lg"
             v-model="accept"
-            label="Acepto los terminos y condiciones como usuario de la aplicación."
+            label="Acepto los términos y condiciones como usuario de la aplicación."
           />
 
           <div class="self-center" style="text-align: center;">

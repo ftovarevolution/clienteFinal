@@ -3,7 +3,7 @@
     <q-page
       class="flex flex-center page-login justify-start items-start content-start"
     >
-      <q-toolbar class="bg-white text-blue">
+      <q-toolbar class="bg-white text-primary">
         <q-btn to="/registro" flat round icon="fal fa-arrow-left" />
         <q-toolbar-title>Código de Confirmación</q-toolbar-title>
       </q-toolbar>
@@ -11,7 +11,7 @@
       <q-card style="width: 700px; max-width: 80vw;">
         <q-card-section class="q-ma-xs q-ma-xs">
           <div class="subtitle1">
-            Le hemos enviado un email con el código de confrmación.
+            Le hemos enviado un email con el código de confirmación.
           </div>
           <div class="subtitle1">
             Para completar la verificación introduzca el código de 6 digitos.
@@ -21,26 +21,26 @@
             type="number"
             :number="6"
             height="50px"
-            span-color="#f35252"
+            span-color="#3498db"
             input-color="#3498db"
             input-size="24px"
             :code="code"
           ></vue-input-code>
           <q-card-section style="text-align: center;">
             <q-btn
+              color="primary"
               flat
-              style="color: red"
               @click="requestCode"
               label="Reenviar código"
             />
           </q-card-section>
-          <div style="text-align=center; margin-top: 10px;">
+          <div style="text-align: center; margin-top: 10px;">
             <q-btn
               style="width: 260px; height: 36px"
               align="center"
               class="glossy"
               rounded
-              color="blue"
+              color="primary"
               label="Continuar"
               @click="onVerifyCode"
             />

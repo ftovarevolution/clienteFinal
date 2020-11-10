@@ -32,7 +32,7 @@
               flat
               style="color: red"
               @click="registrarse"
-              label="Registrate"
+              label="Regístrate"
             />
           </q-card-section>
           <a style="color: grey;"
@@ -65,7 +65,7 @@ export default {
     };
   },
   mounted() {
-    this.muestraTerminos = true;
+    this.muestraTérminos = true;
   },
   methods: {
     enterfun(e) {

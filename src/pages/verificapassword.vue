@@ -101,7 +101,7 @@
       <div style="text-align: center; margin-bottom: 16px;">
         <a style="color: grey;"
           >Nuestros
-          <router-link to="/page1">Terminos y Condiciones</router-link>
+          <router-link to="/page1">Términos y Condiciones</router-link>
         </a>
       </div>
     </q-footer>

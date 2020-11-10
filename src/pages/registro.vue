@@ -3,7 +3,7 @@
     <q-page
       class="flex flex-center page-login justify-start items-start content-start"
     >
-      <q-toolbar class="bg-white text-blue">
+      <q-toolbar class="bg-white text-primary">
         <q-btn to="/" flat round icon="fal fa-arrow-left" />
         <q-toolbar-title> </q-toolbar-title>
         <q-btn to="/login" stretch flat label="iniciar sesión" />
@@ -23,10 +23,11 @@
               :rules="[$rules.required('Campo Obligatorio..')]"
             >
               <template v-slot:prepend>
-                <q-icon name="fal fa-user" />
+                <q-icon color="primary" name="fal fa-user" />
               </template>
               <template v-slot:append>
                 <q-btn
+                  color="primary"
                   flat
                   icon="fal fa-times"
                   class="cursor-pointer q-mr-sm"
@@ -46,10 +47,11 @@
               label="Correo electrónico"
             >
               <template v-slot:prepend>
-                <q-icon name="fal fa-envelope" />
+                <q-icon color="primary" name="fal fa-envelope" />
               </template>
               <template v-slot:append>
                 <q-btn
+                  color="primary"
                   flat
                   icon="fal fa-times"
                   class="cursor-pointer q-mr-sm"
@@ -71,10 +73,11 @@
               ]"
             >
               <template v-slot:prepend>
-                <q-icon name="fal fa-lock-alt" />
+                <q-icon color="primary" name="fal fa-lock-alt" />
               </template>
               <template v-slot:append>
                 <q-btn
+                  color="primary"
                   v-show="!isPwd"
                   flat
                   icon="fal fa-eye"
@@ -84,6 +87,7 @@
                 />
 
                 <q-btn
+                  color="primary"
                   v-show="isPwd"
                   flat
                   icon="fal fa-eye-slash"
@@ -101,8 +105,8 @@
             align="center"
             class="glossy"
             rounded
-            color="blue"
-            label="Registrate"
+            color="primary"
+            label="Regístrate"
             type="submit"
           />
         </div>
@@ -112,7 +116,7 @@
         <div style="text-align: center; margin-bottom: 16px;">
           <a style="color: grey;"
             >Nuestros
-            <router-link to="/page1">Terminos y Condiciones</router-link>
+            <router-link to="/page1">Términos y Condiciones</router-link>
           </a>
         </div>
       </q-footer>
@@ -125,10 +129,13 @@ import { Auth } from "aws-amplify";
 export default {
   data() {
     return {
-      password: "123456789",
       isPwd: true,
-      name: "Franklin",
-      email: "ftovar.evolution@gmail.com",
+      password: "",
+      name: "",
+      email: "",
+      // password: "123456789",
+      // name: "Franklin",
+      // email: "ftovar.evolution@gmail.com",
       pass: ""
     };
   },
