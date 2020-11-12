@@ -61,28 +61,36 @@
           </gmap-custom-marker>
         </div>
       </GmapMap>
-
+      <q-input
+        style="margin-left: 20px; margin-right: 20px;"
+        v-model="directionNow"
+        dense
+        disable
+      />
       <div class="text-h5 text-red text-center" style="margin-top: 10px;">
         ¿Es esta tu ubicación?
       </div>
-      <div class="text-h8 text-red text-center">
+      <div
+        class="text-h8 text-red text-center"
+        style="margin: 10px 20px 10px 20px;"
+      >
         Necesitamos confirmar tu ubicación. Tambien puedes buscar por una
         dirección guardada.
       </div>
       <div style="text-align: center; margin-top: 10px;">
         <q-btn
-          style="width: 280px; height: 46px"
+          style="width: 330px; height: 46px"
           align="center"
           class="glossy"
           rounded
           color="primary"
           label="Mis Direcciones"
-          @click="mydirection"
+          @click="myDirection"
         />
       </div>
-      <div style="text-align: center; margin-top: 10px;">
+      <div style="text-align: center; margin-top: 20px;">
         <q-btn
-          style="width: 280px; height: 46px"
+          style="width: 330px; height: 46px"
           align="center"
           class="glossy"
           rounded
@@ -111,7 +119,6 @@ export default {
   name: "PageIndex",
   components: {
     GmapCustomMarker
-    //menuMapa
   },
   data() {
     return {
@@ -135,13 +142,16 @@ export default {
     };
   },
   beforeDestroy() {
-    console.log("beforeDestroy");
     clearInterval(this.timer_public);
   },
   computed: {
+    directionNow() {
+      return this.$store.state.global.directionNow;
+    },
     title() {
       return this.$store.state.global.title;
     },
+
     google: gmapApi
   },
   watch: {
@@ -159,12 +169,11 @@ export default {
   },
   mounted() {
     const self = this;
+    //self.$store.commit("home/setMyDirectionDialog", false);
     self.$store.commit("global/setTitle", "Dónde Estás?");
     this.getCurrentPosition();
     this.initMarkers();
     setTimeout(() => {
-      // this.markers[1].enable = true;
-      // this.markers[1].zIndex = 999998;
       self.initService();
       this.llevamealcentro();
     }, 2000);
@@ -173,15 +182,13 @@ export default {
     confirm() {
       this.$router.push("/services");
     },
-    mydirection() {},
-    getMarkerPosition(e) {
-      console.log("***********", e);
+    myDirection() {
+      this.$store.commit("home/setMyDirectionDialog", true);
     },
     getCurrentPosition() {
       const self = this;
       Geolocation.getCurrentPosition()
         .then(position => {
-          console.log("pos----", position);
           self.centroInicial = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
@@ -279,8 +286,23 @@ export default {
           },
           function(responses, status) {
             if (status === "OK") {
-              self.markers[campo].direccion = responses[0].formatted_address;
-              console.log("buscaDireccion -> ", responses[0].formatted_address);
+              //console.log("buscaDireccion -> responses", responses);
+              let direccionConcat =
+                responses[0].formatted_address.trim() +
+                " " +
+                responses[1].formatted_address.trim() +
+                " " +
+                responses[2].formatted_address.trim();
+              self.markers[campo].direccion = direccionConcat;
+              self.$store.commit("global/setdirectionNow", direccionConcat);
+              self.$store.commit(
+                "global/setdirectionNowLat",
+                self.markers[campo].position.lat
+              );
+              self.$store.commit(
+                "global/setdirectionNowLng",
+                self.markers[campo].position.lng
+              );
             }
           }
         );
@@ -300,44 +322,8 @@ export default {
         self.buscaDireccion(self.posicion_manual, self.campo);
       }, 1000);
     },
-
-    async renderMapa() {
-      const self = this;
-      const puntosParadas = [];
-      await this.$refs.mapa.$mapObject.setOptions({
-        draggable: false
-      });
-      await self.directionsService.route(
-        {
-          origin: self.markers[1].position,
-          destination: self.markers[2].position,
-          waypoints: puntosParadas,
-          optimizeWaypoints: true,
-          travelMode: "DRIVING",
-          avoidTolls: true
-        },
-        async function(response, status) {
-          if (status === "OK") {
-            await self.directionsRenderer.setDirections(response);
-            self.directionsRendererResponse = response;
-          }
-        }
-      );
-    },
-    cambioFase(arg) {
-      // this.$store.commit("user/setcampo", arg);
-      this.campo = arg;
-      if (arg === 5) {
-        this.grabarDatos();
-        this.solicitado = true;
-        this.dialogBusca = true;
-      }
-    },
-    onClickTool() {
-      console.log("prueba el click");
-    },
     getClassMap() {
-      console.log("campo:", this.campo);
+      //console.log("campo:", this.campo);
       if (!this.campo) {
         return "mapa1";
       }
@@ -380,7 +366,6 @@ export default {
           break;
       }
     },
-
     getIcon(icon) {
       let xIcon = "./pin.png";
       switch (icon) {

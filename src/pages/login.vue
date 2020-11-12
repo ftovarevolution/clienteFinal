@@ -14,6 +14,9 @@
         <q-card class="my-card shadow-9" style="margin-top: 10px;">
           <q-card-section>
             <q-input
+              ref="email"
+              @blur="focusInput(0)"
+              @click="focusInput(1)"
               bottom-slots
               v-model="email"
               no-error-icon
@@ -39,6 +42,9 @@
               </template>
             </q-input>
             <q-input
+              ref="pass"
+              @blur="focusInput(0)"
+              @click="focusInput(1)"
               v-model="password"
               :type="isPwd ? 'password' : 'text'"
               label="Contraseña"
@@ -76,11 +82,11 @@
               label="Mantenerme conectado"
             />
           </q-card-section>
-          <q-card-section>
+          <q-card-section style="text-align: center;">
             <q-btn
-              class="full-width text-weight-light text-center"
-              size="md"
+              class="text-weight-light text-center"
               flat
+              size="md"
               text-color="primary"
               color="primary"
               no-caps
@@ -102,11 +108,11 @@
         </div>
       </q-form>
       <MenuPass></MenuPass>
-      <q-footer class="bg-white text-primary">
+      <q-footer v-if="enablefooter" reveal class="bg-white text-primary">
         <div style="text-align: center; margin-bottom: 16px;">
           <a style="color: grey;"
             >Al continuar aceptas nuestros
-            <router-link to="/page1">Términos y Condiciones</router-link>
+            <router-link to="">Términos y Condiciones</router-link>
           </a>
         </div>
       </q-footer>
@@ -123,6 +129,7 @@ export default {
   },
   data() {
     return {
+      enablefooter: true,
       valuelogin: null,
       password: "",
       isPwd: true,
@@ -170,6 +177,18 @@ export default {
     }
   },
   methods: {
+    focusInput(e) {
+      if (this.$refs.email.focused || this.$refs.pass.focused) {
+        this.enablefooter = false;
+      } else {
+        this.enablefooter = true;
+      }
+      if (this.email.length > 0) {
+        this.email = this.email.toLowerCase();
+        this.email = this.email.trim();
+        console.log("focusInput -> this.email", this.email);
+      }
+    },
     async signIn() {
       const self = this;
       if (!(await this.$refs.formLogin.validate())) {

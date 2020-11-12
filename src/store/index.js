@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import login from "./module-login";
 import global from "./module-global";
 import user from "./module-user";
+import home from "./module-home";
 
 // import empresa from "./module-empresa";
 // import paquetes from "./module-paquetes";
@@ -14,7 +15,8 @@ export default function(/* { ssrContext } */) {
     modules: {
       login,
       global,
-      user
+      user,
+      home
     },
     strict: process.env.DEV
   });

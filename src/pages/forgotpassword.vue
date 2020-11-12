@@ -26,7 +26,7 @@
           no-error-icon
           :rules="[
             $rules.required('Campo Obligatorio..'),
-            $rules.email('No es un email..')
+            $rules.email('Debe colocar un email valido.')
           ]"
           label="Correo electrónico"
         >

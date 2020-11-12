@@ -1,5 +1,11 @@
 export default function() {
   return {
-    title: ""
+    title: "",
+    IdService: "",
+    NameService: "",
+    loginew: false,
+    directionNow: "",
+    directionNowLat: "",
+    directionNowLng: ""
   };
 }

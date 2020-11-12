@@ -29,7 +29,7 @@
               no-error-icon
               :rules="[
                 $rules.required('Campo Obligatorio..'),
-                $rules.email('No es un email..')
+                $rules.email('Debe colocar un email valido..')
               ]"
               label="Correo electrónico"
             >
@@ -134,17 +134,21 @@ export default {
         const user = await self.$Auth.forgotPassword(self.email, {});
         await self.$q.loading.hide();
         //self.yaTengo();
-        self.$q.dialog({
-          title: "Solicitud Enviada!",
-          transitionShow: "slide-down",
-          message:
-            "A continuación se le enviara un codigo de verificación por email",
-          ok: {
-            push: true,
-            color: "negative"
-          },
-          persistent: true
-        });
+        await self.$q
+          .dialog({
+            title: "Solicitud Enviada!",
+            transitionShow: "slide-down",
+            message:
+              "A continuación se le enviara un codigo de verificación por email",
+            ok: {
+              push: true,
+              color: "negative"
+            },
+            persistent: true
+          })
+          .onOk(() => {
+            self.yaTengo();
+          });
       } catch (e) {
         await self.$q.loading.hide();
         console.log(e);

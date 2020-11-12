@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <div id="app">
-      <transition name="slideUp" mode="out-in">
+      <transition v-if="loginew" name="slideUp" mode="out-in">
         <router-view />
       </transition>
     </div>
@@ -12,11 +12,16 @@
 export default {
   name: "OutLayout",
   components: {},
+  computed: {
+    loginew() {
+      return this.$store.state.global.loginew;
+    }
+  },
   data() {
     return {};
   },
+
   beforeCreate() {
-    console.log("beforeCreate -> localStorage.register", localStorage.register);
     if (localStorage.valuelogin) {
       if (
         localStorage.valuelogin === "1" &&
@@ -24,10 +29,16 @@ export default {
         localStorage.register
       ) {
         if (localStorage.register === "true") {
-          console.log("me cogio");
+          this.$store.commit("global/setLoginew", false);
           this.$router.push("/home");
+        } else {
+          this.$store.commit("global/setLoginew", true);
         }
+      } else {
+        this.$store.commit("global/setLoginew", true);
       }
+    } else {
+      this.$store.commit("global/setLoginew", true);
     }
   }
 };

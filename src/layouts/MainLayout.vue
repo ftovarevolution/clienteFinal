@@ -61,12 +61,13 @@
               color="grey-9"
               stack
               no-caps
+              @click="myDirection"
               size="16px"
               class="q-mt-sm col-xs-3"
               style="visibility: inherit; box-sizing: border-box; -webkit-tap-highlight-color"
             >
               <q-icon size="22px" name="fas fa-map-marked-alt" color="grey-7" />
-              <div class="footer-item">Direccion</div>
+              <div class="footer-item">Direcciones</div>
             </q-btn>
             <q-btn
               round
@@ -100,13 +101,19 @@
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>
+    <myDirection></myDirection>
   </q-layout>
 </template>
 
 <script>
+const myDirection = () =>
+  import(/*webpackChunkName: "myDirection" */ "./../components/myDirection");
+
 export default {
   name: "MainLayout",
-  components: {},
+  components: {
+    myDirection
+  },
   computed: {
     Register() {
       return this.$store.state.login.register;
@@ -118,13 +125,7 @@ export default {
       return this.$store.state.global.title;
     }
   },
-  mounted() {
-    if (!this.Register) {
-      //this.$router.push("/login");
-    } else {
-      //this.$store.commit("global/setTitle", "Dónde Estás?");
-    }
-  },
+  mounted() {},
   data() {
     return {
       right: false,
@@ -136,7 +137,8 @@ export default {
         },
         {
           icon: "fas fa-map-marker-alt",
-          caption: "Mis Direcciones"
+          caption: "Mis Direcciones",
+          function: "myDirection"
         },
         {
           icon: "fas fa-clipboard-list",
@@ -168,6 +170,9 @@ export default {
     };
   },
   methods: {
+    myDirection() {
+      this.$store.commit("home/setMyDirectionDialog", true);
+    },
     selectItem(item) {
       if (item.menuRouter) {
         this.$router.push(item.menuRouter);
@@ -182,6 +187,7 @@ export default {
       this.$store.commit("login/setRegister", false);
       this.$store.commit("login/setUserVerify", "");
       this.$store.commit("login/setVerify", false);
+      this.$store.commit("global/setLoginew", true);
       try {
         localStorage.register = "false";
         await this.$Auth.signOut();
