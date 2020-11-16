@@ -128,11 +128,13 @@ export const listCategoriass = /* GraphQL */ `
         nombre
         courier
         subCategorias {
-          nextToken
+          items {
+            id
+            Nombre
+            estado
+          }
         }
         estado
-        createdAt
-        updatedAt
       }
       nextToken
     }
@@ -162,8 +164,6 @@ export const listSubCategoriass = /* GraphQL */ `
         idCategoria
         Nombre
         estado
-        createdAt
-        updatedAt
       }
       nextToken
     }
