@@ -1,6 +1,29 @@
 <template>
   <div class="full-width text-center">
-    <SlideIcons></SlideIcons>
+    <q-input
+      standout="bg-red-2 text-white"
+      rounded
+      style="width: 90%; margin-top: 10px; margin-left: 20px; margin-right: 20px"
+      dense
+      v-model="textSearch"
+      bottom-slots
+      placeholder="Que quieres comer hoy?"
+    >
+      <template v-slot:prepend>
+        <q-icon name="fas fa-search" />
+      </template>
+      <template v-slot:append>
+        <q-btn
+          color="primary"
+          flat
+          icon="fal fa-times"
+          class="cursor-pointer q-mr-sm"
+          @click="textSearch = ''"
+          style="width: 36px;"
+        />
+      </template>
+    </q-input>
+    <SlideIcons> </SlideIcons>
     <Shop_list_home></Shop_list_home>
   </div>
 </template>

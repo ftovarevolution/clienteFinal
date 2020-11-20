@@ -19,7 +19,7 @@
         >
           <div class="column">
             <q-icon style="margin: auto" left size="sm" :name="button.image" />
-            <div class="item">{{ button.caption }}</div>
+            <div class="item">{{ button.Nombre }}</div>
           </div>
         </q-btn>
       </div>
@@ -52,26 +52,26 @@ export default {
       buttons: [
         {
           image: "img:https://image.flaticon.com/icons/png/512/184/184531.png",
-          caption: "Pollo"
+          Nombre: "Pollo"
         },
         {
           image:
             "img:https://i.pinimg.com/originals/59/aa/6e/59aa6e282f8492a3e5b26636894864ae.png",
-          caption: "Mexicano"
+          Nombre: "Mexicano"
         },
         {
           image: "img:https://img.icons8.com/emoji/452/hamburger-emoji.png",
-          caption: "Hamburguesas"
+          Nombre: "Hamburguesas"
         },
         {
           image:
             "img:https://image.flaticon.com/icons/png/512/1046/1046842.png",
-          caption: "Chino"
+          Nombre: "Chino"
         },
         {
           image:
             "img:https://image.flaticon.com/icons/png/128/1404/1404945.png",
-          caption: "Pizza"
+          Nombre: "Pizza"
         }
       ]
     };

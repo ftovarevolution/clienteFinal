@@ -86,8 +86,6 @@ export const listDireccionUsuarios = /* GraphQL */ `
           lon
         }
         estado
-        createdAt
-        updatedAt
       }
       nextToken
     }

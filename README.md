@@ -37,3 +37,5 @@ See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
 ### localStorage.valuelogin // Indica si el usuario quiere manteren la sesion iniciada
 
 ### localStorage.register // Indica si el usuario entro al app de forma correcta
+
+### quasar dev -m capacitor -T android

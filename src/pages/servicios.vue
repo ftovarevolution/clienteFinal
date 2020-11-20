@@ -25,7 +25,7 @@
     </q-input>
     <div
       class="column inline buttonSevice"
-      v-for="(item, index) in menu"
+      v-for="(item, index) in menu2"
       :key="index"
     >
       <q-btn round @click="callService(item)">
@@ -68,38 +68,38 @@ export default {
       email: "",
       title: "",
       showSearch: false,
-      image: "https://webstockreview.net/images/beef-clipart-meat-dish-5.png",
-      menu: []
-      // menu: [
-      //   {
-      //     id: "12354545444545",
-      //     nombre: "Restaurantes",
-      //     image:
-      //       "https://webstockreview.net/images/beef-clipart-meat-dish-5.png"
-      //   },
-      //   {
-      //     id: "12354545444544",
-      //     nombre: "Licorerias",
-      //     image:
-      //       "https://cdn.icon-icons.com/icons2/709/PNG/128/Drinks-33_icon-icons.com_61965.png"
-      //   },
-      //   {
-      //     id: "123545454445222",
-      //     nombre: "Super Market",
-      //     image:
-      //       "https://pngimage.net/wp-content/uploads/2019/05/hypermarket-icon-png-4.png"
-      //   },
-      //   {
-      //     id: "1212222",
-      //     nombre: "Carnicerias",
-      //     image: "https://image.flaticon.com/icons/png/512/1534/1534825.png"
-      //   },
-      //   {
-      //     id: "12354545444sasdasd5222",
-      //     nombre: "Farmacias",
-      //     image: "https://www.iconshock.com/image/RealVista/Medical/pharmacy/"
-      //   }
-      // ]
+      image: "",
+      menu: [],
+      menu2: [
+        {
+          id: "12354545444545",
+          nombre: "Restaurantes",
+          image:
+            "https://webstockreview.net/images/beef-clipart-meat-dish-5.png"
+        },
+        {
+          id: "12354545444544",
+          nombre: "Licorerias",
+          image:
+            "https://cdn.icon-icons.com/icons2/709/PNG/128/Drinks-33_icon-icons.com_61965.png"
+        },
+        {
+          id: "123545454445222",
+          nombre: "Super Market",
+          image:
+            "https://pngimage.net/wp-content/uploads/2019/05/hypermarket-icon-png-4.png"
+        },
+        {
+          id: "1212222",
+          nombre: "Carnicerias",
+          image: "https://image.flaticon.com/icons/png/512/1534/1534825.png"
+        },
+        {
+          id: "12354545444sasdasd5222",
+          nombre: "Farmacias",
+          image: "https://www.iconshock.com/image/RealVista/Medical/pharmacy/"
+        }
+      ]
     };
   },
   components: {},

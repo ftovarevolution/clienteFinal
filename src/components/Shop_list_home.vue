@@ -43,107 +43,82 @@ export default {
       data: [
         {
           image: "comida1.jpg",
-          prop1: "Bliss Indian Restaurant",
-          prop2: "veg only",
-          prop3: "₹200-250 per person | 20-25 mins",
-          prop4: "₹100 flat off use coupen off100",
-          rating: "4.5",
+          prop1: "Mr Chen",
+          prop2: "Comida China y Cantonesa",
+          prop3: "10$ por Persona | 20-25 min.",
+          prop4: "",
+          rating: "4.2",
           to: "/item"
         },
         {
           image: "comida2.jpeg",
-          prop1: "Every Day Fresh",
-          prop2: "veg only",
-          prop3: "₹200-250 per person | 20-25 mins",
+          prop1: "Pollo Graduado",
+          prop2: "El Pollo que mas sabe",
+          prop3: "8$ por persona | 30-45 min.",
           prop4: "",
-          rating: "4.5",
+          rating: "4.8",
           to: "/item"
         },
         {
           image: "comida3.jpeg",
-          prop1: "S.K Dhaba Vegetarian",
-          prop2: "veg only",
-          prop3: "₹200-250 per person | 20-25 mins",
-          prop4: "",
-          rating: "4.5",
-          to: "/item"
-        },
-        {
-          prop1: "ChatterBox",
-          prop2: "veg only",
-          prop3: "₹200-250 per person | 20-25 mins",
+          prop1: "Sushi Quito",
+          prop2: "Copmida Japonesa",
+          prop3: "13$ por persona | 15-30 min.",
           prop4: "",
           rating: "4.5",
           to: "/item"
         },
         {
           image: "comida1.jpg",
-          prop1: "Bliss Indian Restaurant",
-          prop2: "veg only",
-          prop3: "₹200-250 per person | 20-25 mins",
-          prop4: "₹100 flat off use coupen off100",
-          rating: "4.5",
+          prop1: "Don Lee",
+          prop2: "Comida China",
+          prop3: "10$ por persona | 30-45 min.",
+          rating: "5.0",
           to: "/item"
         },
         {
           image: "comida2.jpeg",
-          prop1: "Every Day Fresh",
-          prop2: "veg only",
-          prop3: "₹200-250 per person | 20-25 mins",
+          prop1: "Pollito Criollito",
+          prop2: "Pollo en Brasa y carnes a la parrila",
+          prop3: "",
           prop4: "",
-          rating: "4.5",
+          rating: "4.9",
           to: "/item"
         },
         {
           image: "comida3.jpeg",
-          prop1: "S.K Dhaba Vegetarian",
-          prop2: "veg only",
-          prop3: "₹200-250 per person | 20-25 mins",
+          prop1: "El Arabito",
+          prop2: "Comida Arabe",
+          prop3: "",
           prop4: "",
-          rating: "4.5",
-          to: "/item"
-        },
-        {
-          prop1: "ChatterBox",
-          prop2: "veg only",
-          prop3: "₹200-250 per person | 20-25 mins",
-          prop4: "",
-          rating: "4.5",
+          rating: "3.9",
           to: "/item"
         },
         {
           image: "comida1.jpg",
-          prop1: "Bliss Indian Restaurant",
-          prop2: "veg only",
-          prop3: "₹200-250 per person | 20-25 mins",
-          prop4: "₹100 flat off use coupen off100",
+          prop1: "El Comedor Economico",
+          prop2: "Comida Criolla",
+          prop3: "5$ por persona | 20-25 min.",
+          prop4: "",
           rating: "4.5",
           to: "/item"
         },
         {
           image: "comida2.jpeg",
-          prop1: "Every Day Fresh",
-          prop2: "veg only",
-          prop3: "₹200-250 per person | 20-25 mins",
+          prop1: "El Tomato",
+          prop2: "Carne en Vara",
+          prop3: "",
           prop4: "",
-          rating: "4.5",
+          rating: "3.5",
           to: "/item"
         },
         {
           image: "comida3.jpeg",
-          prop1: "S.K Dhaba Vegetarian",
-          prop2: "veg only",
-          prop3: "₹200-250 per person | 20-25 mins",
+          prop1: "El Carrito del Sabor",
+          prop2: "HotDog, Hamburguesas, Sandwich",
+          prop3: "20-25 min.",
           prop4: "",
-          rating: "4.5",
-          to: "/item"
-        },
-        {
-          prop1: "ChatterBox",
-          prop2: "veg only",
-          prop3: "₹200-250 per person | 20-25 mins",
-          prop4: "",
-          rating: "4.5",
+          rating: "4.9",
           to: "/item"
         }
       ]
