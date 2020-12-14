@@ -1,17 +1,32 @@
 <template>
   <div>
     <div class="row">
-      <div class="text-h6 text-black-3">{{ form.title }}</div>
+      <div style="font-size: 38px" class="text-bold text-black">
+        {{ datosNegocio.nombre }}
+      </div>
       <q-space />
-      <q-badge color="primary" :label="form.rating" class="q-ma-sm" />
+      <q-rating
+        readonly
+        no-dimming
+        v-model="datosNegocio.rating"
+        max="5"
+        color-half="red-10"
+        color-selected="red-10"
+        color="black"
+        size="26px"
+        icon="fas fa-star"
+        icon-selected="fas fa-star"
+        icon-half="fad fa-star-half"
+      />
+      <!-- <q-badge color="primary" :label="form.rating" class="q-ma-sm" /> -->
     </div>
-    <div class="text-grey-7 q-mt-sm">{{ form.description }}</div>
-    <q-toggle
+    <div class="text-grey-7 q-mt-sm">{{ datosNegocio.descripcion }}</div>
+    <!-- <q-toggle
       class="q-mt-md text-grey-7"
       v-model="form.vegOnly"
       color="secondary"
       label="Veg Only"
-    />
+    /> -->
   </div>
 </template>
 
@@ -26,6 +41,9 @@ export default {
         vegOnly: false
       }
     };
+  },
+  props: {
+    datosNegocio: null
   }
 };
 </script>

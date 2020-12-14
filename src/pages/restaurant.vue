@@ -10,7 +10,7 @@
       placeholder="Que quieres comer hoy?"
     >
       <template v-slot:prepend>
-        <q-icon name="fas fa-search" />
+        <q-icon class="text-red" name="fas fa-search" />
       </template>
       <template v-slot:append>
         <q-btn

@@ -7,6 +7,6 @@ export default function() {
     directionNow: "",
     directionNowLat: "",
     directionNowLng: "",
-    negocioSelect: ""
+    negocioSelect: null
   };
 }

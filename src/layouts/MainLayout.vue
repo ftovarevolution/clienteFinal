@@ -1,10 +1,16 @@
 <template>
   <q-layout view="lHh Lpr lFf" class="my-font">
-    <q-header reveal class="bg-red">
+    <q-header reveal class="bg-white text-red">
       <q-toolbar>
         <q-icon name="fas fa-map-marker-alt" />
         <q-toolbar-title>{{ title }}</q-toolbar-title>
-        <q-btn dense flat round icon="fas fa-bars" @click="right = !right" />
+        <q-btn
+          dense
+          flat
+          round
+          icon="fal fa-ellipsis-v"
+          @click="right = !right"
+        />
       </q-toolbar>
     </q-header>
     <q-drawer v-model="right" side="right" behavior="mobile" bordered>
@@ -50,6 +56,7 @@
               no-caps
               size="16px"
               class="q-mt-sm col-xs-3"
+              @click="home"
               style="visibility: inherit; box-sizing: border-box; -webkit-tap-highlight-color"
             >
               <q-avatar size="32px" style="position: relative;">
@@ -178,6 +185,9 @@ export default {
     };
   },
   methods: {
+    home() {
+      this.$router.push("/services");
+    },
     myDirection() {
       this.$store.commit("home/setMyDirectionDialog", true);
     },

@@ -10,7 +10,7 @@
         v-ripple
         v-for="(shop, index) in data"
         :key="index"
-        @click="goToSelect(shop.id)"
+        @click="goToSelect(shop)"
         style="border: red 0px solid; margin-bottom: 8px;"
       >
         <q-item-section
@@ -35,7 +35,7 @@
               color-half="red-10"
               color-selected="red-10"
               color="black"
-              size="46px"
+              size="20px"
               icon="fas fa-star"
               icon-selected="fas fa-star"
               icon-half="fad fa-star-half"
@@ -54,11 +54,7 @@
               icon-half="fad fa-star-half"
             /> -->
 
-            <q-item-label
-              class="text-bold text-black"
-              style="font-size: 24px"
-              caption
-            >
+            <q-item-label class="text-black" style="font-size: 18px" caption>
               {{ shop.tiempo }}
             </q-item-label>
           </div>
@@ -106,8 +102,8 @@ export default {
     search: null
   },
   methods: {
-    goToSelect(id) {
-      this.$store.commit("global/setnegocioSelect", id);
+    goToSelect(negocio) {
+      this.$store.commit("global/setnegocioSelect", negocio);
       this.$router.push("/item");
     },
     async calculateRanking(id) {
@@ -170,6 +166,7 @@ export default {
                 id: element.id,
                 nombre: element.nombre,
                 rating: ranking,
+                descripcion: element.descripcion,
                 tiempo: "25-30min"
               });
             });
