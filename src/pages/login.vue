@@ -89,9 +89,8 @@
           <q-btn
             style="width: 260px; height: 46px; margin-top: 30px"
             align="center"
-            class="glossy"
             rounded
-            color="red"
+            color="primary"
             label="Iniciar"
             @click="signIn"
           />

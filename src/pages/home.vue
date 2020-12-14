@@ -81,7 +81,6 @@
         <q-btn
           style="width: 330px; height: 46px"
           align="center"
-          class="glossy"
           rounded
           color="primary"
           label="Mis Direcciones"
@@ -92,7 +91,6 @@
         <q-btn
           style="width: 330px; height: 46px"
           align="center"
-          class="glossy"
           rounded
           color="primary"
           label="Confirmar Ubicación"

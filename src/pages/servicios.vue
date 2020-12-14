@@ -1,6 +1,12 @@
 <template>
   <div class="full-width text-center my-font">
     <div
+      class="bg-primary text-white"
+      style="font-size: 30px; margin-top: 30px;"
+    >
+      Que deseas hoy?
+    </div>
+    <div
       style="margin-bottom: 25px; margin-top: 30px"
       class="column inline"
       v-for="(item, index) in menu2"
@@ -95,7 +101,7 @@ export default {
   components: {},
   mounted() {
     const self = this;
-    self.$store.commit("global/setTitle", "Que deseas hoy?");
+    self.$store.commit("global/setTitle", "");
     self.readData();
   },
   methods: {
