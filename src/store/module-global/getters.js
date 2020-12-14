@@ -19,3 +19,6 @@ export function getIdService(state) {
 export function getNameService(state) {
   return state.NameService;
 }
+export function getnegocioSelect(state) {
+  return state.negocioSelect;
+}

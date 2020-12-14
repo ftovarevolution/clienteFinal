@@ -10,12 +10,18 @@ export const onCreateDatosUsuario = /* GraphQL */ `
       correo
       telefono
       tiposUsuario
-      idenditicacion
-      tipoTransporte
-      placa
-      modelo
-      color
-      ano
+      datosUsuarioDespachador {
+        id
+        idenditicacion
+        tipoTransporte
+        placa
+        modelo
+        color
+        ano
+        estado
+        createdAt
+        updatedAt
+      }
       estado
       createdAt
       updatedAt
@@ -31,12 +37,18 @@ export const onUpdateDatosUsuario = /* GraphQL */ `
       correo
       telefono
       tiposUsuario
-      idenditicacion
-      tipoTransporte
-      placa
-      modelo
-      color
-      ano
+      datosUsuarioDespachador {
+        id
+        idenditicacion
+        tipoTransporte
+        placa
+        modelo
+        color
+        ano
+        estado
+        createdAt
+        updatedAt
+      }
       estado
       createdAt
       updatedAt
@@ -52,6 +64,60 @@ export const onDeleteDatosUsuario = /* GraphQL */ `
       correo
       telefono
       tiposUsuario
+      datosUsuarioDespachador {
+        id
+        idenditicacion
+        tipoTransporte
+        placa
+        modelo
+        color
+        ano
+        estado
+        createdAt
+        updatedAt
+      }
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateDatosUsuarioDespachador = /* GraphQL */ `
+  subscription OnCreateDatosUsuarioDespachador {
+    onCreateDatosUsuarioDespachador {
+      id
+      idenditicacion
+      tipoTransporte
+      placa
+      modelo
+      color
+      ano
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateDatosUsuarioDespachador = /* GraphQL */ `
+  subscription OnUpdateDatosUsuarioDespachador {
+    onUpdateDatosUsuarioDespachador {
+      id
+      idenditicacion
+      tipoTransporte
+      placa
+      modelo
+      color
+      ano
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteDatosUsuarioDespachador = /* GraphQL */ `
+  subscription OnDeleteDatosUsuarioDespachador {
+    onDeleteDatosUsuarioDespachador {
+      id
       idenditicacion
       tipoTransporte
       placa
@@ -68,6 +134,7 @@ export const onCreateDireccionUsuario = /* GraphQL */ `
   subscription OnCreateDireccionUsuario {
     onCreateDireccionUsuario {
       id
+      idUsuario
       nombre
       direccion
       geolocacion {
@@ -84,6 +151,7 @@ export const onUpdateDireccionUsuario = /* GraphQL */ `
   subscription OnUpdateDireccionUsuario {
     onUpdateDireccionUsuario {
       id
+      idUsuario
       nombre
       direccion
       geolocacion {
@@ -100,6 +168,7 @@ export const onDeleteDireccionUsuario = /* GraphQL */ `
   subscription OnDeleteDireccionUsuario {
     onDeleteDireccionUsuario {
       id
+      idUsuario
       nombre
       direccion
       geolocacion {
@@ -1159,6 +1228,57 @@ export const onDeleteDetalleTranferenciaDespachador = /* GraphQL */ `
       idTransferencia
       idPedido
       monto
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateConfiguraciones = /* GraphQL */ `
+  subscription OnCreateConfiguraciones {
+    onCreateConfiguraciones {
+      id
+      tarifaMensualNegocio
+      tarifaMensualRepartidor
+      comisionPedidos
+      comisionEnvios
+      kmMinimo
+      tarifaEnvioMinima
+      costoKmAdicional
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateConfiguraciones = /* GraphQL */ `
+  subscription OnUpdateConfiguraciones {
+    onUpdateConfiguraciones {
+      id
+      tarifaMensualNegocio
+      tarifaMensualRepartidor
+      comisionPedidos
+      comisionEnvios
+      kmMinimo
+      tarifaEnvioMinima
+      costoKmAdicional
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteConfiguraciones = /* GraphQL */ `
+  subscription OnDeleteConfiguraciones {
+    onDeleteConfiguraciones {
+      id
+      tarifaMensualNegocio
+      tarifaMensualRepartidor
+      comisionPedidos
+      comisionEnvios
+      kmMinimo
+      tarifaEnvioMinima
+      costoKmAdicional
       estado
       createdAt
       updatedAt

@@ -13,12 +13,18 @@ export const createDatosUsuario = /* GraphQL */ `
       correo
       telefono
       tiposUsuario
-      idenditicacion
-      tipoTransporte
-      placa
-      modelo
-      color
-      ano
+      datosUsuarioDespachador {
+        id
+        idenditicacion
+        tipoTransporte
+        placa
+        modelo
+        color
+        ano
+        estado
+        createdAt
+        updatedAt
+      }
       estado
       createdAt
       updatedAt
@@ -37,12 +43,18 @@ export const updateDatosUsuario = /* GraphQL */ `
       correo
       telefono
       tiposUsuario
-      idenditicacion
-      tipoTransporte
-      placa
-      modelo
-      color
-      ano
+      datosUsuarioDespachador {
+        id
+        idenditicacion
+        tipoTransporte
+        placa
+        modelo
+        color
+        ano
+        estado
+        createdAt
+        updatedAt
+      }
       estado
       createdAt
       updatedAt
@@ -61,6 +73,69 @@ export const deleteDatosUsuario = /* GraphQL */ `
       correo
       telefono
       tiposUsuario
+      datosUsuarioDespachador {
+        id
+        idenditicacion
+        tipoTransporte
+        placa
+        modelo
+        color
+        ano
+        estado
+        createdAt
+        updatedAt
+      }
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createDatosUsuarioDespachador = /* GraphQL */ `
+  mutation CreateDatosUsuarioDespachador(
+    $input: CreateDatosUsuarioDespachadorInput!
+    $condition: ModeldatosUsuarioDespachadorConditionInput
+  ) {
+    createDatosUsuarioDespachador(input: $input, condition: $condition) {
+      id
+      idenditicacion
+      tipoTransporte
+      placa
+      modelo
+      color
+      ano
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateDatosUsuarioDespachador = /* GraphQL */ `
+  mutation UpdateDatosUsuarioDespachador(
+    $input: UpdateDatosUsuarioDespachadorInput!
+    $condition: ModeldatosUsuarioDespachadorConditionInput
+  ) {
+    updateDatosUsuarioDespachador(input: $input, condition: $condition) {
+      id
+      idenditicacion
+      tipoTransporte
+      placa
+      modelo
+      color
+      ano
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteDatosUsuarioDespachador = /* GraphQL */ `
+  mutation DeleteDatosUsuarioDespachador(
+    $input: DeleteDatosUsuarioDespachadorInput!
+    $condition: ModeldatosUsuarioDespachadorConditionInput
+  ) {
+    deleteDatosUsuarioDespachador(input: $input, condition: $condition) {
+      id
       idenditicacion
       tipoTransporte
       placa
@@ -80,6 +155,7 @@ export const createDireccionUsuario = /* GraphQL */ `
   ) {
     createDireccionUsuario(input: $input, condition: $condition) {
       id
+      idUsuario
       nombre
       direccion
       geolocacion {
@@ -99,6 +175,7 @@ export const updateDireccionUsuario = /* GraphQL */ `
   ) {
     updateDireccionUsuario(input: $input, condition: $condition) {
       id
+      idUsuario
       nombre
       direccion
       geolocacion {
@@ -118,6 +195,7 @@ export const deleteDireccionUsuario = /* GraphQL */ `
   ) {
     deleteDireccionUsuario(input: $input, condition: $condition) {
       id
+      idUsuario
       nombre
       direccion
       geolocacion {
@@ -1357,6 +1435,66 @@ export const deleteDetalleTranferenciaDespachador = /* GraphQL */ `
       idTransferencia
       idPedido
       monto
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createConfiguraciones = /* GraphQL */ `
+  mutation CreateConfiguraciones(
+    $input: CreateConfiguracionesInput!
+    $condition: ModelconfiguracionesConditionInput
+  ) {
+    createConfiguraciones(input: $input, condition: $condition) {
+      id
+      tarifaMensualNegocio
+      tarifaMensualRepartidor
+      comisionPedidos
+      comisionEnvios
+      kmMinimo
+      tarifaEnvioMinima
+      costoKmAdicional
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateConfiguraciones = /* GraphQL */ `
+  mutation UpdateConfiguraciones(
+    $input: UpdateConfiguracionesInput!
+    $condition: ModelconfiguracionesConditionInput
+  ) {
+    updateConfiguraciones(input: $input, condition: $condition) {
+      id
+      tarifaMensualNegocio
+      tarifaMensualRepartidor
+      comisionPedidos
+      comisionEnvios
+      kmMinimo
+      tarifaEnvioMinima
+      costoKmAdicional
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteConfiguraciones = /* GraphQL */ `
+  mutation DeleteConfiguraciones(
+    $input: DeleteConfiguracionesInput!
+    $condition: ModelconfiguracionesConditionInput
+  ) {
+    deleteConfiguraciones(input: $input, condition: $condition) {
+      id
+      tarifaMensualNegocio
+      tarifaMensualRepartidor
+      comisionPedidos
+      comisionEnvios
+      kmMinimo
+      tarifaEnvioMinima
+      costoKmAdicional
       estado
       createdAt
       updatedAt

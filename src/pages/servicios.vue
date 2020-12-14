@@ -1,39 +1,32 @@
 <template>
-  <div class="full-width text-center">
-    <q-input
-      standout="bg-red-2 text-white"
-      rounded
-      style="width: 90%; margin-top: 10px; margin-left: 20px; margin-right: 20px"
-      dense
-      v-model="textSearch"
-      bottom-slots
-      placeholder="Que buscas hoy?"
-    >
-      <template v-slot:prepend>
-        <q-icon name="fas fa-search" />
-      </template>
-      <template v-slot:append>
-        <q-btn
-          color="primary"
-          flat
-          icon="fal fa-times"
-          class="cursor-pointer q-mr-sm"
-          @click="textSearch = ''"
-          style="width: 36px;"
-        />
-      </template>
-    </q-input>
+  <div class="full-width text-center my-font">
     <div
-      class="column inline buttonSevice"
+      style="margin-bottom: 25px; margin-top: 30px"
+      class="column inline"
       v-for="(item, index) in menu2"
       :key="index"
     >
-      <q-btn round @click="callService(item)">
-        <q-avatar class="bg-primary" size="84px">
-          <img :src="image" />
-        </q-avatar>
+      <q-btn
+        class="bg-dark botonmenu text-white"
+        unelevated
+        rounded
+        @click="callService(item)"
+      >
+        <div class="row">
+          <div
+            style="width: 100px; max-width: 100px;  float: left; margin-left: -50px; margin-top: -20px"
+          >
+            <q-avatar size="94px">
+              <img style="width: 100px; height: 100px" :src="item.image" />
+            </q-avatar>
+          </div>
+          <div style="width: 240px; max-width: 240px; margin-top: 15px;">
+            <div class="text-capitalize" style="font-size: 34px;">
+              {{ item.nombre }}
+            </div>
+          </div>
+        </div>
       </q-btn>
-      <div class="text-center">{{ item.nombre }}</div>
     </div>
   </div>
 </template>
@@ -72,32 +65,29 @@ export default {
       menu: [],
       menu2: [
         {
-          id: "12354545444545",
+          id: "0000001",
           nombre: "Restaurantes",
-          image:
-            "https://webstockreview.net/images/beef-clipart-meat-dish-5.png"
+          image: "iconos_RESTAURANT.svg"
         },
         {
-          id: "12354545444544",
+          id: "0000002",
           nombre: "Licorerias",
-          image:
-            "https://cdn.icon-icons.com/icons2/709/PNG/128/Drinks-33_icon-icons.com_61965.png"
+          image: "iconos_LICORERIA-01.svg"
         },
         {
-          id: "123545454445222",
-          nombre: "Super Market",
-          image:
-            "https://pngimage.net/wp-content/uploads/2019/05/hypermarket-icon-png-4.png"
-        },
-        {
-          id: "1212222",
+          id: "0000004",
           nombre: "Carnicerias",
-          image: "https://image.flaticon.com/icons/png/512/1534/1534825.png"
+          image: "iconos_CARNICERIAS.svg"
         },
         {
-          id: "12354545444sasdasd5222",
+          id: "0000005",
           nombre: "Farmacias",
-          image: "https://www.iconshock.com/image/RealVista/Medical/pharmacy/"
+          image: "iconos_FARMACIA-01.svg"
+        },
+        {
+          id: "0000006",
+          nombre: "Envios",
+          image: "iconos_ENVIOS-01.svg"
         }
       ]
     };
@@ -105,7 +95,7 @@ export default {
   components: {},
   mounted() {
     const self = this;
-    self.$store.commit("global/setTitle", "Servicios");
+    self.$store.commit("global/setTitle", "Que deseas hoy?");
     self.readData();
   },
   methods: {
@@ -113,24 +103,24 @@ export default {
       console.log("Leyendo la data");
       const self = this;
       self.loading = true;
-      await self.$API
-        .graphql(
-          self.$API.graphqlOperation(listCategoriass, {
-            sort: {
-              direction: "asc",
-              field: "nombre"
-            }
-          })
-        )
-        .then(data => {
-          console.log(data.data.listCategoriass.items);
-          self.menu = data.data.listCategoriass.items;
-          self.loading = false;
-        })
-        .catch(e => {
-          self.loading = false;
-          console.log("TCL: e", e);
-        });
+      // await self.$API
+      //   .graphql(
+      //     self.$API.graphqlOperation(listCategoriass, {
+      //       sort: {
+      //         direction: "asc",
+      //         field: "nombre"
+      //       }
+      //     })
+      //   )
+      //   .then(data => {
+      //     console.log(data.data.listCategoriass.items);
+      //     self.menu = data.data.listCategoriass.items;
+      //     self.loading = false;
+      //   })
+      //   .catch(e => {
+      //     self.loading = false;
+      //     console.log("TCL: e", e);
+      //   });
     },
     callService(item) {
       let self = this;
@@ -147,4 +137,8 @@ export default {
   margin-left: 40px
   margin-right: 40px
   margin-bottom: 30px
+
+.botonmenu
+  width: 330px
+  height: 70px
 </style>

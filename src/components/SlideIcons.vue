@@ -103,7 +103,7 @@ export default {
           })
         )
         .then(data => {
-          console.log(data.data.listSubCategoriass.items);
+          //console.log(data.data.listSubCategoriass.items);
           self.tableData = data.data.listSubCategoriass.items;
           self.loading = false;
         })

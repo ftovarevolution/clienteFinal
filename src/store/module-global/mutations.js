@@ -19,3 +19,6 @@ export function setIdService(state, opened) {
 export function setNameService(state, opened) {
   state.NameService = opened;
 }
+export function setnegocioSelect(state, opened) {
+  state.negocioSelect = opened;
+}

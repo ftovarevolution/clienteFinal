@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf" class="my-font">
     <q-header reveal class="bg-red">
       <q-toolbar>
         <q-icon name="fas fa-map-marker-alt" />
@@ -38,27 +38,29 @@
       <router-view />
     </q-page-container>
 
-    <q-footer elevated class="text-grey">
-      <q-toolbar style="background-color: white">
+    <q-footer elevated class="text-white">
+      <q-toolbar style="background-color: black">
         <q-toolbar-title>
           <div class="row">
             <q-btn
               round
               flat
-              color="grey-9"
+              color="white"
               stack
               no-caps
               size="16px"
               class="q-mt-sm col-xs-3"
               style="visibility: inherit; box-sizing: border-box; -webkit-tap-highlight-color"
             >
-              <q-icon size="22px" name="fas fa-home" color="grey-7" />
-              <div class="footer-item">Inicio</div>
+              <q-avatar size="32px" style="position: relative;">
+                <img style="width: 32px" src="iconos_INICIO-01.svg" />
+              </q-avatar>
+              <div class="footer-item">INICIO</div>
             </q-btn>
             <q-btn
               round
               flat
-              color="grey-9"
+              color="white"
               stack
               no-caps
               @click="myDirection"
@@ -66,36 +68,42 @@
               class="q-mt-sm col-xs-3"
               style="visibility: inherit; box-sizing: border-box; -webkit-tap-highlight-color"
             >
-              <q-icon size="22px" name="fas fa-map-marked-alt" color="grey-7" />
-              <div class="footer-item">Direcciones</div>
+              <q-avatar size="32px" style="position: relative;">
+                <img style="width: 32px" src="iconos_DIRECCION-01.svg" />
+              </q-avatar>
+              <div class="footer-item">DIRECCION</div>
             </q-btn>
             <q-btn
               round
               flat
-              color="grey-9"
+              color="white"
               stack
               no-caps
               size="16px"
               class="q-mt-sm col-xs-3"
               style="visibility: inherit; box-sizing: border-box; -webkit-tap-highlight-color"
             >
-              <q-icon size="22px" name="fas fa-shopping-cart" color="grey-7" />
+              <q-avatar size="32px" style="position: relative;">
+                <img style="width: 32px" src="iconos_CARRITO-01.svg" />
+              </q-avatar>
               <q-badge v-if="1 > 0" color="primary" floating>2</q-badge>
 
-              <div class="footer-item">Pedido</div>
+              <div class="footer-item">CARRITO</div>
             </q-btn>
             <q-btn
               round
               flat
-              color="grey-9"
+              color="white"
               stack
               no-caps
               size="16px"
               class="q-mt-sm col-xs-3"
               style="visibility: inherit; box-sizing: border-box; -webkit-tap-highlight-color"
             >
-              <q-icon size="22px" name="fas fa-user" color="grey-7" />
-              <div class="footer-item">Perfil</div>
+              <q-avatar size="32px" style="position: relative;">
+                <img style="width: 32px" src="iconos_perfil_mi_cuenta-01.svg" />
+              </q-avatar>
+              <div class="footer-item">PERFIL</div>
             </q-btn>
           </div>
         </q-toolbar-title>
@@ -200,4 +208,7 @@ export default {
   }
 };
 </script>
-<style lang="sass"></style>
+<style lang="sass">
+.footer-item
+  font-size: 10px
+</style>

@@ -10,12 +10,18 @@ export const getDatosUsuario = /* GraphQL */ `
       correo
       telefono
       tiposUsuario
-      idenditicacion
-      tipoTransporte
-      placa
-      modelo
-      color
-      ano
+      datosUsuarioDespachador {
+        id
+        idenditicacion
+        tipoTransporte
+        placa
+        modelo
+        color
+        ano
+        estado
+        createdAt
+        updatedAt
+      }
       estado
       createdAt
       updatedAt
@@ -36,6 +42,55 @@ export const listDatosUsuarios = /* GraphQL */ `
         correo
         telefono
         tiposUsuario
+        datosUsuarioDespachador {
+          id
+          idenditicacion
+          tipoTransporte
+          placa
+          modelo
+          color
+          ano
+          estado
+          createdAt
+          updatedAt
+        }
+        estado
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getDatosUsuarioDespachador = /* GraphQL */ `
+  query GetDatosUsuarioDespachador($id: ID!) {
+    getDatosUsuarioDespachador(id: $id) {
+      id
+      idenditicacion
+      tipoTransporte
+      placa
+      modelo
+      color
+      ano
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listDatosUsuarioDespachadors = /* GraphQL */ `
+  query ListDatosUsuarioDespachadors(
+    $filter: ModeldatosUsuarioDespachadorFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listDatosUsuarioDespachadors(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
         idenditicacion
         tipoTransporte
         placa
@@ -54,6 +109,7 @@ export const getDireccionUsuario = /* GraphQL */ `
   query GetDireccionUsuario($id: ID!) {
     getDireccionUsuario(id: $id) {
       id
+      idUsuario
       nombre
       direccion
       geolocacion {
@@ -79,6 +135,7 @@ export const listDireccionUsuarios = /* GraphQL */ `
     ) {
       items {
         id
+        idUsuario
         nombre
         direccion
         geolocacion {
@@ -86,6 +143,8 @@ export const listDireccionUsuarios = /* GraphQL */ `
           lon
         }
         estado
+        createdAt
+        updatedAt
       }
       nextToken
     }
@@ -126,13 +185,11 @@ export const listCategoriass = /* GraphQL */ `
         nombre
         courier
         subCategorias {
-          items {
-            id
-            Nombre
-            estado
-          }
+          nextToken
         }
         estado
+        createdAt
+        updatedAt
       }
       nextToken
     }
@@ -162,6 +219,8 @@ export const listSubCategoriass = /* GraphQL */ `
         idCategoria
         Nombre
         estado
+        createdAt
+        updatedAt
       }
       nextToken
     }
@@ -694,8 +753,6 @@ export const listRankingNegocioss = /* GraphQL */ `
         idPedido
         valor
         estado
-        createdAt
-        updatedAt
       }
       nextToken
     }
@@ -925,6 +982,51 @@ export const listDetalleTranferenciaDespachadors = /* GraphQL */ `
         idTransferencia
         idPedido
         monto
+        estado
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getConfiguraciones = /* GraphQL */ `
+  query GetConfiguraciones($id: ID!) {
+    getConfiguraciones(id: $id) {
+      id
+      tarifaMensualNegocio
+      tarifaMensualRepartidor
+      comisionPedidos
+      comisionEnvios
+      kmMinimo
+      tarifaEnvioMinima
+      costoKmAdicional
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listConfiguracioness = /* GraphQL */ `
+  query ListConfiguracioness(
+    $filter: ModelconfiguracionesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listConfiguracioness(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        tarifaMensualNegocio
+        tarifaMensualRepartidor
+        comisionPedidos
+        comisionEnvios
+        kmMinimo
+        tarifaEnvioMinima
+        costoKmAdicional
         estado
         createdAt
         updatedAt

@@ -1,5 +1,5 @@
 <template>
-  <q-page-container>
+  <q-page-container class="my-font">
     <q-page
       class="flex flex-center page-login justify-start items-start content-start"
     >
@@ -7,13 +7,18 @@
         <q-btn to="/" flat round icon="fal fa-arrow-left" />
         <q-toolbar-title> </q-toolbar-title>
       </q-toolbar>
+      <q-avatar size="124px" color="red-10" text-color="white">
+        <img style="margin-left: 8px" src="iconos_perfil_mi_cuenta-01.svg" />
+      </q-avatar>
       <div class="title1">
-        Iniciar Sesión
+        Ingrese:
       </div>
       <q-form @submit="signIn" @reset="onReset" class="form1" ref="formLogin">
         <q-card class="my-card shadow-9" style="margin-top: 10px;">
           <q-card-section>
             <q-input
+              rounded
+              standout="bg-red text-white"
               ref="email"
               @blur="focusInput(0)"
               @click="focusInput(1)"
@@ -24,12 +29,12 @@
                 $rules.required('Campo Obligatorio..'),
                 $rules.email('No es un email..')
               ]"
-              label="Correo electrónico"
+              label="Correo:"
             >
               <template v-slot:prepend>
-                <q-icon color="primary" name="fal fa-envelope" />
+                <q-icon color="primary" name="fas fa-envelope" />
               </template>
-              <template v-slot:append>
+              <!-- <template v-slot:append>
                 <q-btn
                   flat
                   color="primary"
@@ -39,9 +44,11 @@
                   no-error-icon
                   style="width: 36px;"
                 />
-              </template>
+              </template> -->
             </q-input>
             <q-input
+              rounded
+              standout="bg-red text-white"
               ref="pass"
               @blur="focusInput(0)"
               @click="focusInput(1)"
@@ -53,7 +60,7 @@
               :rules="[$rules.required('Campo Obligatorio..')]"
             >
               <template v-slot:prepend>
-                <q-icon color="primary" name="fal fa-lock-alt" />
+                <q-icon color="primary" name="fas fa-lock" />
               </template>
               <template v-slot:append>
                 <q-btn
@@ -76,38 +83,35 @@
                 />
               </template>
             </q-input>
-            <q-toggle
-              v-model="valuelogin"
-              color="green"
-              label="Mantenerme conectado"
-            />
-          </q-card-section>
-          <q-card-section style="text-align: center;">
-            <q-btn
-              class="text-weight-light text-center"
-              flat
-              size="md"
-              text-color="primary"
-              color="primary"
-              no-caps
-              @click="menuPass"
-              label="He olvidado mi contraseña"
-            />
           </q-card-section>
         </q-card>
         <div style="text-align: center; margin-top: 30px;">
           <q-btn
-            style="width: 260px; height: 36px"
+            style="width: 260px; height: 46px; margin-top: 30px"
             align="center"
             class="glossy"
             rounded
-            color="primary"
+            color="red"
             label="Iniciar"
             @click="signIn"
           />
         </div>
       </q-form>
+      <div style="margin-top: 20px;">
+        <q-checkbox class="text-red" v-model="valuelogin" label="Recuerdame" />
+        <q-btn
+          class="text-weight-light text-center"
+          flat
+          size="md"
+          text-color="red"
+          color="primary"
+          no-caps
+          @click="menuPass"
+          label="Olvidaste tu contraseña"
+        />
+      </div>
       <MenuPass></MenuPass>
+
       <q-footer v-if="enablefooter" reveal class="bg-white text-primary">
         <div style="text-align: center; margin-bottom: 16px;">
           <a style="color: grey;"
@@ -278,11 +282,12 @@ export default {
     background-size: auto;
 
 .title1
+    color: #1d1d1b
     text-align: center
     font-size: 32px
-    font-weight: 600
+    font-weight: 400
     position: relative
-    margin-top: 0px
+    margin-top: 20px
     width: 100%;
     height: 100%;
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="full-width text-center">
+  <div class="full-width text-center my-font">
     <q-input
       standout="bg-red-2 text-white"
       rounded
@@ -23,8 +23,11 @@
         />
       </template>
     </q-input>
-    <SlideIcons> </SlideIcons>
-    <Shop_list_home></Shop_list_home>
+    <SlideIcons v-if="false"> </SlideIcons>
+    <Shop_list_home
+      :idServicios="this.IdService"
+      :search="this.textSearch"
+    ></Shop_list_home>
   </div>
 </template>
 

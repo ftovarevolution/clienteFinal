@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="my-font">
     <div :class="getClassMap()">
       <GmapMap
         :options="{

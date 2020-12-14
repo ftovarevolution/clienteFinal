@@ -6,6 +6,7 @@ export default function() {
     loginew: false,
     directionNow: "",
     directionNowLat: "",
-    directionNowLng: ""
+    directionNowLng: "",
+    negocioSelect: ""
   };
 }
