@@ -1,13 +1,13 @@
 <template>
-  <div class="full-width text-center my-font">
+  <div class="full-width text-center my-font" style="margin-top: 0px;">
     <div
       class="bg-primary text-white"
-      style="font-size: 30px; margin-top: 30px;"
+      style="font-size: 30px; margin-top: 0px;"
     >
       Que deseas hoy?
     </div>
     <div
-      style="margin-bottom: 25px; margin-top: 30px"
+      style="margin-bottom: 15px; margin-top: 20px"
       class="column inline"
       v-for="(item, index) in menu2"
       :key="index"
@@ -99,9 +99,22 @@ export default {
     };
   },
   components: {},
+  computed: {
+    directionNow() {
+      return this.$store.state.global.directionNow;
+    },
+    directionNowLat() {
+      return this.$store.state.global.directionNowLat;
+    },
+    directionNowLng() {
+      return this.$store.state.global.directionNowLng;
+    }
+  },
   mounted() {
     const self = this;
     self.$store.commit("global/setTitle", "");
+    this.$store.commit("global/setshowHeader", false);
+    self.$store.commit("global/setTitle", this.directionNow);
     self.readData();
   },
   methods: {

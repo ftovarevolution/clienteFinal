@@ -68,9 +68,12 @@
       </a>
 
       <q-footer class="bg-white text-black">
-        <div style="text-align: center; margin-bottom: 16px;">
+        <div style="text-align: center; margin-bottom: 16px; font-size: 24px">
           Al continuar aceptas nuestros
-          <a href="" style="color: black;">Términos y Condiciones.</a>
+          <q-space />
+          <a href="" style="color: black; font-size: 22px"
+            >Términos y Condiciones.</a
+          >
         </div>
       </q-footer>
     </q-page>

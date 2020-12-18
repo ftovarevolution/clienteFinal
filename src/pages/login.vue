@@ -97,12 +97,16 @@
         </div>
       </q-form>
       <div style="margin-top: 20px;">
-        <q-checkbox class="text-red" v-model="valuelogin" label="Recuerdame" />
+        <q-checkbox
+          class="text-primary"
+          v-model="valuelogin"
+          label="Recuerdame"
+        />
         <q-btn
           class="text-weight-light text-center"
           flat
           size="md"
-          text-color="red"
+          text-color="primary"
           color="primary"
           no-caps
           @click="menuPass"
@@ -111,12 +115,13 @@
       </div>
       <MenuPass></MenuPass>
 
-      <q-footer v-if="enablefooter" reveal class="bg-white text-primary">
-        <div style="text-align: center; margin-bottom: 16px;">
-          <a style="color: grey;"
-            >Al continuar aceptas nuestros
-            <router-link to="">Términos y Condiciones</router-link>
-          </a>
+      <q-footer class="bg-white text-black">
+        <div style="text-align: center; margin-bottom: 16px; font-size: 24px">
+          Al continuar aceptas nuestros
+          <q-space />
+          <a href="" style="color: black; font-size: 22px"
+            >Términos y Condiciones.</a
+          >
         </div>
       </q-footer>
     </q-page>

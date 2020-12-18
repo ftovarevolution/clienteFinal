@@ -7,6 +7,7 @@ export default function() {
     directionNow: "",
     directionNowLat: "",
     directionNowLng: "",
+    showHeader: true,
     negocioSelect: null
   };
 }

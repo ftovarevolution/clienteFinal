@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf" class="my-font">
-    <q-header reveal class="bg-white text-red">
+    <q-header reveal class="bg-white text-primary" v-if="showHeader">
       <q-toolbar>
         <q-icon name="fas fa-map-marker-alt" />
         <q-toolbar-title>{{ title }}</q-toolbar-title>
@@ -12,6 +12,36 @@
           @click="right = !right"
         />
       </q-toolbar>
+    </q-header>
+    <q-header reveal class="bg-white text-black" v-else>
+      <div class="row items-center no-wrap" style="margin-bottom: -10px">
+        <div class="col-3">
+          <q-avatar size="100px">
+            <img
+              style="width: 100px; height: 100px"
+              src="iconos_mis_direcciones-01.svg"
+            />
+          </q-avatar>
+        </div>
+        <div class="col-8">
+          <q-input
+            borderless
+            style="margin-top:20px; max-height: 100px; font-size: 18px;"
+            type="textarea"
+            v-model="title"
+            disable
+          />
+        </div>
+        <div class="col-auto">
+          <q-btn
+            dense
+            flat
+            round
+            icon="fal fa-ellipsis-v"
+            @click="right = !right"
+          />
+        </div>
+      </div>
     </q-header>
     <q-drawer v-model="right" side="right" behavior="mobile" bordered>
       <div class="bg-primary">
@@ -121,8 +151,7 @@
 </template>
 
 <script>
-const myDirection = () =>
-  import(/*webpackChunkName: "myDirection" */ "./../components/myDirection");
+const myDirection = () => import("./../components/myDirection");
 
 export default {
   name: "MainLayout",
@@ -138,6 +167,9 @@ export default {
     },
     title() {
       return this.$store.state.global.title;
+    },
+    showHeader() {
+      return this.$store.state.global.showHeader;
     }
   },
   mounted() {},
@@ -184,6 +216,7 @@ export default {
       leftDrawerOpen: false
     };
   },
+  watch: {},
   methods: {
     home() {
       this.$router.push("/services");

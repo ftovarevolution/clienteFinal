@@ -71,7 +71,7 @@ export default {
   mounted() {
     const self = this;
     self.$store.commit("global/setTitle", this.directionNow);
-    console.log("mounted -> this.NameService", this.directionNow);
+    this.$store.commit("global/setshowHeader", true);
   },
   methods: {}
 };

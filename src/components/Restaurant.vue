@@ -42,6 +42,9 @@ export default {
       }
     };
   },
+  mounted() {
+    this.$store.commit("global/setshowHeader", true);
+  },
   props: {
     datosNegocio: null
   }

@@ -22,3 +22,6 @@ export function setNameService(state, opened) {
 export function setnegocioSelect(state, opened) {
   state.negocioSelect = opened;
 }
+export function setshowHeader(state, opened) {
+  state.showHeader = opened;
+}

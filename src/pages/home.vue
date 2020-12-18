@@ -62,16 +62,17 @@
         </div>
       </GmapMap>
       <q-input
-        style="margin-left: 20px; margin-right: 20px;"
+        style="margin-left: 20px; margin-right: 20px; max-height: 65px; text-align:center"
+        type="textarea"
         v-model="directionNow"
         dense
         disable
       />
-      <div class="text-h5 text-red text-center" style="margin-top: 10px;">
+      <div class="text-h5 text-primary text-center" style="margin-top: 10px;">
         ¿Es esta tu ubicación?
       </div>
       <div
-        class="text-h8 text-red text-center"
+        class="text-h8 text-primary text-center"
         style="margin: 10px 20px 10px 20px;"
       >
         Necesitamos confirmar tu ubicación. Tambien puedes buscar por una
@@ -167,6 +168,7 @@ export default {
   },
   mounted() {
     const self = this;
+    this.$store.commit("global/setshowHeader", true);
     //self.$store.commit("home/setMyDirectionDialog", false);
     self.$store.commit("global/setTitle", "Dónde Estás?");
     this.getCurrentPosition();

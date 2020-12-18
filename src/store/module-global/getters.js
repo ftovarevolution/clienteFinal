@@ -22,3 +22,6 @@ export function getNameService(state) {
 export function getnegocioSelect(state) {
   return state.negocioSelect;
 }
+export function getshowHeader(state) {
+  return state.showHeader;
+}
