@@ -40,20 +40,6 @@
               icon-selected="fas fa-star"
               icon-half="fad fa-star-half"
             />
-            <!-- <q-rating
-              readonly
-              no-dimming
-              v-model="shop.rating"
-              max="5"
-              color-half="red-10"
-              color-selected="red-10"
-              color="black"
-              size="46px"
-              icon="fas fa-star"
-              icon-selected="img:iconos_ESTRELLA__ROJA-01.svg"
-              icon-half="fad fa-star-half"
-            /> -->
-
             <q-item-label class="text-black" style="font-size: 18px" caption>
               {{ shop.tiempo }}
             </q-item-label>

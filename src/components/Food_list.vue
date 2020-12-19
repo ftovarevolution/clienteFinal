@@ -11,7 +11,7 @@
           <q-item-section>
             <div class="column items-start justify-center">
               <q-item-label class="text-bold"> {{ food.name }} </q-item-label>
-              <q-item-label caption>₹· {{ food.price }} </q-item-label>
+              <q-item-label caption>$· {{ food.price }} </q-item-label>
               <q-item-label caption> {{ food.description }} </q-item-label>
             </div>
           </q-item-section>
@@ -38,7 +38,7 @@
                 <div class="col">
                   <q-btn
                     color="negative"
-                    icon="remove"
+                    icon="fas fa-minus"
                     class=""
                     style="border-radius: 6px; height:23px; width:29px; font-size:8px"
                     @click="
@@ -53,7 +53,7 @@
                   <q-btn
                     color="positive"
                     class=""
-                    icon="add"
+                    icon="fas fa-plus"
                     style="border-radius: 6px; height:23px; width:29px; font-size:8px"
                     @click="
                       modificar_cantidad(true, food.id, food, index, indexx)
@@ -79,7 +79,7 @@
                 outline
                 size="md"
                 color="primary"
-                icon="clear"
+                icon="fas fa-times"
                 @click="(add = false), (optionDrink = []), (optionFood = [])"
               />
             </q-item-section>
@@ -110,7 +110,7 @@
               </q-item-section>
               <q-item-section class="col column col">
                 <q-item-label class="items-end text-subtitle1"
-                  >₹ {{ option.priceOp }}</q-item-label
+                  >$ {{ option.priceOp }}</q-item-label
                 >
               </q-item-section>
             </q-item>
@@ -167,9 +167,13 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
+import { API, Auth } from "aws-amplify";
+import { listItemss } from "./../graphql/queries";
+
 export default {
   data() {
     return {
+      loading: false,
       add: false,
       model: 0,
       optionFood: [],
@@ -212,7 +216,7 @@ export default {
               id: 2,
               image: "comida2.jpeg",
               name: "comida2",
-              price: "300",
+              price: "30",
               description: "Food Description",
               optionFood: [
                 {
@@ -406,20 +410,54 @@ export default {
   computed: {
     ...mapState("generals", ["carro", "lista", "pru"])
   },
+  computed: {
+    negocioSelect() {
+      return this.$store.state.global.negocioSelect;
+    }
+  },
   mounted() {
-    /* console.log(this.lista, 'holano')
-    if (!this.lista) {
-      console.log('holasi', this.listado)
-      this.addshop({ data: false, listado: this.listado })
-       this.lista = this.listado
-      console.log(this.lista, this.pru)
-    } */
-    //console.log(this.carro, 'holano')
+    console.log("🚀 ----> this.negocioSelect", this.negocioSelect);
     if (this.carro) {
       this.actualizar();
     }
+    this.buscarItems(this.negocioSelect.id);
   },
   methods: {
+    async buscarItems(idNegocio) {
+      const self = this;
+      self.loading = true;
+      self.data = [];
+      let variables = {
+        idNegocio: { eq: idNegocio },
+        estado: { eq: 1 }
+      };
+      let opciones = {
+        filter: variables,
+        sort: {
+          direction: "asc",
+          field: "nombre"
+        }
+      };
+      await self.$API
+        .graphql(self.$API.graphqlOperation(listItemss, opciones))
+        .then(data => {
+          let datosItem = data.data.listItemss.items;
+          let ranking = 0;
+          if (datosItem.length > 0) {
+            console.log(
+              "🚀 ~ file:Food_list.vue ~ line 450 ~ datosItem",
+              datosItem
+            );
+            // datosItem.forEach(async element => {
+            // });
+            self.loading = false;
+          }
+        })
+        .catch(e => {
+          self.loading = false;
+          console.log("TCL: e", e);
+        });
+    },
     ...mapMutations("generals", ["addshop", "addshop2"]),
     actualizar() {
       for (let x = 0; x < this.carro.length; x++) {

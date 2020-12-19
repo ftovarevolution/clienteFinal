@@ -12,7 +12,7 @@
       <!-- <q-card-section>
       </q-card-section> -->
       <q-card-section>
-        <FoodList v-if="true" />
+        <FoodList :datosNegocio="this.negocioSelect" />
       </q-card-section>
     </q-card>
   </div>
@@ -28,12 +28,7 @@ export default {
   },
   data() {
     return {
-      form: {
-        title: "Bliss Indian Restaurant",
-        description: "Veg Only",
-        rating: 4.6,
-        vegOnly: false
-      }
+      form: {}
     };
   },
   computed: {
@@ -43,7 +38,6 @@ export default {
   },
   mounted() {
     //this.negocioSelect
-    console.log("🚀 ----> this.negocioSelect", this.negocioSelect);
   }
 };
 </script>
