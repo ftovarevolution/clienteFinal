@@ -68,12 +68,12 @@
         dense
         disable
       />
-      <div class="text-h5 text-primary text-center" style="margin-top: 10px;">
+      <div class="text-h5 text-primary text-center" style="margin-top: 5px;">
         ¿Es esta tu ubicación?
       </div>
       <div
         class="text-h8 text-primary text-center"
-        style="margin: 10px 20px 10px 20px;"
+        style="margin: 0px 20px 10px 20px;"
       >
         Necesitamos confirmar tu ubicación. Tambien puedes buscar por una
         dirección guardada.
@@ -88,7 +88,7 @@
           @click="myDirection"
         />
       </div>
-      <div style="text-align: center; margin-top: 20px;">
+      <div style="text-align: center; margin-top: 10px;">
         <q-btn
           style="width: 330px; height: 46px"
           align="center"

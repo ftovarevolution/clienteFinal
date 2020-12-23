@@ -214,7 +214,9 @@ export default {
           password: self.password
         })
         .then(user => {
+          console.log("🚀 - signIn - user", user);
           self.$q.loading.hide();
+          self.$store.commit("login/setSubID", user.attributes.sub);
           self.$store.commit("login/setUserVerify", self.email);
           self.$store.commit("login/setVerify", true);
           self.$store.commit("login/setRegister", true);
@@ -222,8 +224,8 @@ export default {
           this.$router.push("/home");
         })
         .catch(err => {
+          self.$store.commit("login/setSubID", "");
           console.log("signIn -> err", err.code);
-          const self = this;
           self.$q.loading.hide();
           if (err.code === "NotAuthorizedException") {
             if (err.message === "User is disabled.") {

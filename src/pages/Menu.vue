@@ -7,10 +7,7 @@
     <div style="margin-left: 15px">
       <restaurant-info :datosNegocio="this.negocioSelect" />
     </div>
-
     <q-card class="q-pa-sm q-ma-sm">
-      <!-- <q-card-section>
-      </q-card-section> -->
       <q-card-section>
         <FoodList :datosNegocio="this.negocioSelect" />
       </q-card-section>

@@ -195,62 +195,6 @@ export const listCategoriass = /* GraphQL */ `
     }
   }
 `;
-export const getCategoriasItems = /* GraphQL */ `
-  query GetCategoriasItems($id: ID!) {
-    getCategoriasItems(id: $id) {
-      id
-      idNegocio
-      nombre
-      courier
-      items {
-        items {
-          id
-          nombre
-          idNegocio
-          descripcion
-          tipoItem
-          idCategoria
-          precioBase
-          stockDiario
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listCategoriasItemss = /* GraphQL */ `
-  query ListCategoriasItemss(
-    $filter: ModelcategoriasItemsFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listCategoriasItemss(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        idNegocio
-        nombre
-        courier
-        items {
-          nextToken
-        }
-        estado
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
 export const getSubCategorias = /* GraphQL */ `
   query GetSubCategorias($id: ID!) {
     getSubCategorias(id: $id) {
@@ -367,18 +311,6 @@ export const getNegocios = /* GraphQL */ `
       nombre
       descripcion
       tag
-      categoriasItems {
-        items {
-          id
-          idNegocio
-          nombre
-          courier
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       profile
       horario {
         lunes {
@@ -443,119 +375,34 @@ export const listNegocioss = /* GraphQL */ `
   ) {
     listNegocioss(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        RUC
-        ciudad
-        correo
-        createdAt
-        descripcion
-        direccion
-        estado
         id
         idCategoria
         idSubCategoria
-        identificacion
         nombre
-        profile
-        provincia
-        representanteLegal
+        descripcion
         tag
-        telefono
-        categoriasItems {
-          items {
-            id
-            nombre
-            items {
-              items {
-                id
-                estado
-                descripcion
-                nombre
-                precioBase
-                stockDiario
-                tipoItem
-                listadoComponentes {
-                  items {
-                    id
-                    idItemPadre
-                    nombre
-                    precio
-                    tipoRegistro
-                    estado
-                  }
-                }
-                listadoExtras {
-                  items {
-                    estado
-                    id
-                    idItemPadre
-                    nombre
-                    precio
-                    tipoRegistro
-                  }
-                }
-              }
-            }
-          }
+        profile
+        horario {
+          estadoLunes
+          estadoMartes
+          estadoMiercoles
+          estadoJueves
+          estadoViernes
+          estadoSabado
+          estadoDomingo
         }
-      }
-      nextToken
-    }
-  }
-`;
-export const getCiudades = /* GraphQL */ `
-  query GetCiudades($id: ID!) {
-    getCiudades(id: $id) {
-      id
-      id_state
-      name
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listCiudadess = /* GraphQL */ `
-  query ListCiudadess(
-    $filter: ModelCiudadesFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listCiudadess(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        id_state
-        name
-        estado
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getProvincias = /* GraphQL */ `
-  query GetProvincias($id: ID!) {
-    getProvincias(id: $id) {
-      id
-      id_country
-      name
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listProvinciass = /* GraphQL */ `
-  query ListProvinciass(
-    $filter: ModelProvinciasFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listProvinciass(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        id_country
-        name
+        geolocacion {
+          lat
+          lon
+        }
+        representanteLegal
+        identificacion
+        RUC
+        correo
+        telefono
+        direccion
+        provincia
+        ciudad
         estado
         createdAt
         updatedAt
@@ -771,33 +618,8 @@ export const getItems = /* GraphQL */ `
       idNegocio
       descripcion
       tipoItem
-      listadoComponentes {
-        items {
-          id
-          tipoRegistro
-          nombre
-          idItemPadre
-          precio
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      listadoExtras {
-        items {
-          id
-          nombre
-          idItemPadre
-          precio
-          tipoRegistro
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      idCategoria
+      listadoComponentes
+      listadoExtras
       precioBase
       stockDiario
       estado
@@ -819,13 +641,8 @@ export const listItemss = /* GraphQL */ `
         idNegocio
         descripcion
         tipoItem
-        listadoComponentes {
-          nextToken
-        }
-        listadoExtras {
-          nextToken
-        }
-        idCategoria
+        listadoComponentes
+        listadoExtras
         precioBase
         stockDiario
         estado
@@ -843,7 +660,6 @@ export const getExtrasItems = /* GraphQL */ `
       nombre
       idItemPadre
       precio
-      tipoRegistro
       estado
       createdAt
       updatedAt
@@ -862,7 +678,6 @@ export const listExtrasItemss = /* GraphQL */ `
         nombre
         idItemPadre
         precio
-        tipoRegistro
         estado
         createdAt
         updatedAt
@@ -875,7 +690,6 @@ export const getComponentesItems = /* GraphQL */ `
   query GetComponentesItems($id: ID!) {
     getComponentesItems(id: $id) {
       id
-      tipoRegistro
       nombre
       idItemPadre
       precio
@@ -898,7 +712,6 @@ export const listComponentesItemss = /* GraphQL */ `
     ) {
       items {
         id
-        tipoRegistro
         nombre
         idItemPadre
         precio
@@ -940,8 +753,6 @@ export const listRankingNegocioss = /* GraphQL */ `
         idPedido
         valor
         estado
-        createdAt
-        updatedAt
       }
       nextToken
     }

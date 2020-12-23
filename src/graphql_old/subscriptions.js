@@ -250,93 +250,6 @@ export const onDeleteCategorias = /* GraphQL */ `
     }
   }
 `;
-export const onCreateCategoriasItems = /* GraphQL */ `
-  subscription OnCreateCategoriasItems {
-    onCreateCategoriasItems {
-      id
-      idNegocio
-      nombre
-      courier
-      items {
-        items {
-          id
-          nombre
-          idNegocio
-          descripcion
-          tipoItem
-          idCategoria
-          precioBase
-          stockDiario
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateCategoriasItems = /* GraphQL */ `
-  subscription OnUpdateCategoriasItems {
-    onUpdateCategoriasItems {
-      id
-      idNegocio
-      nombre
-      courier
-      items {
-        items {
-          id
-          nombre
-          idNegocio
-          descripcion
-          tipoItem
-          idCategoria
-          precioBase
-          stockDiario
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteCategoriasItems = /* GraphQL */ `
-  subscription OnDeleteCategoriasItems {
-    onDeleteCategoriasItems {
-      id
-      idNegocio
-      nombre
-      courier
-      items {
-        items {
-          id
-          nombre
-          idNegocio
-          descripcion
-          tipoItem
-          idCategoria
-          precioBase
-          stockDiario
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const onCreateSubCategorias = /* GraphQL */ `
   subscription OnCreateSubCategorias {
     onCreateSubCategorias {
@@ -469,18 +382,6 @@ export const onCreateNegocios = /* GraphQL */ `
       nombre
       descripcion
       tag
-      categoriasItems {
-        items {
-          id
-          idNegocio
-          nombre
-          courier
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       profile
       horario {
         lunes {
@@ -546,18 +447,6 @@ export const onUpdateNegocios = /* GraphQL */ `
       nombre
       descripcion
       tag
-      categoriasItems {
-        items {
-          id
-          idNegocio
-          nombre
-          courier
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       profile
       horario {
         lunes {
@@ -623,18 +512,6 @@ export const onDeleteNegocios = /* GraphQL */ `
       nombre
       descripcion
       tag
-      categoriasItems {
-        items {
-          id
-          idNegocio
-          nombre
-          courier
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       profile
       horario {
         lunes {
@@ -685,78 +562,6 @@ export const onDeleteNegocios = /* GraphQL */ `
       direccion
       provincia
       ciudad
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateCiudades = /* GraphQL */ `
-  subscription OnCreateCiudades {
-    onCreateCiudades {
-      id
-      id_state
-      name
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateCiudades = /* GraphQL */ `
-  subscription OnUpdateCiudades {
-    onUpdateCiudades {
-      id
-      id_state
-      name
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteCiudades = /* GraphQL */ `
-  subscription OnDeleteCiudades {
-    onDeleteCiudades {
-      id
-      id_state
-      name
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateProvincias = /* GraphQL */ `
-  subscription OnCreateProvincias {
-    onCreateProvincias {
-      id
-      id_country
-      name
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateProvincias = /* GraphQL */ `
-  subscription OnUpdateProvincias {
-    onUpdateProvincias {
-      id
-      id_country
-      name
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteProvincias = /* GraphQL */ `
-  subscription OnDeleteProvincias {
-    onDeleteProvincias {
-      id
-      id_country
-      name
       estado
       createdAt
       updatedAt
@@ -1011,33 +816,8 @@ export const onCreateItems = /* GraphQL */ `
       idNegocio
       descripcion
       tipoItem
-      listadoComponentes {
-        items {
-          id
-          tipoRegistro
-          nombre
-          idItemPadre
-          precio
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      listadoExtras {
-        items {
-          id
-          nombre
-          idItemPadre
-          precio
-          tipoRegistro
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      idCategoria
+      listadoComponentes
+      listadoExtras
       precioBase
       stockDiario
       estado
@@ -1054,33 +834,8 @@ export const onUpdateItems = /* GraphQL */ `
       idNegocio
       descripcion
       tipoItem
-      listadoComponentes {
-        items {
-          id
-          tipoRegistro
-          nombre
-          idItemPadre
-          precio
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      listadoExtras {
-        items {
-          id
-          nombre
-          idItemPadre
-          precio
-          tipoRegistro
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      idCategoria
+      listadoComponentes
+      listadoExtras
       precioBase
       stockDiario
       estado
@@ -1097,33 +852,8 @@ export const onDeleteItems = /* GraphQL */ `
       idNegocio
       descripcion
       tipoItem
-      listadoComponentes {
-        items {
-          id
-          tipoRegistro
-          nombre
-          idItemPadre
-          precio
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      listadoExtras {
-        items {
-          id
-          nombre
-          idItemPadre
-          precio
-          tipoRegistro
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      idCategoria
+      listadoComponentes
+      listadoExtras
       precioBase
       stockDiario
       estado
@@ -1139,7 +869,6 @@ export const onCreateExtrasItems = /* GraphQL */ `
       nombre
       idItemPadre
       precio
-      tipoRegistro
       estado
       createdAt
       updatedAt
@@ -1153,7 +882,6 @@ export const onUpdateExtrasItems = /* GraphQL */ `
       nombre
       idItemPadre
       precio
-      tipoRegistro
       estado
       createdAt
       updatedAt
@@ -1167,7 +895,6 @@ export const onDeleteExtrasItems = /* GraphQL */ `
       nombre
       idItemPadre
       precio
-      tipoRegistro
       estado
       createdAt
       updatedAt
@@ -1178,7 +905,6 @@ export const onCreateComponentesItems = /* GraphQL */ `
   subscription OnCreateComponentesItems {
     onCreateComponentesItems {
       id
-      tipoRegistro
       nombre
       idItemPadre
       precio
@@ -1192,7 +918,6 @@ export const onUpdateComponentesItems = /* GraphQL */ `
   subscription OnUpdateComponentesItems {
     onUpdateComponentesItems {
       id
-      tipoRegistro
       nombre
       idItemPadre
       precio
@@ -1206,7 +931,6 @@ export const onDeleteComponentesItems = /* GraphQL */ `
   subscription OnDeleteComponentesItems {
     onDeleteComponentesItems {
       id
-      tipoRegistro
       nombre
       idItemPadre
       precio

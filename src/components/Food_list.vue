@@ -1,37 +1,42 @@
 <template>
   <div>
     <q-list>
-      <div v-for="(list, index) in listado" :key="index">
-        <div class="text-h6 q-pb-md q-pt-sm text-grey-7">{{ list.title }}</div>
-        <q-item v-for="(food, indexx) in list.data" :key="indexx">
-          <q-item-section thumbnail v-if="food.image" class="q-pl-sm">
-            <img :src="food.image" style="min-height:67px; width:90px" />
+      <div
+        v-for="(list, index) in negocioSelect.element.categoriasItems.items"
+        :key="index"
+      >
+        <div
+          class="text-h6 q-pb-md q-pt-sm text-grey-7"
+          style="margin-top: -10px;"
+        >
+          {{ list.nombre }}
+        </div>
+        <q-item
+          v-for="(food, indexx) in list.items.items"
+          :key="indexx"
+          style="margin-top: -10px;"
+        >
+          <q-item-section thumbnail v-if="true" class="q-pl-sm">
+            <img src="comida1.jpg" style="min-height:67px; width:90px" />
           </q-item-section>
-
           <q-item-section>
-            <div class="column items-start justify-center">
-              <q-item-label class="text-bold"> {{ food.name }} </q-item-label>
-              <q-item-label caption>$· {{ food.price }} </q-item-label>
-              <q-item-label caption> {{ food.description }} </q-item-label>
+            <div class="column items-start justify-center" style="width: 155px">
+              <q-item-label class="text-bold"> {{ food.nombre }} </q-item-label>
+              <q-item-label caption> {{ food.descripcion }} </q-item-label>
+              <q-item-label class="text-bold" style="font-size: 15px;" caption
+                >$· {{ food.precioBase }}
+              </q-item-label>
             </div>
           </q-item-section>
           <q-item-section class="col items-end">
             <q-btn
               v-if="!food.quantity"
+              style="margin-left: 45px;"
               outline
-              size="md"
+              size="sm"
               color="primary"
               label="Agregar"
-              @click="
-                food.optionFood && food.optionDrink
-                  ? optionList(food.optionFood, food.optionDrink)
-                  : food.optionFood
-                  ? optionList(food.optionFood, false)
-                  : food.optionDrink
-                  ? optionList(false, food.optionDrink)
-                  : (add = false);
-                selected = food;
-              "
+              @click="optionList(food.listadoComponentes, food.listadoExtras)"
             />
             <div v-else>
               <div class="row justify-center items-center">
@@ -71,9 +76,9 @@
       <q-card style="width: 100%; height: 700px">
         <q-list>
           <q-item>
-            <q-item-section class="text-h5 text-bold text-grey-7"
-              >Select Option</q-item-section
-            >
+            <q-item-section class="text-h5 text-bold text-grey-7">
+              <div style="width: 300px">Elija sus Opciones</div>
+            </q-item-section>
             <q-item-section class="col items-end">
               <q-btn
                 outline
@@ -84,12 +89,11 @@
               />
             </q-item-section>
           </q-item>
-
           <div v-if="optionFood.length">
             <q-item>
-              <q-item-section class="text-subtitle2 text bold text-grey-7"
-                >Select Item Size</q-item-section
-              >
+              <q-item-section class="text-subtitle2 text bold text-grey-7">
+                {{ optionFood[0].tipoRegistro }}
+              </q-item-section>
             </q-item>
             <q-item
               clickable
@@ -102,15 +106,17 @@
                 <q-radio
                   class="self-start text-subtitle1"
                   v-model="selecFood"
-                  :val="option.op"
+                  :val="option.nombre"
                   color="primary"
-                  :label="option.op"
+                  :label="option.nombre"
                 />
                 <q-separator inset />
               </q-item-section>
               <q-item-section class="col column col">
-                <q-item-label class="items-end text-subtitle1"
-                  >$ {{ option.priceOp }}</q-item-label
+                <q-item-label
+                  class="items-end text-subtitle1"
+                  v-if="option.precio > 0"
+                  >$ {{ option.precio }}</q-item-label
                 >
               </q-item-section>
             </q-item>
@@ -119,7 +125,7 @@
           <div v-if="optionDrink.length">
             <q-item>
               <q-item-section class="text-subtitle2 text bold text-grey-7"
-                >You can also add some addon's</q-item-section
+                >Adicionales</q-item-section
               >
             </q-item>
             <q-item
@@ -133,15 +139,18 @@
                 <q-checkbox
                   class="self-start text-subtitle1"
                   v-model="selecDrink"
-                  :val="option.op"
+                  :val="option.nombre"
                   color="cyan"
-                  :label="option.op"
+                  :label="option.nombre"
                 />
                 <q-separator inset />
               </q-item-section>
               <q-item-section class="col column col">
-                <q-item-label class="items-end text-subtitle1"
-                  >₹ {{ option.priceOp }}</q-item-label
+                <q-item-label
+                  class="items-end text-subtitle1"
+                  v-if="option.precio > 0"
+                >
+                  $ {{ option.precio }}</q-item-label
                 >
               </q-item-section>
             </q-item>
@@ -420,44 +429,8 @@ export default {
     if (this.carro) {
       this.actualizar();
     }
-    this.buscarItems(this.negocioSelect.id);
   },
   methods: {
-    async buscarItems(idNegocio) {
-      const self = this;
-      self.loading = true;
-      self.data = [];
-      let variables = {
-        idNegocio: { eq: idNegocio },
-        estado: { eq: 1 }
-      };
-      let opciones = {
-        filter: variables,
-        sort: {
-          direction: "asc",
-          field: "nombre"
-        }
-      };
-      await self.$API
-        .graphql(self.$API.graphqlOperation(listItemss, opciones))
-        .then(data => {
-          let datosItem = data.data.listItemss.items;
-          let ranking = 0;
-          if (datosItem.length > 0) {
-            console.log(
-              "🚀 ~ file:Food_list.vue ~ line 450 ~ datosItem",
-              datosItem
-            );
-            // datosItem.forEach(async element => {
-            // });
-            self.loading = false;
-          }
-        })
-        .catch(e => {
-          self.loading = false;
-          console.log("TCL: e", e);
-        });
-    },
     ...mapMutations("generals", ["addshop", "addshop2"]),
     actualizar() {
       for (let x = 0; x < this.carro.length; x++) {
@@ -535,12 +508,18 @@ export default {
       this.add = true;
       this.selecFood = "";
       this.selecDrink = [];
-      if (!this.optionFood === false) {
-        this.optionFood = opFood;
-      }
-      if (!this.optionDrink === false) {
-        this.optionDrink = opDrink;
-      }
+      this.optionFood = opFood.items;
+      this.optionDrink = opDrink.items;
+      console.log(
+        "🚀 ~ file: Food_list.vue ~ line 507 ~ optionList ~ optionFood",
+        this.optionFood
+      );
+      // if (!this.optionFood === false) {
+      //   this.optionFood = opFood;
+      // }
+      // if (!this.optionDrink === false) {
+      //   this.optionDrink = opDrink;
+      // }
     },
     cont(i) {
       this.i++;

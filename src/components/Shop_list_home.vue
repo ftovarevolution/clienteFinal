@@ -25,7 +25,7 @@
           />
           <div class="column items-start justify-center">
             <q-item-label style="font-size: 38px" class="text-bold text-black">
-              {{ shop.nombre }}
+              {{ shop.element.nombre }}
             </q-item-label>
             <q-rating
               readonly
@@ -57,26 +57,8 @@ import { listNegocioss, listRankingNegocioss } from "./../graphql/queries";
 export default {
   data() {
     return {
-      data: [
-        // {
-        //   image: "comida1.jpg",
-        //   nombre: "Mr Chen",
-        //   prop2: "Comida China y Cantonesa",
-        //   prop3: "20-25 min.",
-        //   prop4: "",
-        //   rating: 3.5,
-        //   to: "/item"
-        // },
-        // {
-        //   image: "comida2.jpeg",
-        //   nombre: "Pollo Graduado",
-        //   prop2: "El Pollo que mas sabe",
-        //   prop3: "30-45 min.",
-        //   prop4: "",
-        //   rating: 4.8,
-        //   to: "/item"
-        // }
-      ]
+      data: [],
+      dataAll: []
     };
   },
   mounted() {
@@ -129,6 +111,7 @@ export default {
       const self = this;
       self.loading = true;
       self.data = [];
+      self.dataAll = [];
       await self.$API
         .graphql(
           self.$API.graphqlOperation(listNegocioss, {
@@ -143,19 +126,34 @@ export default {
         )
         .then(data => {
           let datosItem = data.data.listNegocioss.items;
+          console.log(
+            "🚀 ~ file: Shop_list_home.vue ~ line 146 ~ readData ~ datosItem",
+            datosItem
+          );
           let ranking = 0;
           if (datosItem.length > 0) {
             datosItem.forEach(async element => {
               ranking = await this.calculateRanking(element.id);
               self.data.push({
+                element,
                 image: element.profile,
-                id: element.id,
-                nombre: element.nombre,
                 rating: ranking,
-                descripcion: element.descripcion,
                 tiempo: "25-30min"
               });
+
+              // self.data.push({
+              //   image: element.profile,
+              //   id: element.id,
+              //   nombre: element.nombre,
+              //   rating: ranking,
+              //   descripcion: element.descripcion,
+              //   tiempo: "25-30min"
+              // });
             });
+            console.log(
+              "🚀 ~ file: Shop_list_home.vue ~ line 140 ~ readData ~ self.data",
+              self.data
+            );
             self.loading = false;
           }
         })

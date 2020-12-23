@@ -3,6 +3,7 @@ export default function() {
     register: false,
     recoverPass: false,
     verifyCode: false,
-    userVerify: ""
+    userVerify: "",
+    SubID: ""
   };
 }

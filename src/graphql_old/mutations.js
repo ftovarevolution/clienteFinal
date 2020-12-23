@@ -286,102 +286,6 @@ export const deleteCategorias = /* GraphQL */ `
     }
   }
 `;
-export const createCategoriasItems = /* GraphQL */ `
-  mutation CreateCategoriasItems(
-    $input: CreateCategoriasItemsInput!
-    $condition: ModelcategoriasItemsConditionInput
-  ) {
-    createCategoriasItems(input: $input, condition: $condition) {
-      id
-      idNegocio
-      nombre
-      courier
-      items {
-        items {
-          id
-          nombre
-          idNegocio
-          descripcion
-          tipoItem
-          idCategoria
-          precioBase
-          stockDiario
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateCategoriasItems = /* GraphQL */ `
-  mutation UpdateCategoriasItems(
-    $input: UpdateCategoriasItemsInput!
-    $condition: ModelcategoriasItemsConditionInput
-  ) {
-    updateCategoriasItems(input: $input, condition: $condition) {
-      id
-      idNegocio
-      nombre
-      courier
-      items {
-        items {
-          id
-          nombre
-          idNegocio
-          descripcion
-          tipoItem
-          idCategoria
-          precioBase
-          stockDiario
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteCategoriasItems = /* GraphQL */ `
-  mutation DeleteCategoriasItems(
-    $input: DeleteCategoriasItemsInput!
-    $condition: ModelcategoriasItemsConditionInput
-  ) {
-    deleteCategoriasItems(input: $input, condition: $condition) {
-      id
-      idNegocio
-      nombre
-      courier
-      items {
-        items {
-          id
-          nombre
-          idNegocio
-          descripcion
-          tipoItem
-          idCategoria
-          precioBase
-          stockDiario
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const createSubCategorias = /* GraphQL */ `
   mutation CreateSubCategorias(
     $input: CreateSubCategoriasInput!
@@ -544,18 +448,6 @@ export const createNegocios = /* GraphQL */ `
       nombre
       descripcion
       tag
-      categoriasItems {
-        items {
-          id
-          idNegocio
-          nombre
-          courier
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       profile
       horario {
         lunes {
@@ -624,18 +516,6 @@ export const updateNegocios = /* GraphQL */ `
       nombre
       descripcion
       tag
-      categoriasItems {
-        items {
-          id
-          idNegocio
-          nombre
-          courier
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       profile
       horario {
         lunes {
@@ -704,18 +584,6 @@ export const deleteNegocios = /* GraphQL */ `
       nombre
       descripcion
       tag
-      categoriasItems {
-        items {
-          id
-          idNegocio
-          nombre
-          courier
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       profile
       horario {
         lunes {
@@ -766,96 +634,6 @@ export const deleteNegocios = /* GraphQL */ `
       direccion
       provincia
       ciudad
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createCiudades = /* GraphQL */ `
-  mutation CreateCiudades(
-    $input: CreateCiudadesInput!
-    $condition: ModelCiudadesConditionInput
-  ) {
-    createCiudades(input: $input, condition: $condition) {
-      id
-      id_state
-      name
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateCiudades = /* GraphQL */ `
-  mutation UpdateCiudades(
-    $input: UpdateCiudadesInput!
-    $condition: ModelCiudadesConditionInput
-  ) {
-    updateCiudades(input: $input, condition: $condition) {
-      id
-      id_state
-      name
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteCiudades = /* GraphQL */ `
-  mutation DeleteCiudades(
-    $input: DeleteCiudadesInput!
-    $condition: ModelCiudadesConditionInput
-  ) {
-    deleteCiudades(input: $input, condition: $condition) {
-      id
-      id_state
-      name
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createProvincias = /* GraphQL */ `
-  mutation CreateProvincias(
-    $input: CreateProvinciasInput!
-    $condition: ModelProvinciasConditionInput
-  ) {
-    createProvincias(input: $input, condition: $condition) {
-      id
-      id_country
-      name
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateProvincias = /* GraphQL */ `
-  mutation UpdateProvincias(
-    $input: UpdateProvinciasInput!
-    $condition: ModelProvinciasConditionInput
-  ) {
-    updateProvincias(input: $input, condition: $condition) {
-      id
-      id_country
-      name
-      estado
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteProvincias = /* GraphQL */ `
-  mutation DeleteProvincias(
-    $input: DeleteProvinciasInput!
-    $condition: ModelProvinciasConditionInput
-  ) {
-    deleteProvincias(input: $input, condition: $condition) {
-      id
-      id_country
-      name
       estado
       createdAt
       updatedAt
@@ -1158,33 +936,8 @@ export const createItems = /* GraphQL */ `
       idNegocio
       descripcion
       tipoItem
-      listadoComponentes {
-        items {
-          id
-          tipoRegistro
-          nombre
-          idItemPadre
-          precio
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      listadoExtras {
-        items {
-          id
-          nombre
-          idItemPadre
-          precio
-          tipoRegistro
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      idCategoria
+      listadoComponentes
+      listadoExtras
       precioBase
       stockDiario
       estado
@@ -1204,33 +957,8 @@ export const updateItems = /* GraphQL */ `
       idNegocio
       descripcion
       tipoItem
-      listadoComponentes {
-        items {
-          id
-          tipoRegistro
-          nombre
-          idItemPadre
-          precio
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      listadoExtras {
-        items {
-          id
-          nombre
-          idItemPadre
-          precio
-          tipoRegistro
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      idCategoria
+      listadoComponentes
+      listadoExtras
       precioBase
       stockDiario
       estado
@@ -1250,33 +978,8 @@ export const deleteItems = /* GraphQL */ `
       idNegocio
       descripcion
       tipoItem
-      listadoComponentes {
-        items {
-          id
-          tipoRegistro
-          nombre
-          idItemPadre
-          precio
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      listadoExtras {
-        items {
-          id
-          nombre
-          idItemPadre
-          precio
-          tipoRegistro
-          estado
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      idCategoria
+      listadoComponentes
+      listadoExtras
       precioBase
       stockDiario
       estado
@@ -1295,7 +998,6 @@ export const createExtrasItems = /* GraphQL */ `
       nombre
       idItemPadre
       precio
-      tipoRegistro
       estado
       createdAt
       updatedAt
@@ -1312,7 +1014,6 @@ export const updateExtrasItems = /* GraphQL */ `
       nombre
       idItemPadre
       precio
-      tipoRegistro
       estado
       createdAt
       updatedAt
@@ -1329,7 +1030,6 @@ export const deleteExtrasItems = /* GraphQL */ `
       nombre
       idItemPadre
       precio
-      tipoRegistro
       estado
       createdAt
       updatedAt
@@ -1343,7 +1043,6 @@ export const createComponentesItems = /* GraphQL */ `
   ) {
     createComponentesItems(input: $input, condition: $condition) {
       id
-      tipoRegistro
       nombre
       idItemPadre
       precio
@@ -1360,7 +1059,6 @@ export const updateComponentesItems = /* GraphQL */ `
   ) {
     updateComponentesItems(input: $input, condition: $condition) {
       id
-      tipoRegistro
       nombre
       idItemPadre
       precio
@@ -1377,7 +1075,6 @@ export const deleteComponentesItems = /* GraphQL */ `
   ) {
     deleteComponentesItems(input: $input, condition: $condition) {
       id
-      tipoRegistro
       nombre
       idItemPadre
       precio

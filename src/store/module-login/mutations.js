@@ -10,3 +10,6 @@ export function setVerify(state, opened) {
 export function setUserVerify(state, opened) {
   state.userVerify = opened;
 }
+export function setSubID(state, opened) {
+  state.SubID = opened;
+}
