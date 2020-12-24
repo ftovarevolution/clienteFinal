@@ -36,7 +36,9 @@
               size="sm"
               color="primary"
               label="Agregar"
-              @click="optionList(food.listadoComponentes, food.listadoExtras)"
+              @click="
+                optionList(food.listadoComponentes, food.listadoExtras, food)
+              "
             />
             <div v-else>
               <div class="row justify-center items-center">
@@ -72,13 +74,19 @@
       </div>
     </q-list>
 
-    <q-dialog v-model="add" position="bottom">
-      <q-card style="width: 100%; height: 700px">
+    <q-dialog
+      v-model="add"
+      maximized
+      transition-show="slide-up"
+      transition-hide="slide-down"
+      style="height: 100%;"
+    >
+      <q-card
+        class="bg-white text-black"
+        style="height: 100%; width: 100%; margin-top: 0px; border: 1px solid black"
+      >
         <q-list>
           <q-item>
-            <q-item-section class="text-h5 text-bold text-grey-7">
-              <div style="width: 300px">Elija sus Opciones</div>
-            </q-item-section>
             <q-item-section class="col items-end">
               <q-btn
                 outline
@@ -89,6 +97,30 @@
               />
             </q-item-section>
           </q-item>
+          <div class="row">
+            <div class="col-3">
+              <q-item-section thumbnail class="q-pl-sm">
+                <img src="comida1.jpg" style="min-height:67px; width:90px" />
+              </q-item-section>
+            </div>
+            <div class="col-7">
+              <q-item-label class="text-bold">
+                {{ foodSelect.nombre }}
+              </q-item-label>
+              <q-item-label caption>
+                {{ foodSelect.descripcion }}
+              </q-item-label>
+            </div>
+            <div class="col">
+              <q-item-label
+                class="text-bold"
+                style="font-size: 20px; float: right; margin-right: 20px"
+                caption
+                >${{ this.precioSeleccion }}
+              </q-item-label>
+            </div>
+          </div>
+
           <div v-if="optionFood.length">
             <q-item>
               <q-item-section class="text-subtitle2 text bold text-grey-7">
@@ -101,16 +133,18 @@
               v-ripple
               v-for="(option, index) in optionFood"
               :key="index"
+              style="border: 1px solid; height: 10px; margin-top: 0px; padding-top: 0px"
             >
               <q-item-section avatar class="col column col-10">
-                <q-radio
-                  class="self-start text-subtitle1"
-                  v-model="selecFood"
-                  :val="option.nombre"
-                  color="primary"
-                  :label="option.nombre"
-                />
-                <q-separator inset />
+                <div class="q-mt-md">
+                  <q-radio
+                    v-model="selecFood"
+                    :val="option.nombre"
+                    color="primary"
+                    :label="option.nombre"
+                    @input="selectOption(option)"
+                  />
+                </div>
               </q-item-section>
               <q-item-section class="col column col">
                 <q-item-label
@@ -182,238 +216,17 @@ import { listItemss } from "./../graphql/queries";
 export default {
   data() {
     return {
+      precioSeleccion: 0.0,
       loading: false,
       add: false,
       model: 0,
+      foodSelect: [],
       optionFood: [],
       optionDrink: [],
       selecFood: "",
       selecDrink: [],
       selected: {},
-      listado: [
-        {
-          title: "MainCourse",
-          data: [
-            {
-              id: 1,
-              image: "comida1.jpg",
-              name: "comida1",
-              price: "100",
-              description: "Food Description",
-              optionFood: [
-                {
-                  op: "Small",
-                  priceOp: 100
-                },
-                {
-                  op: "Medium",
-                  priceOp: 100
-                },
-                {
-                  op: "Large",
-                  priceOp: 100
-                }
-              ],
-              optionDrink: [
-                {
-                  op: "Cold Drink",
-                  priceOp: 300
-                }
-              ]
-            },
-            {
-              id: 2,
-              image: "comida2.jpeg",
-              name: "comida2",
-              price: "30",
-              description: "Food Description",
-              optionFood: [
-                {
-                  op: "Small",
-                  priceOp: 100
-                },
-                {
-                  op: "Medium",
-                  priceOp: 100
-                },
-                {
-                  op: "Large",
-                  priceOp: 100
-                }
-              ]
-            },
-            {
-              id: 3,
-              image: "comida3.jpeg",
-              name: "comida3",
-              price: "1000",
-              description: "Food Description",
-              optionFood: [
-                {
-                  op: "Small",
-                  priceOp: 100
-                }
-              ],
-              optionDrink: [
-                {
-                  op: "Cold Drink",
-                  priceOp: 300
-                }
-              ]
-            }
-          ]
-        },
-        {
-          title: "VegStarter",
-          data: [
-            {
-              id: 4,
-              image: "comida3.jpeg",
-              name: "Food Name",
-              price: "000",
-              description: "Food Description",
-              optionFood: [
-                {
-                  op: "Small",
-                  priceOp: 100
-                }
-              ],
-              optionDrink: [
-                {
-                  op: "Cold Drink",
-                  priceOp: 300
-                }
-              ]
-            },
-            {
-              id: 5,
-              image: "comida3.jpeg",
-              name: "Food Name",
-              price: "000",
-              description: "Food Description",
-              optionFood: [
-                {
-                  op: "Small",
-                  priceOp: 100
-                },
-                {
-                  op: "Medium",
-                  priceOp: 100
-                }
-              ],
-              optionDrink: [
-                {
-                  op: "Cold Drink",
-                  priceOp: 300
-                }
-              ]
-            },
-            {
-              id: 6,
-              image: "comida3.jpeg",
-              name: "Food Name",
-              price: "000",
-              description: "Food Description",
-              optionFood: [
-                {
-                  op: "Small",
-                  priceOp: 100
-                }
-              ]
-            }
-          ]
-        },
-        {
-          title: "FastFood",
-          data: [
-            {
-              id: 7,
-              image: "comida2.jpeg",
-              name: "Food Name",
-              price: "000",
-              description: "Food Description",
-              optionFood: [
-                {
-                  op: "Small",
-                  priceOp: 100
-                },
-                {
-                  op: "Medium",
-                  priceOp: 100
-                },
-                {
-                  op: "Large",
-                  priceOp: 100
-                }
-              ],
-              optionDrink: [
-                {
-                  op: "Cold Drink",
-                  priceOp: 300
-                }
-              ]
-            },
-            {
-              id: 8,
-              image: "comida2.jpeg",
-              name: "Food Name",
-              price: "000",
-              description: "Food Description",
-              optionFood: [
-                {
-                  op: "Large",
-                  priceOp: 100
-                }
-              ],
-              optionDrink: [
-                {
-                  op: "Cold Drink",
-                  priceOp: 300
-                }
-              ]
-            }
-          ]
-        },
-        {
-          title: "GreenSalad",
-          data: [
-            {
-              id: 9,
-              image: "comida1.jpg",
-              name: "Food Name",
-              price: "000",
-              description: "Food Description",
-              optionFood: [
-                {
-                  op: "Small",
-                  priceOp: 100
-                },
-                {
-                  op: "Medium",
-                  priceOp: 100
-                }
-              ]
-            },
-            {
-              id: 10,
-              image: "comida1.jpg",
-              name: "Food Name",
-              price: "000",
-              description: "Food Description",
-              optionFood: [
-                {
-                  op: "Medium",
-                  priceOp: 100
-                },
-                {
-                  op: "Large",
-                  priceOp: 100
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      listado: []
     };
   },
   computed: {
@@ -444,6 +257,13 @@ export default {
         }
       }
       console.log(this.listado);
+    },
+    selectOption(option) {
+      console.log("object");
+      console.log(
+        "🚀 ~ file: Food_list.vue ~ line 261 ~ selectOption ~ option",
+        option
+      );
     },
     modificar_cantidad(accion, id, record, index, index2) {
       for (let x = 0; x < this.carro.length; x++) {
@@ -504,16 +324,15 @@ export default {
       this.add = false;
       console.log(this.selected, this.selecFood, this.selecDrink);
     },
-    optionList(opFood, opDrink) {
+    optionList(opFood, opDrink, food) {
       this.add = true;
       this.selecFood = "";
       this.selecDrink = [];
       this.optionFood = opFood.items;
       this.optionDrink = opDrink.items;
-      console.log(
-        "🚀 ~ file: Food_list.vue ~ line 507 ~ optionList ~ optionFood",
-        this.optionFood
-      );
+      this.foodSelect = food;
+      this.precioSeleccion = food.precioBase;
+      console.log("🚀 ~ file: ", this.foodSelect);
       // if (!this.optionFood === false) {
       //   this.optionFood = opFood;
       // }
