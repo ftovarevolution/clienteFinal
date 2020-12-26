@@ -119,7 +119,6 @@ export default {
   },
   methods: {
     async readData() {
-      console.log("Leyendo la data");
       const self = this;
       self.loading = true;
       // await self.$API

@@ -22,7 +22,9 @@
           <q-item-section>
             <div class="column items-start justify-center" style="width: 155px">
               <q-item-label class="text-bold"> {{ food.nombre }} </q-item-label>
-              <q-item-label caption> {{ food.descripcion }} </q-item-label>
+              <q-item-label lines="2" caption>
+                {{ food.descripcion }}
+              </q-item-label>
               <q-item-label class="text-bold" style="font-size: 15px;" caption
                 >$· {{ food.precioBase }}
               </q-item-label>
@@ -238,7 +240,8 @@ export default {
     }
   },
   mounted() {
-    console.log("🚀 ----> this.negocioSelect", this.negocioSelect);
+    console.log("🚀 ---->", this.negocioSelect.element.categoriasItems);
+
     if (this.carro) {
       this.actualizar();
     }

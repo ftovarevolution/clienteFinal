@@ -425,6 +425,7 @@ export const getNegocios = /* GraphQL */ `
       identificacion
       RUC
       correo
+      tiempoAproxEntrega
       telefono
       direccion
       provincia
@@ -460,37 +461,115 @@ export const listNegocioss = /* GraphQL */ `
         representanteLegal
         tag
         telefono
+        tiempoAproxEntrega
+        updatedAt
+        geolocacion {
+          lat
+          lon
+        }
+        horario {
+          domingo {
+            entrada
+            salida
+          }
+          estadoDomingo
+          estadoJueves
+          estadoLunes
+          estadoMartes
+          estadoMiercoles
+          estadoSabado
+          estadoViernes
+          jueves {
+            entrada
+            salida
+          }
+          lunes {
+            entrada
+            salida
+          }
+          martes {
+            entrada
+            salida
+          }
+          miercoles {
+            entrada
+            salida
+          }
+          sabado {
+            entrada
+            salida
+          }
+          viernes {
+            entrada
+            salida
+          }
+        }
         categoriasItems {
           items {
+            courier
+            createdAt
+            estado
             id
+            idNegocio
             nombre
+            updatedAt
             items {
               items {
-                id
-                estado
+                createdAt
                 descripcion
+                estado
+                id
+                idCategoria
+                idNegocio
                 nombre
                 precioBase
                 stockDiario
                 tipoItem
+                updatedAt
                 listadoComponentes {
                   items {
+                    courier
+                    createdAt
+                    estado
                     id
                     idItemPadre
                     nombre
-                    precio
-                    tipoRegistro
-                    estado
+                    updatedAt
+                    items {
+                      items {
+                        createdAt
+                        estado
+                        id
+                        idCategoriaComponente
+                        nombre
+                        precio
+                        tipoRegistro
+                        updatedAt
+                      }
+                    }
                   }
                 }
                 listadoExtras {
                   items {
+                    courier
+                    createdAt
                     estado
                     id
                     idItemPadre
                     nombre
-                    precio
-                    tipoRegistro
+                    updatedAt
+                    items {
+                      items {
+                        createdAt
+                        estado
+                        id
+                        idCategoriaExtra
+                        nombre
+                        precio
+                        tipoRegistro
+                        updatedAt
+                      }
+                    }
                   }
                 }
               }
@@ -774,10 +853,9 @@ export const getItems = /* GraphQL */ `
       listadoComponentes {
         items {
           id
-          tipoRegistro
-          nombre
           idItemPadre
-          precio
+          nombre
+          courier
           estado
           createdAt
           updatedAt
@@ -787,10 +865,9 @@ export const getItems = /* GraphQL */ `
       listadoExtras {
         items {
           id
-          nombre
           idItemPadre
-          precio
-          tipoRegistro
+          nombre
+          courier
           estado
           createdAt
           updatedAt
@@ -836,12 +913,118 @@ export const listItemss = /* GraphQL */ `
     }
   }
 `;
-export const getExtrasItems = /* GraphQL */ `
-  query GetExtrasItems($id: ID!) {
-    getExtrasItems(id: $id) {
+export const getCategoriasItemsExtras = /* GraphQL */ `
+  query GetCategoriasItemsExtras($id: ID!) {
+    getCategoriasItemsExtras(id: $id) {
+      id
+      idItemPadre
+      nombre
+      courier
+      items {
+        items {
+          id
+          nombre
+          idCategoriaExtra
+          precio
+          tipoRegistro
+          estado
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listCategoriasItemsExtrass = /* GraphQL */ `
+  query ListCategoriasItemsExtrass(
+    $filter: ModelcategoriasItemsExtrasFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCategoriasItemsExtrass(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        idItemPadre
+        nombre
+        courier
+        items {
+          nextToken
+        }
+        estado
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getCategoriasItemsComponentes = /* GraphQL */ `
+  query GetCategoriasItemsComponentes($id: ID!) {
+    getCategoriasItemsComponentes(id: $id) {
+      id
+      idItemPadre
+      nombre
+      courier
+      items {
+        items {
+          id
+          idCategoriaComponente
+          tipoRegistro
+          nombre
+          precio
+          estado
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listCategoriasItemsComponentess = /* GraphQL */ `
+  query ListCategoriasItemsComponentess(
+    $filter: ModelcategoriasItemsComponentesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCategoriasItemsComponentess(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        idItemPadre
+        nombre
+        courier
+        items {
+          nextToken
+        }
+        estado
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getExtrasItemsV2 = /* GraphQL */ `
+  query GetExtrasItemsV2($id: ID!) {
+    getExtrasItemsV2(id: $id) {
       id
       nombre
-      idItemPadre
+      idCategoriaExtra
       precio
       tipoRegistro
       estado
@@ -850,17 +1033,17 @@ export const getExtrasItems = /* GraphQL */ `
     }
   }
 `;
-export const listExtrasItemss = /* GraphQL */ `
-  query ListExtrasItemss(
-    $filter: ModelextrasItemsFilterInput
+export const listExtrasItemsV2s = /* GraphQL */ `
+  query ListExtrasItemsV2s(
+    $filter: ModelextrasItemsV2FilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listExtrasItemss(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listExtrasItemsV2s(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         nombre
-        idItemPadre
+        idCategoriaExtra
         precio
         tipoRegistro
         estado
@@ -871,13 +1054,13 @@ export const listExtrasItemss = /* GraphQL */ `
     }
   }
 `;
-export const getComponentesItems = /* GraphQL */ `
-  query GetComponentesItems($id: ID!) {
-    getComponentesItems(id: $id) {
+export const getComponentesItemsV2 = /* GraphQL */ `
+  query GetComponentesItemsV2($id: ID!) {
+    getComponentesItemsV2(id: $id) {
       id
+      idCategoriaComponente
       tipoRegistro
       nombre
-      idItemPadre
       precio
       estado
       createdAt
@@ -885,22 +1068,22 @@ export const getComponentesItems = /* GraphQL */ `
     }
   }
 `;
-export const listComponentesItemss = /* GraphQL */ `
-  query ListComponentesItemss(
-    $filter: ModelcomponentesItemsFilterInput
+export const listComponentesItemsV2s = /* GraphQL */ `
+  query ListComponentesItemsV2s(
+    $filter: ModelcomponentesItemsV2FilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listComponentesItemss(
+    listComponentesItemsV2s(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
     ) {
       items {
         id
+        idCategoriaComponente
         tipoRegistro
         nombre
-        idItemPadre
         precio
         estado
         createdAt

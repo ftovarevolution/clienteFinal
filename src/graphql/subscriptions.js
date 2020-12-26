@@ -527,6 +527,7 @@ export const onCreateNegocios = /* GraphQL */ `
       identificacion
       RUC
       correo
+      tiempoAproxEntrega
       telefono
       direccion
       provincia
@@ -604,6 +605,7 @@ export const onUpdateNegocios = /* GraphQL */ `
       identificacion
       RUC
       correo
+      tiempoAproxEntrega
       telefono
       direccion
       provincia
@@ -681,6 +683,7 @@ export const onDeleteNegocios = /* GraphQL */ `
       identificacion
       RUC
       correo
+      tiempoAproxEntrega
       telefono
       direccion
       provincia
@@ -1014,10 +1017,9 @@ export const onCreateItems = /* GraphQL */ `
       listadoComponentes {
         items {
           id
-          tipoRegistro
-          nombre
           idItemPadre
-          precio
+          nombre
+          courier
           estado
           createdAt
           updatedAt
@@ -1027,10 +1029,9 @@ export const onCreateItems = /* GraphQL */ `
       listadoExtras {
         items {
           id
-          nombre
           idItemPadre
-          precio
-          tipoRegistro
+          nombre
+          courier
           estado
           createdAt
           updatedAt
@@ -1057,10 +1058,9 @@ export const onUpdateItems = /* GraphQL */ `
       listadoComponentes {
         items {
           id
-          tipoRegistro
-          nombre
           idItemPadre
-          precio
+          nombre
+          courier
           estado
           createdAt
           updatedAt
@@ -1070,10 +1070,9 @@ export const onUpdateItems = /* GraphQL */ `
       listadoExtras {
         items {
           id
-          nombre
           idItemPadre
-          precio
-          tipoRegistro
+          nombre
+          courier
           estado
           createdAt
           updatedAt
@@ -1100,10 +1099,9 @@ export const onDeleteItems = /* GraphQL */ `
       listadoComponentes {
         items {
           id
-          tipoRegistro
-          nombre
           idItemPadre
-          precio
+          nombre
+          courier
           estado
           createdAt
           updatedAt
@@ -1113,10 +1111,9 @@ export const onDeleteItems = /* GraphQL */ `
       listadoExtras {
         items {
           id
-          nombre
           idItemPadre
-          precio
-          tipoRegistro
+          nombre
+          courier
           estado
           createdAt
           updatedAt
@@ -1132,12 +1129,168 @@ export const onDeleteItems = /* GraphQL */ `
     }
   }
 `;
-export const onCreateExtrasItems = /* GraphQL */ `
-  subscription OnCreateExtrasItems {
-    onCreateExtrasItems {
+export const onCreateCategoriasItemsExtras = /* GraphQL */ `
+  subscription OnCreateCategoriasItemsExtras {
+    onCreateCategoriasItemsExtras {
+      id
+      idItemPadre
+      nombre
+      courier
+      items {
+        items {
+          id
+          nombre
+          idCategoriaExtra
+          precio
+          tipoRegistro
+          estado
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateCategoriasItemsExtras = /* GraphQL */ `
+  subscription OnUpdateCategoriasItemsExtras {
+    onUpdateCategoriasItemsExtras {
+      id
+      idItemPadre
+      nombre
+      courier
+      items {
+        items {
+          id
+          nombre
+          idCategoriaExtra
+          precio
+          tipoRegistro
+          estado
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteCategoriasItemsExtras = /* GraphQL */ `
+  subscription OnDeleteCategoriasItemsExtras {
+    onDeleteCategoriasItemsExtras {
+      id
+      idItemPadre
+      nombre
+      courier
+      items {
+        items {
+          id
+          nombre
+          idCategoriaExtra
+          precio
+          tipoRegistro
+          estado
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateCategoriasItemsComponentes = /* GraphQL */ `
+  subscription OnCreateCategoriasItemsComponentes {
+    onCreateCategoriasItemsComponentes {
+      id
+      idItemPadre
+      nombre
+      courier
+      items {
+        items {
+          id
+          idCategoriaComponente
+          tipoRegistro
+          nombre
+          precio
+          estado
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateCategoriasItemsComponentes = /* GraphQL */ `
+  subscription OnUpdateCategoriasItemsComponentes {
+    onUpdateCategoriasItemsComponentes {
+      id
+      idItemPadre
+      nombre
+      courier
+      items {
+        items {
+          id
+          idCategoriaComponente
+          tipoRegistro
+          nombre
+          precio
+          estado
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteCategoriasItemsComponentes = /* GraphQL */ `
+  subscription OnDeleteCategoriasItemsComponentes {
+    onDeleteCategoriasItemsComponentes {
+      id
+      idItemPadre
+      nombre
+      courier
+      items {
+        items {
+          id
+          idCategoriaComponente
+          tipoRegistro
+          nombre
+          precio
+          estado
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateExtrasItemsV2 = /* GraphQL */ `
+  subscription OnCreateExtrasItemsV2 {
+    onCreateExtrasItemsV2 {
       id
       nombre
-      idItemPadre
+      idCategoriaExtra
       precio
       tipoRegistro
       estado
@@ -1146,12 +1299,12 @@ export const onCreateExtrasItems = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateExtrasItems = /* GraphQL */ `
-  subscription OnUpdateExtrasItems {
-    onUpdateExtrasItems {
+export const onUpdateExtrasItemsV2 = /* GraphQL */ `
+  subscription OnUpdateExtrasItemsV2 {
+    onUpdateExtrasItemsV2 {
       id
       nombre
-      idItemPadre
+      idCategoriaExtra
       precio
       tipoRegistro
       estado
@@ -1160,12 +1313,12 @@ export const onUpdateExtrasItems = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteExtrasItems = /* GraphQL */ `
-  subscription OnDeleteExtrasItems {
-    onDeleteExtrasItems {
+export const onDeleteExtrasItemsV2 = /* GraphQL */ `
+  subscription OnDeleteExtrasItemsV2 {
+    onDeleteExtrasItemsV2 {
       id
       nombre
-      idItemPadre
+      idCategoriaExtra
       precio
       tipoRegistro
       estado
@@ -1174,13 +1327,13 @@ export const onDeleteExtrasItems = /* GraphQL */ `
     }
   }
 `;
-export const onCreateComponentesItems = /* GraphQL */ `
-  subscription OnCreateComponentesItems {
-    onCreateComponentesItems {
+export const onCreateComponentesItemsV2 = /* GraphQL */ `
+  subscription OnCreateComponentesItemsV2 {
+    onCreateComponentesItemsV2 {
       id
+      idCategoriaComponente
       tipoRegistro
       nombre
-      idItemPadre
       precio
       estado
       createdAt
@@ -1188,13 +1341,13 @@ export const onCreateComponentesItems = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateComponentesItems = /* GraphQL */ `
-  subscription OnUpdateComponentesItems {
-    onUpdateComponentesItems {
+export const onUpdateComponentesItemsV2 = /* GraphQL */ `
+  subscription OnUpdateComponentesItemsV2 {
+    onUpdateComponentesItemsV2 {
       id
+      idCategoriaComponente
       tipoRegistro
       nombre
-      idItemPadre
       precio
       estado
       createdAt
@@ -1202,13 +1355,13 @@ export const onUpdateComponentesItems = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteComponentesItems = /* GraphQL */ `
-  subscription OnDeleteComponentesItems {
-    onDeleteComponentesItems {
+export const onDeleteComponentesItemsV2 = /* GraphQL */ `
+  subscription OnDeleteComponentesItemsV2 {
+    onDeleteComponentesItemsV2 {
       id
+      idCategoriaComponente
       tipoRegistro
       nombre
-      idItemPadre
       precio
       estado
       createdAt

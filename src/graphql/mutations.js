@@ -602,6 +602,7 @@ export const createNegocios = /* GraphQL */ `
       identificacion
       RUC
       correo
+      tiempoAproxEntrega
       telefono
       direccion
       provincia
@@ -682,6 +683,7 @@ export const updateNegocios = /* GraphQL */ `
       identificacion
       RUC
       correo
+      tiempoAproxEntrega
       telefono
       direccion
       provincia
@@ -762,6 +764,7 @@ export const deleteNegocios = /* GraphQL */ `
       identificacion
       RUC
       correo
+      tiempoAproxEntrega
       telefono
       direccion
       provincia
@@ -1161,10 +1164,9 @@ export const createItems = /* GraphQL */ `
       listadoComponentes {
         items {
           id
-          tipoRegistro
-          nombre
           idItemPadre
-          precio
+          nombre
+          courier
           estado
           createdAt
           updatedAt
@@ -1174,10 +1176,9 @@ export const createItems = /* GraphQL */ `
       listadoExtras {
         items {
           id
-          nombre
           idItemPadre
-          precio
-          tipoRegistro
+          nombre
+          courier
           estado
           createdAt
           updatedAt
@@ -1207,10 +1208,9 @@ export const updateItems = /* GraphQL */ `
       listadoComponentes {
         items {
           id
-          tipoRegistro
-          nombre
           idItemPadre
-          precio
+          nombre
+          courier
           estado
           createdAt
           updatedAt
@@ -1220,10 +1220,9 @@ export const updateItems = /* GraphQL */ `
       listadoExtras {
         items {
           id
-          nombre
           idItemPadre
-          precio
-          tipoRegistro
+          nombre
+          courier
           estado
           createdAt
           updatedAt
@@ -1253,10 +1252,9 @@ export const deleteItems = /* GraphQL */ `
       listadoComponentes {
         items {
           id
-          tipoRegistro
-          nombre
           idItemPadre
-          precio
+          nombre
+          courier
           estado
           createdAt
           updatedAt
@@ -1266,10 +1264,9 @@ export const deleteItems = /* GraphQL */ `
       listadoExtras {
         items {
           id
-          nombre
           idItemPadre
-          precio
-          tipoRegistro
+          nombre
+          courier
           estado
           createdAt
           updatedAt
@@ -1285,15 +1282,189 @@ export const deleteItems = /* GraphQL */ `
     }
   }
 `;
-export const createExtrasItems = /* GraphQL */ `
-  mutation CreateExtrasItems(
-    $input: CreateExtrasItemsInput!
-    $condition: ModelextrasItemsConditionInput
+export const createCategoriasItemsExtras = /* GraphQL */ `
+  mutation CreateCategoriasItemsExtras(
+    $input: CreateCategoriasItemsExtrasInput!
+    $condition: ModelcategoriasItemsExtrasConditionInput
   ) {
-    createExtrasItems(input: $input, condition: $condition) {
+    createCategoriasItemsExtras(input: $input, condition: $condition) {
+      id
+      idItemPadre
+      nombre
+      courier
+      items {
+        items {
+          id
+          nombre
+          idCategoriaExtra
+          precio
+          tipoRegistro
+          estado
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateCategoriasItemsExtras = /* GraphQL */ `
+  mutation UpdateCategoriasItemsExtras(
+    $input: UpdateCategoriasItemsExtrasInput!
+    $condition: ModelcategoriasItemsExtrasConditionInput
+  ) {
+    updateCategoriasItemsExtras(input: $input, condition: $condition) {
+      id
+      idItemPadre
+      nombre
+      courier
+      items {
+        items {
+          id
+          nombre
+          idCategoriaExtra
+          precio
+          tipoRegistro
+          estado
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteCategoriasItemsExtras = /* GraphQL */ `
+  mutation DeleteCategoriasItemsExtras(
+    $input: DeleteCategoriasItemsExtrasInput!
+    $condition: ModelcategoriasItemsExtrasConditionInput
+  ) {
+    deleteCategoriasItemsExtras(input: $input, condition: $condition) {
+      id
+      idItemPadre
+      nombre
+      courier
+      items {
+        items {
+          id
+          nombre
+          idCategoriaExtra
+          precio
+          tipoRegistro
+          estado
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createCategoriasItemsComponentes = /* GraphQL */ `
+  mutation CreateCategoriasItemsComponentes(
+    $input: CreateCategoriasItemsComponentesInput!
+    $condition: ModelcategoriasItemsComponentesConditionInput
+  ) {
+    createCategoriasItemsComponentes(input: $input, condition: $condition) {
+      id
+      idItemPadre
+      nombre
+      courier
+      items {
+        items {
+          id
+          idCategoriaComponente
+          tipoRegistro
+          nombre
+          precio
+          estado
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateCategoriasItemsComponentes = /* GraphQL */ `
+  mutation UpdateCategoriasItemsComponentes(
+    $input: UpdateCategoriasItemsComponentesInput!
+    $condition: ModelcategoriasItemsComponentesConditionInput
+  ) {
+    updateCategoriasItemsComponentes(input: $input, condition: $condition) {
+      id
+      idItemPadre
+      nombre
+      courier
+      items {
+        items {
+          id
+          idCategoriaComponente
+          tipoRegistro
+          nombre
+          precio
+          estado
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteCategoriasItemsComponentes = /* GraphQL */ `
+  mutation DeleteCategoriasItemsComponentes(
+    $input: DeleteCategoriasItemsComponentesInput!
+    $condition: ModelcategoriasItemsComponentesConditionInput
+  ) {
+    deleteCategoriasItemsComponentes(input: $input, condition: $condition) {
+      id
+      idItemPadre
+      nombre
+      courier
+      items {
+        items {
+          id
+          idCategoriaComponente
+          tipoRegistro
+          nombre
+          precio
+          estado
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      estado
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createExtrasItemsV2 = /* GraphQL */ `
+  mutation CreateExtrasItemsV2(
+    $input: CreateExtrasItemsV2Input!
+    $condition: ModelextrasItemsV2ConditionInput
+  ) {
+    createExtrasItemsV2(input: $input, condition: $condition) {
       id
       nombre
-      idItemPadre
+      idCategoriaExtra
       precio
       tipoRegistro
       estado
@@ -1302,15 +1473,15 @@ export const createExtrasItems = /* GraphQL */ `
     }
   }
 `;
-export const updateExtrasItems = /* GraphQL */ `
-  mutation UpdateExtrasItems(
-    $input: UpdateExtrasItemsInput!
-    $condition: ModelextrasItemsConditionInput
+export const updateExtrasItemsV2 = /* GraphQL */ `
+  mutation UpdateExtrasItemsV2(
+    $input: UpdateExtrasItemsV2Input!
+    $condition: ModelextrasItemsV2ConditionInput
   ) {
-    updateExtrasItems(input: $input, condition: $condition) {
+    updateExtrasItemsV2(input: $input, condition: $condition) {
       id
       nombre
-      idItemPadre
+      idCategoriaExtra
       precio
       tipoRegistro
       estado
@@ -1319,15 +1490,15 @@ export const updateExtrasItems = /* GraphQL */ `
     }
   }
 `;
-export const deleteExtrasItems = /* GraphQL */ `
-  mutation DeleteExtrasItems(
-    $input: DeleteExtrasItemsInput!
-    $condition: ModelextrasItemsConditionInput
+export const deleteExtrasItemsV2 = /* GraphQL */ `
+  mutation DeleteExtrasItemsV2(
+    $input: DeleteExtrasItemsV2Input!
+    $condition: ModelextrasItemsV2ConditionInput
   ) {
-    deleteExtrasItems(input: $input, condition: $condition) {
+    deleteExtrasItemsV2(input: $input, condition: $condition) {
       id
       nombre
-      idItemPadre
+      idCategoriaExtra
       precio
       tipoRegistro
       estado
@@ -1336,16 +1507,16 @@ export const deleteExtrasItems = /* GraphQL */ `
     }
   }
 `;
-export const createComponentesItems = /* GraphQL */ `
-  mutation CreateComponentesItems(
-    $input: CreateComponentesItemsInput!
-    $condition: ModelcomponentesItemsConditionInput
+export const createComponentesItemsV2 = /* GraphQL */ `
+  mutation CreateComponentesItemsV2(
+    $input: CreateComponentesItemsV2Input!
+    $condition: ModelcomponentesItemsV2ConditionInput
   ) {
-    createComponentesItems(input: $input, condition: $condition) {
+    createComponentesItemsV2(input: $input, condition: $condition) {
       id
+      idCategoriaComponente
       tipoRegistro
       nombre
-      idItemPadre
       precio
       estado
       createdAt
@@ -1353,16 +1524,16 @@ export const createComponentesItems = /* GraphQL */ `
     }
   }
 `;
-export const updateComponentesItems = /* GraphQL */ `
-  mutation UpdateComponentesItems(
-    $input: UpdateComponentesItemsInput!
-    $condition: ModelcomponentesItemsConditionInput
+export const updateComponentesItemsV2 = /* GraphQL */ `
+  mutation UpdateComponentesItemsV2(
+    $input: UpdateComponentesItemsV2Input!
+    $condition: ModelcomponentesItemsV2ConditionInput
   ) {
-    updateComponentesItems(input: $input, condition: $condition) {
+    updateComponentesItemsV2(input: $input, condition: $condition) {
       id
+      idCategoriaComponente
       tipoRegistro
       nombre
-      idItemPadre
       precio
       estado
       createdAt
@@ -1370,16 +1541,16 @@ export const updateComponentesItems = /* GraphQL */ `
     }
   }
 `;
-export const deleteComponentesItems = /* GraphQL */ `
-  mutation DeleteComponentesItems(
-    $input: DeleteComponentesItemsInput!
-    $condition: ModelcomponentesItemsConditionInput
+export const deleteComponentesItemsV2 = /* GraphQL */ `
+  mutation DeleteComponentesItemsV2(
+    $input: DeleteComponentesItemsV2Input!
+    $condition: ModelcomponentesItemsV2ConditionInput
   ) {
-    deleteComponentesItems(input: $input, condition: $condition) {
+    deleteComponentesItemsV2(input: $input, condition: $condition) {
       id
+      idCategoriaComponente
       tipoRegistro
       nombre
-      idItemPadre
       precio
       estado
       createdAt

@@ -62,7 +62,7 @@ export default {
     };
   },
   mounted() {
-    //console.log("inicio");
+    console.log("inicio");
     this.readData();
   },
   props: {
@@ -126,10 +126,7 @@ export default {
         )
         .then(data => {
           let datosItem = data.data.listNegocioss.items;
-          console.log(
-            "🚀 ~ file: Shop_list_home.vue ~ line 146 ~ readData ~ datosItem",
-            datosItem
-          );
+          console.log("🚀 ~ datosItem", datosItem);
           let ranking = 0;
           if (datosItem.length > 0) {
             datosItem.forEach(async element => {
@@ -159,7 +156,7 @@ export default {
         })
         .catch(e => {
           self.loading = false;
-          console.log("TCL: e", e);
+          console.log("TCL: error", e);
         });
     }
   }
