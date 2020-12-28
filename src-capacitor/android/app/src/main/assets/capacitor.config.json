@@ -3,5 +3,8 @@
   "appName": "onway",
   "bundledWebRuntime": false,
   "npmClient": "npm",
-  "webDir": "www"
+  "webDir": "www",
+  "server": {
+    "url": "http://192.168.1.225:8098"
+  }
 }
