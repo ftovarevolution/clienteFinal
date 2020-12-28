@@ -1,9 +1,17 @@
 <template>
   <div>
-    <img
-      :src="negocioSelect.image"
-      style="margin-left:-10px; max-height:180px; min-height:180px; width: 101%"
-    />
+    <div class="parent">
+      <img
+        class="image1"
+        :src="negocioSelect.image"
+        style="margin-left:-10px; max-height:180px; min-height:180px; width: 101%"
+      />
+      <img
+        class="image2"
+        src="fondo.png"
+        style="margin-left:-10px; max-height:180px; min-height:180px; width: 101%"
+      />
+    </div>
     <div style="margin-left: 15px">
       <restaurant-info :datosNegocio="this.negocioSelect" />
     </div>
@@ -34,9 +42,25 @@ export default {
     }
   },
   mounted() {
-    //this.negocioSelect
+    this.$store.commit("foodList/setadd", false);
   }
 };
 </script>
 
-<style></style>
+<style>
+.parent {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.image1 {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.image2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+</style>

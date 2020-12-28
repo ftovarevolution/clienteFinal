@@ -27,7 +27,10 @@
             </q-avatar>
           </div>
           <div style="width: 240px; max-width: 240px; margin-top: 15px;">
-            <div class="text-capitalize" style="font-size: 34px;">
+            <div
+              class="text-capitalize text-left"
+              style="font-size: 34px; margin-left: 10px;"
+            >
               {{ item.nombre }}
             </div>
           </div>
@@ -114,7 +117,7 @@ export default {
     const self = this;
     self.$store.commit("global/setTitle", "");
     this.$store.commit("global/setshowHeader", false);
-    self.$store.commit("global/setTitle", this.directionNow);
+    self.$store.commit("global/setTitle", localStorage.directionNow);
     self.readData();
   },
   methods: {
@@ -144,6 +147,8 @@ export default {
       let self = this;
       self.$store.commit("global/setIdService", item.id);
       self.$store.commit("global/setNameService", item.nombre);
+      localStorage.IdService = item.id;
+      localStorage.NameService = item.nombre;
       this.$router.push("/restaurant");
     }
   }

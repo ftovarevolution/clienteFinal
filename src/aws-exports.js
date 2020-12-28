@@ -19,7 +19,9 @@ const awsmobile = {
   aws_appsync_graphqlEndpoint:
     "https://6srpde2f6nfvnavqqvmthfq57y.appsync-api.us-west-2.amazonaws.com/graphql",
   aws_appsync_region: "us-west-2",
-  aws_appsync_authenticationType: "AMAZON_COGNITO_USER_POOLS"
+  aws_appsync_authenticationType: "AMAZON_COGNITO_USER_POOLS",
+  aws_user_files_s3_bucket: "bucket-onway154115-dev",
+  aws_user_files_s3_bucket_region: "us-west-2"
 };
 
 export default awsmobile;

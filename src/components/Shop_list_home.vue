@@ -62,7 +62,6 @@ export default {
     };
   },
   mounted() {
-    console.log("inicio");
     this.readData();
   },
   props: {
@@ -72,6 +71,7 @@ export default {
   methods: {
     goToSelect(negocio) {
       this.$store.commit("global/setnegocioSelect", negocio);
+      localStorage.negocioSelect = negocio;
       this.$router.push("/item");
     },
     async calculateRanking(id) {
@@ -126,7 +126,6 @@ export default {
         )
         .then(data => {
           let datosItem = data.data.listNegocioss.items;
-          console.log("🚀 ~ datosItem", datosItem);
           let ranking = 0;
           if (datosItem.length > 0) {
             datosItem.forEach(async element => {
@@ -147,10 +146,6 @@ export default {
               //   tiempo: "25-30min"
               // });
             });
-            console.log(
-              "🚀 ~ file: Shop_list_home.vue ~ line 140 ~ readData ~ self.data",
-              self.data
-            );
             self.loading = false;
           }
         })

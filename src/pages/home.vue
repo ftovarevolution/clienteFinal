@@ -1,102 +1,109 @@
 <template>
-  <div class="my-font">
-    <div :class="getClassMap()">
-      <GmapMap
-        :options="{
-          zoomControl: false,
-          mapTypeControl: false,
-          scaleControl: false,
-          streetViewControl: false,
-          animatedZoom: false,
-          rotateControl: false,
-          fullscreenControl: false,
-          disableDefaultUi: true,
-          clickableIcons: false,
-          disableDoubleClickZoom: true,
-          minZoom: 9
-        }"
-        ref="mapa"
-        :center="center"
-        :zoom="zoom"
-        map-type-id="roadmap"
-        style="width: 100%; height: 400px;"
-        @center_changed="update('reportedCenter', $event)"
-        @position_changed="update('position', $event)"
-        @dragend="update('listo', $event)"
-        @resize="update('resize', $event)"
-      >
-        <div v-for="(m, index) in markers" :key="index">
-          <gmap-custom-marker
-            v-if="m.enable"
-            :class="getClass(m)"
-            :marker="m.position"
-            :clickable="false"
-            :draggable="false"
-            :z-index="m.zIndex"
-          >
-            <q-img
-              :class="{
-                'animated slower infinite pulse': m.typeIcon
-              }"
-              v-if="m.typeIcon"
-              :src="m.icon.url"
-              style="width: 20px;"
-            />
-            <div class="full-width text-center" v-if="!m.typeIcon">
-              <div style="height: 30px;">
-                <q-spinner-facebook
-                  v-if="m.enbusqueda"
-                  :color="getColor()"
-                  size="3em"
+  <div>
+    <q-icon
+      v-if="splash"
+      style="width: 100%; height: 100%; z-index: 10000000; position:absolute;"
+      name="img:BACKPACKgif.gif"
+    />
+    <div class="my-font">
+      <div :class="getClassMap()">
+        <GmapMap
+          :options="{
+            zoomControl: false,
+            mapTypeControl: false,
+            scaleControl: false,
+            streetViewControl: false,
+            animatedZoom: false,
+            rotateControl: false,
+            fullscreenControl: false,
+            disableDefaultUi: true,
+            clickableIcons: false,
+            disableDoubleClickZoom: true,
+            minZoom: 9
+          }"
+          ref="mapa"
+          :center="center"
+          :zoom="zoom"
+          map-type-id="roadmap"
+          style="width: 100%; height: 400px;"
+          @center_changed="update('reportedCenter', $event)"
+          @position_changed="update('position', $event)"
+          @dragend="update('listo', $event)"
+          @resize="update('resize', $event)"
+        >
+          <div v-for="(m, index) in markers" :key="index">
+            <gmap-custom-marker
+              v-if="m.enable"
+              :class="getClass(m)"
+              :marker="m.position"
+              :clickable="false"
+              :draggable="false"
+              :z-index="m.zIndex"
+            >
+              <q-img
+                :class="{
+                  'animated slower infinite pulse': m.typeIcon
+                }"
+                v-if="m.typeIcon"
+                :src="m.icon.url"
+                style="width: 20px;"
+              />
+              <div class="full-width text-center" v-if="!m.typeIcon">
+                <div style="height: 30px;">
+                  <q-spinner-facebook
+                    v-if="m.enbusqueda"
+                    :color="getColor()"
+                    size="3em"
+                    class="block"
+                  />
+                </div>
+                <q-img
+                  v-if="!m.typeIcon"
+                  :src="m.icon.url"
+                  style="width: 30px;"
                   class="block"
                 />
               </div>
-              <q-img
-                v-if="!m.typeIcon"
-                :src="m.icon.url"
-                style="width: 30px;"
-                class="block"
-              />
-            </div>
-          </gmap-custom-marker>
+            </gmap-custom-marker>
+          </div>
+        </GmapMap>
+        <q-input
+          style="margin-left: 20px; margin-right: 20px; max-height: 65px; text-align:center"
+          type="textarea"
+          v-model="directionNow"
+          dense
+          disable
+        />
+        <div class="text-h5 text-primary text-center" style="margin-top: 5px;">
+          ¿Es esta tu ubicación?
         </div>
-      </GmapMap>
-      <q-input
-        style="margin-left: 20px; margin-right: 20px; max-height: 65px; text-align:center"
-        type="textarea"
-        v-model="directionNow"
-        dense
-        disable
-      />
-      <div class="text-h5 text-primary text-center" style="margin-top: 5px;">
-        ¿Es esta tu ubicación?
-      </div>
-      <div
-        class="text-h8 text-primary text-center"
-        style="margin: 0px 20px 10px 20px;"
-      >
-        Necesitamos confirmar tu ubicación. Tambien puedes buscar por una
-        dirección guardada.
-      </div>
-      <div style="text-align: center; margin-top: 10px;">
-        <q-btn
-          style="width: 330px; height: 46px"
-          align="center"
-          rounded
-          color="primary"
-          label="Mis Direcciones"
-          @click="myDirection"
-        />
-      </div>
-      <div style="text-align: center; margin-top: 10px;">
-        <q-btn
-          style="width: 330px; height: 46px"
-          align="center"
-          rounded
-          color="primary"
-          label="Confirmar Ubicación"
-          @click="confirm"
-        />
+        <div
+          class="text-h8 text-primary text-center"
+          style="margin: 0px 20px 10px 20px;"
+        >
+          Necesitamos confirmar tu ubicación. Tambien puedes buscar por una
+          dirección guardada.
+        </div>
+        <div style="text-align: center; margin-top: 10px;">
+          <q-btn
+            style="width: 330px; height: 46px"
+            align="center"
+            rounded
+            color="primary"
+            label="Mis Direcciones"
+            @click="myDirection"
+          />
+        </div>
+        <div style="text-align: center; margin-top: 10px;">
+          <q-btn
+            style="width: 330px; height: 46px"
+            align="center"
+            rounded
+            color="primary"
+            label="Confirmar Ubicación"
+            @click="confirm"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -121,6 +128,7 @@ export default {
   },
   data() {
     return {
+      splash: true,
       markers: [],
       dialogBusca: false,
       dialogOperador: false,
@@ -168,18 +176,29 @@ export default {
   },
   mounted() {
     const self = this;
+    self.splash = true;
     this.$store.commit("global/setshowHeader", true);
     //self.$store.commit("home/setMyDirectionDialog", false);
     self.$store.commit("global/setTitle", "Dónde Estás?");
+    if (localStorage.email) {
+      self.$store.commit("login/setSubID", localStorage.SubID);
+      self.$store.commit("login/setUserVerify", this.email);
+      self.$store.commit("login/setVerify", true);
+      self.$store.commit("login/setRegister", true);
+    }
     this.getCurrentPosition();
     this.initMarkers();
     setTimeout(() => {
       self.initService();
       this.llevamealcentro();
-    }, 2000);
+      self.splash = false;
+    }, 2700);
   },
   methods: {
     confirm() {
+      localStorage.directionNow = this.$store.state.global.directionNow;
+      localStorage.directionNowLat = this.$store.state.global.directionNowLat;
+      localStorage.directionNowLng = this.$store.state.global.directionNowLng;
       this.$router.push("/services");
     },
     myDirection() {

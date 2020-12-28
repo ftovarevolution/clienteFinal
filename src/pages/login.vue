@@ -131,6 +131,8 @@
 <script>
 const MenuPass = () =>
   import(/*webpackChunkName: "MenuPass" */ "./../components/menupass");
+import { Loading, QSpinnerGears } from "quasar";
+
 export default {
   components: {
     MenuPass
@@ -143,9 +145,6 @@ export default {
       isPwd: true,
       name: "",
       email: "",
-      // password: "123456789",
-      // name: "Franklin",
-      // email: "ftovar.evolution@gmail.com",
       pass: ""
     };
   },
@@ -167,6 +166,10 @@ export default {
     if (self.valuelogin) {
       if (localStorage.email) {
         this.email = localStorage.email;
+        self.$store.commit("login/setSubID", localStorage.SubID);
+        self.$store.commit("login/setUserVerify", this.email);
+        self.$store.commit("login/setVerify", true);
+        self.$store.commit("login/setRegister", true);
       }
     } else {
     }
@@ -221,6 +224,7 @@ export default {
           self.$store.commit("login/setVerify", true);
           self.$store.commit("login/setRegister", true);
           localStorage.register = "true";
+          localStorage.SubID = user.attributes.sub;
           this.$router.push("/home");
         })
         .catch(err => {

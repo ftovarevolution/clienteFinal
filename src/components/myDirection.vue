@@ -105,36 +105,7 @@ export default {
       direccion: "",
       address: "",
       addDialogoDireccion: false,
-      MyDirectionData: [
-        {
-          idClient: "5",
-          nombre: "Mi Ubicación Actual",
-          direccion: "",
-          lat: "9.6656565",
-          lng: "-10.55554444"
-        },
-        {
-          idClient: "5",
-          nombre: "Mi casa",
-          direccion: "ph Parque de Toscana",
-          lat: "9.6656565",
-          lng: "-10.55554444"
-        },
-        {
-          idClient: "5",
-          nombre: "Mi Trabajo",
-          direccion: "Rio Abajo calle 6ta",
-          lat: "9.6656565",
-          lng: "-10.55554444"
-        },
-        {
-          idClient: "5",
-          nombre: "Amigos",
-          direccion: "Res. Santillana. Nuevo Arraijan",
-          lat: "9.6656565",
-          lng: "-10.55554444"
-        }
-      ]
+      MyDirectionData: []
     };
   },
   beforeDestroy() {
@@ -142,7 +113,15 @@ export default {
   },
   computed: {
     SubID() {
-      return this.$store.state.login.SubID;
+      if (localStorage.SubID) {
+        if (localStorage.SubID.length > 0) {
+          return localStorage.SubID;
+        } else {
+          return this.$store.state.login.SubID;
+        }
+      } else {
+        return this.$store.state.login.SubID;
+      }
     },
     dialogMyDirection() {
       return this.$store.state.home.MyDirectionDialog;
@@ -248,6 +227,9 @@ export default {
       self.$store.commit("global/setdirectionNow", item.direccion);
       self.$store.commit("global/setdirectionNowLat", item.geolocacion.lat);
       self.$store.commit("global/setdirectionNowLng", item.geolocacion.lon);
+      localStorage.directionNow = this.$store.state.global.directionNow;
+      localStorage.directionNowLat = this.$store.state.global.directionNowLat;
+      localStorage.directionNowLng = this.$store.state.global.directionNowLng;
       this.closedialogMyDirection();
       this.$router.push("/services");
     },

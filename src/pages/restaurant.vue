@@ -53,7 +53,11 @@ export default {
   },
   computed: {
     IdService() {
-      return this.$store.state.global.IdService;
+      if (localStorage.IdService) {
+        return localStorage.IdService;
+      } else {
+        return this.$store.state.global.IdService;
+      }
     },
     NameService() {
       return this.$store.state.global.NameService;
@@ -70,7 +74,7 @@ export default {
   },
   mounted() {
     const self = this;
-    self.$store.commit("global/setTitle", this.directionNow);
+    self.$store.commit("global/setTitle", localStorage.directionNow);
     this.$store.commit("global/setshowHeader", true);
   },
   methods: {}

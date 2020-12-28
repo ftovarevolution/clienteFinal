@@ -4,11 +4,9 @@ import login from "./module-login";
 import global from "./module-global";
 import user from "./module-user";
 import home from "./module-home";
+import foodList from "./module-foodList";
+import carrito from "./module-carrito";
 
-// import empresa from "./module-empresa";
-// import paquetes from "./module-paquetes";
-// import empresasUser from "./module-empresa-user";
-// import aulas from "./module-aulas";
 Vue.use(Vuex);
 export default function(/* { ssrContext } */) {
   const Store = new Vuex.Store({
@@ -16,7 +14,9 @@ export default function(/* { ssrContext } */) {
       login,
       global,
       user,
-      home
+      home,
+      foodList,
+      carrito
     },
     strict: process.env.DEV
   });

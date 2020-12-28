@@ -119,11 +119,14 @@
               size="16px"
               class="q-mt-sm col-xs-3"
               style="visibility: inherit; box-sizing: border-box; -webkit-tap-highlight-color"
+              @click="$router.push('/cart')"
             >
               <q-avatar size="32px" style="position: relative;">
                 <img style="width: 32px" src="iconos_CARRITO-01.svg" />
               </q-avatar>
-              <q-badge v-if="1 > 0" color="primary" floating>2</q-badge>
+              <q-badge v-if="carritoLenght > 0" color="primary" floating>{{
+                this.carritoLenght
+              }}</q-badge>
 
               <div class="footer-item">CARRITO</div>
             </q-btn>
@@ -159,6 +162,12 @@ export default {
     myDirection
   },
   computed: {
+    carrito() {
+      return this.$store.state.carrito.carrito;
+    },
+    carritoLenght() {
+      return this.$store.state.carrito.carritoLenght;
+    },
     Register() {
       return this.$store.state.login.register;
     },
@@ -216,7 +225,15 @@ export default {
       leftDrawerOpen: false
     };
   },
-  watch: {},
+  watch: {
+    carrito(Valores, o) {
+      this.$store.commit("carrito/setcarritoLenght", Valores.length);
+      console.log(
+        "🚀 ~ file: MainLayout.vue ~ line 249 ~ carrito ~ Valores.length",
+        Valores.length
+      );
+    }
+  },
   methods: {
     home() {
       this.$router.push("/services");
