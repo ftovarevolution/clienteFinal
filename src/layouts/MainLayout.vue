@@ -3,7 +3,7 @@
     <q-header reveal class="bg-white text-primary" v-if="showHeader">
       <q-toolbar>
         <q-icon name="fas fa-map-marker-alt" />
-        <q-toolbar-title>{{ title }}</q-toolbar-title>
+        <q-toolbar-title style="font-size: 14px;">{{ title }}</q-toolbar-title>
         <q-btn
           dense
           flat
@@ -24,13 +24,16 @@
           </q-avatar>
         </div>
         <div class="col-8">
-          <q-input
+          <q-item-label lines="2" caption style="font-size: 18px;">
+            {{ this.title }}
+          </q-item-label>
+          <!-- <q-input
             borderless
             style="margin-top:20px; max-height: 100px; font-size: 18px;"
             type="textarea"
             v-model="title"
             disable
-          />
+          /> -->
         </div>
         <div class="col-auto">
           <q-btn

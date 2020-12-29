@@ -7,7 +7,7 @@
       Que deseas hoy?
     </div>
     <div
-      style="margin-bottom: 15px; margin-top: 20px"
+      style="margin-bottom: 15px; margin-top: 20px;"
       class="column inline"
       v-for="(item, index) in menu2"
       :key="index"

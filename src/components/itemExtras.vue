@@ -295,42 +295,103 @@ export default {
       self.opcionesExtras = [];
       self.opciones = [];
     },
+    async validaNEgocioDiferente() {
+      let self = this;
+      await self.$q
+        .dialog({
+          title: "Atencion!",
+          message:
+            "En su carrito ya existen productos de otro local comercial. Si continua se borrará los productos en el carrito",
+          ok: {
+            push: true,
+            color: "positive",
+            label: "Continuar"
+          },
+          cancel: {
+            push: true,
+            color: "negative",
+            label: "Cancelar"
+          },
+          persistent: true
+        })
+        .onOk(() => {
+          return true;
+        })
+        .onCancel(() => {
+          return false;
+        });
+    },
     addfood() {
-      // console.log("Producto :::::::::>", this.foodSelect);
-      // console.log("Agregar Carrito :::::::::>", this.opciones);
-      let carrito = this.$store.state.carrito.carrito;
+      let self = this;
+      const valEnCarrito = self.$store.state.carrito.idnegocio;
+      let carrito = self.$store.state.carrito.carrito;
       let carritoTemp = [];
-      carrito.forEach(element => {
-        carritoTemp.push(element);
-      });
-      let carritoAux = {
-        id: this.foodSelect.id,
-        nombre: this.foodSelect.nombre,
-        precio: this.foodSelect.precioBase,
-        cantidad: 1,
-        adicionales: this.opciones
-      };
-      carritoTemp.push(carritoAux);
-      console.log(
-        "🚀 ~ file: itemExtras.vue ~ line 319 ~ addfood ~ carritoTemp",
-        carritoTemp
-      );
-      this.$store.commit("carrito/setcarrito", carritoTemp);
-      // let NegocioGeneral = this.negocioSelect;
-      // NegocioGeneral.element.categoriasItems.items.forEach(element => {
-      //   element.items.items.forEach(element2 => {
-      //     if (element2.id == carritoAux[0].id) {
-      //       console.log("Entrando...........");
-      //       if (element2.cantidad) {
-      //         element2.cantidad = element2.cantidad + 1;
-      //       } else {
-      //         element2.cantidad = 1;
-      //       }
-      //     }
-      //   });
-      // });
-      //this.$store.commit("global/setnegocioSelect", NegocioGeneral);
-      this.$store.commit("foodList/setadd", false);
+      if (valEnCarrito != self.negocioSelect.element.id && carrito.length > 0) {
+        self.$q
+          .dialog({
+            title: "Atencion!",
+            message:
+              "En su carrito ya existen productos de otro local comercial. Si continua se borrará los productos en el carrito",
+            ok: {
+              push: true,
+              color: "positive",
+              label: "Continuar"
+            },
+            cancel: {
+              push: true,
+              color: "negative",
+              label: "Cancelar"
+            },
+            persistent: true
+          })
+          .onOk(() => {
+            self.$store.commit("carrito/setcarrito", carritoTemp);
+            carrito = [];
+            let carritoAux = {
+              id: this.foodSelect.id,
+              nombre: this.foodSelect.nombre,
+              precio: this.foodSelect.precioBase,
+              cantidad: 1,
+              adicionales: this.opciones
+            };
+            carritoTemp.push(carritoAux);
+            const lat = this.negocioSelect.element.geolocacion.lat;
+            const lon = this.negocioSelect.element.geolocacion.lon;
+            this.$store.commit("carrito/setcarrito", carritoTemp);
+            this.$store.commit(
+              "carrito/setidnegocio",
+              this.negocioSelect.element.id
+            );
+            this.$store.commit("carrito/setnegocioLat", lat);
+            this.$store.commit("carrito/setnegocioLon", lon);
+            this.$store.commit("foodList/setadd", false);
+          })
+          .onCancel(() => {
+            return;
+          });
+      } else {
+        carrito.forEach(element => {
+          carritoTemp.push(element);
+        });
+        let carritoAux = {
+          id: this.foodSelect.id,
+          nombre: this.foodSelect.nombre,
+          precio: this.foodSelect.precioBase,
+          cantidad: 1,
+          adicionales: this.opciones
+        };
+        carritoTemp.push(carritoAux);
+        const lat = this.negocioSelect.element.geolocacion.lat;
+        const lon = this.negocioSelect.element.geolocacion.lon;
+        this.$store.commit("carrito/setcarrito", carritoTemp);
+        this.$store.commit(
+          "carrito/setidnegocio",
+          this.negocioSelect.element.id
+        );
+        this.$store.commit("carrito/setnegocioLat", lat);
+        this.$store.commit("carrito/setnegocioLon", lon);
+        this.$store.commit("foodList/setadd", false);
+      }
     }
   }
 };

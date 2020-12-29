@@ -13,7 +13,7 @@
             </q-item-section>
             <q-item-section style="border: 0px solid">
               <div class="row">
-                <div class="col-8">
+                <div class="col-10">
                   <b style="font-weight: 700; color: #666">{{ item.nombre }}</b>
                   <a style="color: #666"
                     >Precio: ${{ item.precio }} | Cantidad : {{ item.cantidad }}
@@ -56,30 +56,28 @@
             <p>Sub Total</p>
           </div>
           <div class="col-xs-3 text-right q-pr-sm">
-            <p>$ {{ round(this.subtotal) }}</p>
+            <p>$ {{ this.subtotal }}</p>
           </div>
           <q-separator />
           <div class="col-xs-9 q-pl-sm">
             <p>Impuesto</p>
           </div>
           <div class="col-xs-3 text-right q-pr-sm">
-            <p>$ {{ round(this.subtotal * 0.07) }}</p>
+            <p>$ {{ this.impuesto }}</p>
           </div>
           <q-separator />
           <div class="col-xs-9 q-pl-sm">
             <p>Delivery</p>
           </div>
           <div class="col-xs-3 text-right q-pr-sm">
-            <p>$ {{ round(1.5) }}</p>
+            <p>$ {{ this.delivery }}</p>
           </div>
           <q-separator />
           <div class="col-xs-9 q-pl-sm">
             <strong style="font-size: 18px;">Total del Pedido</strong>
           </div>
           <div class="col-xs-3 text-right q-pr-sm">
-            <strong style="font-size: 18px;">
-              $ {{ round(this.subtotal) + round(this.subtotal * 0.07) + 1.5 }}
-            </strong>
+            <strong style="font-size: 18px;"> $ {{ this.total }} </strong>
           </div>
           <div class="col-xs-12 text-center	 q-pt-sm ">
             <a style="font-size: 14px;"> Enviar a: {{ this.directionNow }} </a>
@@ -160,6 +158,9 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
+import { API, Auth } from "aws-amplify";
+import { getConfiguraciones } from "./../graphql/queries.js";
+
 //import Coupon from "components/Coupon";
 export default {
   components: {
@@ -170,14 +171,19 @@ export default {
       MostrarformaPago: false,
       formaPago: "",
       text: "",
+      kmMinimo: 0.0,
+      tarifaEnvioMinima: 0.0,
+      costoKmAdicional: 0.0,
       subtotal: 0.0,
+      impuesto: 0.0,
       efectivo: 0.0,
+      delivery: 0.0,
+      total: 0.0,
       urlImage:
         "https://bucket-onway154115-dev.s3-us-west-2.amazonaws.com/items/",
       title: "Manage Cart Items",
       cartEmptyMessage: "Opps! Tu carrito está vacio",
       qty: 1,
-      delivery: 200,
       items: [
         {
           name: "Daal Makhni",
@@ -200,7 +206,13 @@ export default {
       return this.$store.state.carrito.carritoLenght;
     }
   },
-  mounted() {
+  async mounted() {
+    // let x = await this.fetchDistance(
+    //   "9.033724,-79.532757",
+    //   "9.068192,-79.504463"
+    // );
+    // console.log("🚀 ~~ mounted ~ x", x);
+
     console.log("Carrito:  ", this.carrito);
     let auxSubTotal = 0.0;
     this.carrito.forEach(element => {
@@ -209,9 +221,39 @@ export default {
         auxSubTotal = auxSubTotal + adicionales.precio;
       });
     });
-    this.subtotal = auxSubTotal;
+    this.subtotal = (Math.round(auxSubTotal * 100) / 100).toFixed(2); //round(auxSubTotal);
+    this.impuesto = (Math.round(this.subtotal * 0.07 * 100) / 100).toFixed(2);
+    let auDelivery = await this.calculaDelivery();
+    this.delivery = (Math.round(auDelivery * 100) / 100).toFixed(2);
+    let auxTotal = 0.0;
+    auxTotal =
+      parseFloat(this.subtotal) +
+      parseFloat(this.impuesto) +
+      parseFloat(this.delivery);
+    this.total = (Math.round(auxTotal * 100) / 100).toFixed(2);
   },
   methods: {
+    async calculaDelivery() {
+      const self = this;
+      let id = "0000001";
+      let variables = {
+        id
+      };
+      await self.$API
+        .graphql(self.$API.graphqlOperation(getConfiguraciones, variables))
+        .then(data => {
+          console.log(data.data.getConfiguraciones);
+          this.kmMinimo = data.data.getConfiguraciones.kmMinimo;
+          this.tarifaEnvioMinima =
+            data.data.getConfiguraciones.tarifaEnvioMinima;
+          this.costoKmAdicional = data.data.getConfiguraciones.costoKmAdicional;
+        })
+        .catch(e => {
+          console.log("TCL: e", e);
+        });
+
+      return 2.5;
+    },
     round(num, decimales = 2) {
       var signo = num >= 0 ? 1 : -1;
       num = num * signo;
@@ -247,6 +289,30 @@ export default {
       record.quantity = this.carro[index].quantity;
       record.subtotal = this.carro[index].subtotal;
       this.$set(this.carro, index, record);
+    },
+    async fetchDistance(origin, dest) {
+      return new Promise((resolve, reject) => {
+        let response;
+        var service = new google.maps.DistanceMatrixService();
+        service.getDistanceMatrix(
+          {
+            origins: [origin],
+            destinations: [dest],
+            travelMode: "DRIVING",
+            unitSystem: google.maps.UnitSystem.IMPERIAL,
+            avoidHighways: false,
+            avoidTolls: false
+          },
+          function(resp, status) {
+            if (status !== google.maps.DistanceMatrixStatus.OK) {
+              response = reject(status);
+            } else {
+              response = resolve(resp);
+            }
+          }
+        );
+        return response;
+      });
     }
   }
 };

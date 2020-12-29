@@ -107,6 +107,9 @@ export default {
       listado: []
     };
   },
+  props: {
+    datosNegocio: null
+  },
   computed: {
     ...mapState("generals", ["carro", "lista", "pru"])
   },
@@ -122,12 +125,7 @@ export default {
     }
   },
   watch: {
-    negocioSelect(Valores, o) {
-      console.log(
-        "🚀 ~ 🚀 ~ 🚀 ~ file: Food_list.vue ~ line 126 ~ negocioSelect ~ Valores",
-        Valores
-      );
-    }
+    negocioSelect(Valores, o) {}
   },
   mounted() {
     if (this.carro) {

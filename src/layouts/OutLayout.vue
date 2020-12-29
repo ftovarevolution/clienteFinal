@@ -1,7 +1,8 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <div id="app">
-      <transition v-if="loginew" name="slideUp" mode="out-in">
+      <!-- <transition v-if="loginew" name="slideUp" mode="out-in"> -->
+      <transition v-if="loginew">
         <router-view />
       </transition>
     </div>

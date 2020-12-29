@@ -86,23 +86,26 @@
         </div>
         <div style="text-align: center; margin-top: 10px;">
           <q-btn
-            style="width: 330px; height: 46px"
-            align="center"
+            flat
             rounded
-            color="primary"
-            label="Mis Direcciones"
+            style="width: 280px; height: 46px; margin-top: 10px"
             @click="myDirection"
-          />
+          >
+            <img style="margin-top: -40px" src="iconos_misdirecciones.svg" />
+          </q-btn>
         </div>
         <div style="text-align: center; margin-top: 10px;">
           <q-btn
-            style="width: 330px; height: 46px"
-            align="center"
+            flat
             rounded
-            color="primary"
-            label="Confirmar Ubicación"
+            style="width: 280px; height: 46px; margin-top: 10px"
             @click="confirm"
-          />
+          >
+            <img
+              style="margin-top: -40px"
+              src="iconos_confirmarubicacion.svg"
+            />
+          </q-btn>
         </div>
       </div>
     </div>

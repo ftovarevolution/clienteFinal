@@ -1,5 +1,10 @@
 <template>
   <q-page-container class="my-font">
+    <q-icon
+      v-if="splash"
+      style="width: 100%; height: 100%; z-index: 10000000; position:absolute;"
+      name="img:BACKPACKgif.gif"
+    />
     <q-page
       class="flex flex-center page-login justify-start items-start content-start"
     >
@@ -87,13 +92,13 @@
         </q-card>
         <div style="text-align: center; margin-top: 30px;">
           <q-btn
-            style="width: 260px; height: 46px; margin-top: 30px"
-            align="center"
+            flat
             rounded
-            color="primary"
-            label="Iniciar"
+            style="width: 280px; height: 46px; margin-top: 20px"
             @click="signIn"
-          />
+          >
+            <img style="margin-top: -40px" src="iconos_iniciar.svg" />
+          </q-btn>
         </div>
       </q-form>
       <div style="margin-top: 20px;">
@@ -139,6 +144,7 @@ export default {
   },
   data() {
     return {
+      splash: true,
       enablefooter: true,
       valuelogin: null,
       password: "",
@@ -173,6 +179,9 @@ export default {
       }
     } else {
     }
+    setTimeout(() => {
+      self.splash = false;
+    }, 2700);
   },
   watch: {
     email(newVal) {
