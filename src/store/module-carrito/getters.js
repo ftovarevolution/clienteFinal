@@ -13,3 +13,9 @@ export function getnegocioLat(state) {
 export function getidnegocio(state) {
   return state.idnegocio;
 }
+export function getEstado(state) {
+  return state.Estado;
+}
+export function getvariables(state) {
+  return state.variables;
+}

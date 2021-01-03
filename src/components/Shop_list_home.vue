@@ -20,7 +20,7 @@
           style="width: 100%; padding-right: 0px; margin-right:0px ; border: red 0px solid"
         >
           <img
-            :src="shop.image"
+            :src="urlImage + shop.element.id"
             style="margin-left:-10px; min-height:140px; width: 116%"
           />
           <div class="column items-start justify-center">
@@ -57,6 +57,8 @@ import { listNegocioss, listRankingNegocioss } from "./../graphql/queries";
 export default {
   data() {
     return {
+      urlImage:
+        "https://bucket-onway154115-dev.s3-us-west-2.amazonaws.com/negocios/",
       data: [],
       dataAll: []
     };
@@ -107,6 +109,20 @@ export default {
         });
       return resultado;
     },
+    async logout() {
+      this.$store.commit("login/setRegister", false);
+      this.$store.commit("login/setUserVerify", "");
+      this.$store.commit("login/setVerify", false);
+      this.$store.commit("global/setLoginew", true);
+      try {
+        localStorage.register = "false";
+        await this.$Auth.signOut();
+        this.$router.push("/login");
+      } catch (error) {
+        console.log("error signing out: ", error);
+        this.$router.push("/");
+      }
+    },
     async readData() {
       const self = this;
       self.loading = true;
@@ -136,22 +152,22 @@ export default {
                 rating: ranking,
                 tiempo: "25-30min"
               });
-
-              // self.data.push({
-              //   image: element.profile,
-              //   id: element.id,
-              //   nombre: element.nombre,
-              //   rating: ranking,
-              //   descripcion: element.descripcion,
-              //   tiempo: "25-30min"
-              // });
             });
             self.loading = false;
           }
         })
         .catch(e => {
           self.loading = false;
-          console.log("TCL: error", e);
+          console.log("TCL1: error", e);
+          switch (e.code) {
+            case "NotAuthorizedException":
+              this.logout();
+              break;
+
+            default:
+              this.logout();
+              break;
+          }
         });
     }
   }

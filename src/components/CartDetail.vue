@@ -3,17 +3,20 @@
     <q-card>
       <q-card-section v-if="carritoLenght > 0" class="shadow-2">
         <div class="text-h6 text-grey-8" style="font-size: 25px;">
-          Mi Pedido
+          {{ this.negocio }}
+        </div>
+        <div class="text-h6 text-grey-8" style="font-size: 14px;">
+          {{ this.kmActual }} Km
         </div>
         <br />
         <div class="q-pb-sm">
           <q-item v-for="(item, index) in carrito" :key="index">
-            <q-item-section top thumbnail class="q-ml-none">
+            <!-- <q-item-section top thumbnail class="q-ml-none">
               <img style="width: auto" :src="urlImage + item.id + '.jpg'" />
-            </q-item-section>
+            </q-item-section> -->
             <q-item-section style="border: 0px solid">
               <div class="row">
-                <div class="col-10">
+                <div class="col-12">
                   <b style="font-weight: 700; color: #666">{{ item.nombre }}</b>
                   <a style="color: #666"
                     >Precio: ${{ item.precio }} | Cantidad : {{ item.cantidad }}
@@ -91,11 +94,21 @@
             />
           </div>
           <q-btn
+            :disable="this.total == 0.0"
             class="full-width q-mt-md"
-            color="primary"
+            color="red-10"
+            rounded
             label="Procesar el Pedido"
             push
             @click="MostrarformaPago = true"
+          />
+          <q-btn
+            class="full-width q-mt-md"
+            color="red-10"
+            rounded
+            label="Cancelar el Pedido"
+            push
+            @click="cancelaPedido"
           />
         </div>
       </q-card-section>
@@ -132,21 +145,31 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none ">
-          <q-radio v-model="formaPago" val="Efectivo" label="Efectivo" />
-          <q-radio v-model="formaPago" val="Tarjeta" label="Tarjeta" />
+          <q-option-group
+            :options="tiposDePago"
+            type="radio"
+            v-model="formaPago"
+          />
           <q-input
-            v-if="formaPago == 'Efectivo'"
+            v-if="formaPago == '0000001'"
             dense
             square
             outlined
             v-model="efectivo"
             label="Monto Efectivo"
+            maxlength="6"
+            @keypress="keypress"
           />
         </q-card-section>
 
         <q-card-actions align="right">
           <q-btn flat label="Cancelar" v-close-popup />
-          <q-btn flat label="Procesar el Pedido" v-close-popup />
+          <q-btn
+            flat
+            label="Procesar el Pedido"
+            v-close-popup
+            @click="procesaPedido"
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -159,7 +182,10 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 import { API, Auth } from "aws-amplify";
-import { getConfiguraciones } from "./../graphql/queries.js";
+import { getConfiguraciones, listTipoPagos } from "./../graphql/queries.js";
+import { v4 as uuidv4 } from "uuid";
+import moment from "moment";
+import { createPedidos } from "./../graphql/mutations";
 
 //import Coupon from "components/Coupon";
 export default {
@@ -168,6 +194,9 @@ export default {
   },
   data() {
     return {
+      tiposDePago: [],
+      kmActual: "",
+      negocio: "",
       MostrarformaPago: false,
       formaPago: "",
       text: "",
@@ -176,7 +205,7 @@ export default {
       costoKmAdicional: 0.0,
       subtotal: 0.0,
       impuesto: 0.0,
-      efectivo: 0.0,
+      efectivo: "",
       delivery: 0.0,
       total: 0.0,
       urlImage:
@@ -199,60 +228,164 @@ export default {
     carrito() {
       return this.$store.state.carrito.carrito;
     },
+    negocioSelect() {
+      return this.$store.state.global.negocioSelect;
+    },
     directionNow() {
       return this.$store.state.global.directionNow;
     },
+    directionNowLat() {
+      return this.$store.state.global.directionNowLat;
+    },
+    directionNowLng() {
+      return this.$store.state.global.directionNowLng;
+    },
     carritoLenght() {
       return this.$store.state.carrito.carritoLenght;
+    },
+    idCliente() {
+      return this.$store.state.login.SubID;
     }
   },
   async mounted() {
-    // let x = await this.fetchDistance(
-    //   "9.033724,-79.532757",
-    //   "9.068192,-79.504463"
-    // );
-    // console.log("🚀 ~~ mounted ~ x", x);
-
-    console.log("Carrito:  ", this.carrito);
-    let auxSubTotal = 0.0;
-    this.carrito.forEach(element => {
-      auxSubTotal = auxSubTotal + element.precio;
-      element.adicionales.forEach(adicionales => {
-        auxSubTotal = auxSubTotal + adicionales.precio;
+    const self = this;
+    const miToKm = 1.60934;
+    this.negocio = this.negocioSelect.element.nombre;
+    let geolocalitation = this.negocioSelect.element.geolocacion;
+    let destino = this.directionNowLat + ", " + this.directionNowLng;
+    let origen = geolocalitation.lat + ", " + geolocalitation.lon;
+    if (destino.length > 2 && origen.length > 2) {
+      let controlDistancia = await this.fetchDistance(origen, destino);
+      if (controlDistancia.rows[0].elements[0].status == "NOT_FOUND") {
+      } else {
+        let distanceTmp =
+          parseFloat(controlDistancia.rows[0].elements[0].distance.text) *
+          miToKm;
+        let distance = (Math.round(distanceTmp * 100) / 100).toFixed(2);
+        console.log("🚀 - mounted - distance", distance);
+        let auxSubTotal = 0.0;
+        this.carrito.forEach(element => {
+          auxSubTotal = auxSubTotal + element.precio;
+          element.adicionales.forEach(adicionales => {
+            auxSubTotal = auxSubTotal + adicionales.precio;
+          });
+        });
+        this.subtotal = (Math.round(auxSubTotal * 100) / 100).toFixed(2); //round(auxSubTotal);
+        this.impuesto = (Math.round(this.subtotal * 0.07 * 100) / 100).toFixed(
+          2
+        );
+        let auDelivery = await this.calculaDelivery(distance);
+        this.delivery = (Math.round(auDelivery * 100) / 100).toFixed(2);
+        let auxTotal = 0.0;
+        auxTotal =
+          parseFloat(this.subtotal) +
+          parseFloat(this.impuesto) +
+          parseFloat(this.delivery);
+        this.total = (Math.round(auxTotal * 100) / 100).toFixed(2);
+      }
+    }
+    await self.$API
+      .graphql(
+        self.$API.graphqlOperation(listTipoPagos, {
+          sort: {
+            direction: "asc",
+            field: "id"
+          }
+        })
+      )
+      .then(data => {
+        let dataPagos = data.data.listTipoPagos.items;
+        let objdata = [];
+        dataPagos.forEach(element => {
+          objdata = { label: element.nombre, value: element.id };
+          this.tiposDePago.push(objdata);
+        });
+      })
+      .catch(e => {
+        console.log("TCL: error", e);
       });
-    });
-    this.subtotal = (Math.round(auxSubTotal * 100) / 100).toFixed(2); //round(auxSubTotal);
-    this.impuesto = (Math.round(this.subtotal * 0.07 * 100) / 100).toFixed(2);
-    let auDelivery = await this.calculaDelivery();
-    this.delivery = (Math.round(auDelivery * 100) / 100).toFixed(2);
-    let auxTotal = 0.0;
-    auxTotal =
-      parseFloat(this.subtotal) +
-      parseFloat(this.impuesto) +
-      parseFloat(this.delivery);
-    this.total = (Math.round(auxTotal * 100) / 100).toFixed(2);
   },
   methods: {
-    async calculaDelivery() {
+    procesaPedido() {
       const self = this;
+      const idPedido = uuidv4();
+      let dateTmp = new Date();
+      let day = dateTmp.getDate();
+      let month = dateTmp.getMonth();
+      let year = dateTmp.getFullYear();
+      const hora = dateTmp.getHours();
+      const min = dateTmp.getMinutes();
+      const seg = dateTmp.getSeconds();
+      const fechahora = moment([year, month, day, hora, min, seg, 150]);
+      const observa = self.text;
+
+      let variables = {
+        codigoPedido: idPedido,
+        confirmaNegocio: false,
+        despachadorAsig: false,
+        despachadorEnCamino: false,
+        despachadorEnNegocio: false,
+        despachadorEnSitio: false,
+        estado: true,
+        fechaHora: fechahora,
+        id: idPedido,
+        idCliente: this.idCliente,
+        idNegocio: this.negocioSelect.element.id,
+        idTipoEnvio: "",
+        idTipoPago: this.formaPago,
+        observacines: observa,
+        observacinesCancelacion: "",
+        observacinesChat: "",
+        pedidoCancelado: false,
+        pedidoEntregado: false,
+        pedidoListo: false,
+        total: this.total
+      };
+      this.$store.commit("carrito/setvariables", variables);
+      this.$router.push("/seguimientoPedido");
+    },
+    cancelaPedido() {
+      this.$store.commit("carrito/setcarritoLenght", 0);
+      this.$store.commit("carrito/setcarrito", []);
+      this.$store.commit("carrito/setEstado", "Pedido");
+      this.$router.push("/restaurant");
+    },
+    keypress(key) {
+      if (key.keyCode < 48 || key.keyCode > 57) {
+        if (key.keyCode != 46) {
+          key.preventDefault();
+        }
+      }
+    },
+    async calculaDelivery(km) {
+      const self = this;
+      let pago = "";
       let id = "0000001";
       let variables = {
         id
       };
+      self.kmActual = km;
       await self.$API
         .graphql(self.$API.graphqlOperation(getConfiguraciones, variables))
         .then(data => {
           console.log(data.data.getConfiguraciones);
-          this.kmMinimo = data.data.getConfiguraciones.kmMinimo;
-          this.tarifaEnvioMinima =
+          self.kmMinimo = data.data.getConfiguraciones.kmMinimo;
+          self.tarifaEnvioMinima =
             data.data.getConfiguraciones.tarifaEnvioMinima;
-          this.costoKmAdicional = data.data.getConfiguraciones.costoKmAdicional;
+          self.costoKmAdicional = data.data.getConfiguraciones.costoKmAdicional;
+          if (km > self.kmMinimo) {
+            let kmDiferencia = 0.0;
+            kmDiferencia = km - self.kmMinimo;
+            pago = kmDiferencia * self.costoKmAdicional;
+          } else {
+            pago = self.tarifaEnvioMinima;
+          }
         })
         .catch(e => {
           console.log("TCL: e", e);
         });
 
-      return 2.5;
+      return pago;
     },
     round(num, decimales = 2) {
       var signo = num >= 0 ? 1 : -1;

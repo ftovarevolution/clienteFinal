@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import { API, Auth } from "aws-amplify";
+
 const SlideIcons = () =>
   import(/*webpackChunkName: "SlideIcons" */ "./../components/SlideIcons");
 
@@ -52,6 +54,12 @@ export default {
     Shop_list_home
   },
   computed: {
+    estado() {
+      return this.$store.state.carrito.estado;
+    },
+    userVerify() {
+      return this.$store.state.login.userVerify;
+    },
     IdService() {
       if (localStorage.IdService) {
         return localStorage.IdService;
@@ -72,10 +80,28 @@ export default {
       return this.$store.state.global.directionNowLng;
     }
   },
-  mounted() {
+  async mounted() {
     const self = this;
-    self.$store.commit("global/setTitle", localStorage.directionNow);
-    this.$store.commit("global/setshowHeader", true);
+    Auth.currentUserInfo()
+      .then(async () => {
+        self.$store.commit("global/setTitle", localStorage.directionNow);
+        this.$store.commit("global/setshowHeader", true);
+        console.log("🚀 - .then - this.estado", this.estado);
+        if (this.estado == "Pedido") {
+          this.$router.push("/seguimientoPedido");
+        }
+      })
+      .catch(e => {
+        console.log(e);
+        try {
+          localStorage.register = "false";
+          this.$Auth.signOut();
+          this.$router.push("/login");
+        } catch (error) {
+          console.log("error signing out: ", error);
+          this.$router.push("/");
+        }
+      });
   },
   methods: {}
 };

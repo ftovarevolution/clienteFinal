@@ -184,7 +184,7 @@
               :disable="!selecFood"
               no-caps
               rounded
-              label="Agregar a Carrito"
+              label="Agregar al Carrito"
               color="primary"
               class="q-mt-md"
               style="width: 90%; height: 50px"

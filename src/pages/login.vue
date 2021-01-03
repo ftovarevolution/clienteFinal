@@ -1,10 +1,10 @@
 <template>
   <q-page-container class="my-font">
-    <q-icon
+    <!-- <q-icon
       v-if="splash"
       style="width: 100%; height: 100%; z-index: 10000000; position:absolute;"
       name="img:BACKPACKgif.gif"
-    />
+    /> -->
     <q-page
       class="flex flex-center page-login justify-start items-start content-start"
     >

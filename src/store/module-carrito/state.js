@@ -4,6 +4,8 @@ export default function() {
     idnegocio: "",
     negocioLat: "",
     negocioLon: "",
-    carritoLenght: 0
+    carritoLenght: 0,
+    Estado: "",
+    variables: []
   };
 }

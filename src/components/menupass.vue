@@ -22,53 +22,52 @@
         <q-card-section class="q-ma-none q-pt-none">
           <q-form @submit="enterfun('')" autofocus ref="form1">
             <q-input
-              class="my-card"
-              style="margin-top: 30px;"
+              rounded
+              standout="bg-grey-4 text-white"
+              ref="email"
+              @blur="focusInput(0)"
+              @click="focusInput(1)"
               bottom-slots
               v-model="email"
               no-error-icon
               :rules="[
                 $rules.required('Campo Obligatorio..'),
-                $rules.email('Debe colocar un email valido..')
+                $rules.email('Debe colocar un email valido.')
               ]"
-              label="Correo electrónico"
+              label="Correo:"
             >
               <template v-slot:prepend>
-                <q-icon name="fal fa-envelope" />
-              </template>
-              <template v-slot:append>
-                <q-btn
-                  flat
-                  icon="fal fa-times"
-                  class="cursor-pointer q-mr-sm"
-                  @click="email = ''"
-                  no-error-icon
-                  style="width: 36px;"
-                />
+                <q-icon color="primary" name="fas fa-envelope" />
               </template>
             </q-input>
           </q-form>
           <div style="text-align: center; margin-top: 30px;">
             <q-btn
-              style="width: 300px; height: 46px"
+              class="text-capitalize"
+              style="width: 260px; height: 46px; font-size: 20px; "
               align="center"
-              class="glossy"
               rounded
-              color="primary"
-              label="Recuperar Contraseña"
+              color="red-10"
               @click="forgotPassword"
-            />
+            >
+              <div style="margin-top: -7px;">
+                Recuperar Contraseña
+              </div>
+            </q-btn>
           </div>
           <div style="text-align: center; margin-top: 30px;">
             <q-btn
-              style="width: 300px; height: 46px"
+              class="text-capitalize"
+              style="width: 260px; height: 46px; font-size: 20px; "
               align="center"
-              class="glossy"
               rounded
-              color="primary"
-              label="Ya tengo codigo de verificación"
+              color="red-10"
               @click="yaTengo"
-            />
+            >
+              <div style="margin-top: -7px;">
+                Ya tengo un código
+              </div>
+            </q-btn>
           </div>
         </q-card-section>
       </q-card>
@@ -87,7 +86,7 @@ export default {
   },
   data() {
     return {
-      email: "ftovar.evolution@gmail.com",
+      email: "",
       verify: false
     };
   },

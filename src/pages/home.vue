@@ -84,28 +84,49 @@
           Necesitamos confirmar tu ubicación. Tambien puedes buscar por una
           dirección guardada.
         </div>
+
         <div style="text-align: center; margin-top: 10px;">
           <q-btn
+            style="width: 330px; height: 46px"
+            align="center"
+            rounded
+            color="red-10"
+            label="Mis Direcciones"
+            @click="myDirection"
+          />
+          <!-- <q-btn
             flat
             rounded
-            style="width: 280px; height: 46px; margin-top: 10px"
+            style="width: 380px; height: 46px; margin-top: 10px"
             @click="myDirection"
           >
-            <img style="margin-top: -40px" src="iconos_misdirecciones.svg" />
-          </q-btn>
+            <img
+              style="margin-top: -40px; width: 280px;"
+              src="iconos_misdirecciones.svg"
+            />
+          </q-btn> -->
         </div>
         <div style="text-align: center; margin-top: 10px;">
           <q-btn
+            style="width: 330px; height: 46px"
+            align="center"
+            rounded
+            color="red-10"
+            label="Confirmar Ubicación"
+            @click="confirm"
+          />
+
+          <!-- <q-btn
             flat
             rounded
-            style="width: 280px; height: 46px; margin-top: 10px"
+            style="width: 380px; height: 46px; margin-top: 10px"
             @click="confirm"
           >
             <img
-              style="margin-top: -40px"
+              style="margin-top: -40px; width: 280px;"
               src="iconos_confirmarubicacion.svg"
             />
-          </q-btn>
+          </q-btn> -->
         </div>
       </div>
     </div>

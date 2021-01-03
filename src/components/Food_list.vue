@@ -17,7 +17,11 @@
           style="margin-top: -10px;"
         >
           <q-item-section thumbnail v-if="true" class="q-pl-sm">
-            <img src="comida1.jpg" style="min-height:67px; width:90px" />
+            <!-- <img style="width: auto" :src="urlImage + item.id + '.jpg'" /> -->
+            <img
+              :src="urlImage + food.id"
+              style="min-height:67px; width:90px"
+            />
           </q-item-section>
           <q-item-section>
             <div class="column items-start justify-center" style="width: 155px">
@@ -34,9 +38,9 @@
             <q-btn
               v-if="true"
               style="margin-left: 45px;"
-              outline
               size="sm"
-              color="primary"
+              rounded
+              color="red-10"
               label="Agregar"
               @click="
                 optionList(food.listadoComponentes, food.listadoExtras, food)
@@ -96,6 +100,10 @@ export default {
   },
   data() {
     return {
+      urlImageNegocio:
+        "https://bucket-onway154115-dev.s3-us-west-2.amazonaws.com/negocios/",
+      urlImage:
+        "https://bucket-onway154115-dev.s3-us-west-2.amazonaws.com/items/",
       precioSeleccion: 0.0,
       loading: false,
       model: 0,

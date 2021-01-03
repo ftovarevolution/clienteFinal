@@ -3,7 +3,7 @@
     <div class="parent">
       <img
         class="image1"
-        :src="negocioSelect.image"
+        :src="urlImageNegocio + negocioSelect.element.id"
         style="margin-left:-10px; max-height:180px; min-height:180px; width: 101%"
       />
       <img
@@ -33,6 +33,8 @@ export default {
   },
   data() {
     return {
+      urlImageNegocio:
+        "https://bucket-onway154115-dev.s3-us-west-2.amazonaws.com/negocios/",
       form: {}
     };
   },

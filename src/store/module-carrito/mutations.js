@@ -13,3 +13,9 @@ export function setnegocioLat(state, opened) {
 export function setidnegocio(state, opened) {
   state.idnegocio = opened;
 }
+export function setEstado(state, opened) {
+  state.Estado = opened;
+}
+export function setvariables(state, opened) {
+  state.variables = opened;
+}

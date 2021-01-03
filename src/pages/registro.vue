@@ -1,5 +1,5 @@
 <template>
-  <q-page-container>
+  <q-page-container class="my-font">
     <q-page
       class="flex flex-center page-login justify-start items-start content-start"
     >
@@ -15,6 +15,8 @@
         <q-card class="my-card shadow-9" style="margin-top: 10px;">
           <q-card-section>
             <q-input
+              rounded
+              standout="bg-grey-4 text-white"
               bottom-slots
               v-model="name"
               label="Nombre"
@@ -37,9 +39,12 @@
               </template>
             </q-input>
             <q-input
+              rounded
+              standout="bg-grey-4 text-white"
               bottom-slots
               v-model="email"
               no-error-icon
+              lazy-rules
               :rules="[
                 $rules.required('Campo Obligatorio..'),
                 $rules.email('No es un email..')
@@ -62,6 +67,8 @@
               </template>
             </q-input>
             <q-input
+              rounded
+              standout="bg-grey-4 text-white"
               v-model="password"
               :type="isPwd ? 'password' : 'text'"
               label="Contraseña"
@@ -101,14 +108,17 @@
         </q-card>
         <div style="text-align: center; margin-top: 30px;">
           <q-btn
-            style="width: 260px; height: 36px"
+            class="text-capitalize"
+            style="width: 260px; height: 46px; font-size: 23px; "
             align="center"
-            class="glossy"
             rounded
-            color="primary"
-            label="Regístrate"
+            color="red-10"
             type="submit"
-          />
+          >
+            <div style="margin-top: -12px;">
+              Regístrate
+            </div>
+          </q-btn>
         </div>
       </q-form>
 
@@ -200,10 +210,10 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.bg-image
-    background-image: url(https://i.pinimg.com/originals/c2/ea/c0/c2eac03478c2aa0fa8178b5f233690c6.jpg)
-    background-repeat: no-repeat
-    background-size: auto;
+// .bg-image
+//     background-image: url(https://i.pinimg.com/originals/c2/ea/c0/c2eac03478c2aa0fa8178b5f233690c6.jpg)
+//     background-repeat: no-repeat
+//     background-size: auto;
 
 .title1
     text-align: center
