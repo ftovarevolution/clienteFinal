@@ -4,10 +4,24 @@
     <q-page
       class="flex flex-center page-login justify-start items-start content-start my-font"
     >
-      <img src="logo1.png" class="logo" />
-      <span style="margin-top: -30px; color: #A22917"><h3>Inicia</h3> </span>
-
-      <q-card class="my-card shadow-9" style="margin-top: -35px;">
+      <div class="row">
+        <div class="col-9">
+          <img
+            style="width: 120%; margin-top: 0px; margin-bottom: 0px;"
+            src="logo1.png"
+            class="logo q-pb-none"
+          />
+        </div>
+        <div
+          class="col-12 text-center"
+          style="border: 0px solid; position: relative; margin-top: -30px;"
+        >
+          <span style="margin-top: 0px; color: #A22917; font-size: 46px; "
+            >Inicia
+          </span>
+        </div>
+      </div>
+      <q-card class="my-card shadow-9" style="margin-top: 0px;">
         <q-card-section style="text-align: center;">
           <q-card-section style="text-align: center;">
             <q-btn
@@ -67,11 +81,11 @@
         >
       </a>
 
-      <q-footer class="bg-white text-black">
-        <div style="text-align: center; margin-bottom: 16px; font-size: 24px">
+      <q-footer reveal class="bg-white text-black">
+        <div style="text-align: center; margin-bottom: 16px; font-size: 20px">
           Al continuar aceptas nuestros
           <q-space />
-          <a href="" style="color: black; font-size: 22px"
+          <a href="" style="color: black; font-size: 18px"
             >Términos y Condiciones.</a
           >
         </div>

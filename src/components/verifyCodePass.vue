@@ -41,6 +41,8 @@
             ></vue-input-code>
             <br />
             <q-input
+              rounded
+              standout="bg-grey-4 text-white"
               ref="pass1"
               v-model="password1"
               label="Nueva de Contraseña"
@@ -75,6 +77,8 @@
               </template>
             </q-input>
             <q-input
+              rounded
+              standout="bg-grey-4 text-white"
               ref="pass2"
               v-model="password2"
               label="Verificación de Contraseña"
@@ -110,14 +114,17 @@
             </q-input>
             <div style="text-align: center; margin-top: 30px;">
               <q-btn
-                style="width: 280px; height: 36px"
+                class="text-capitalize"
+                style="width: 260px; height: 46px; font-size: 20px; "
                 align="center"
-                class="glossy"
                 rounded
-                color="primary"
-                label="Continuar"
+                color="red-10"
                 @click="verifyCode"
-              />
+              >
+                <div style="margin-top: -7px;">
+                  Continuar
+                </div>
+              </q-btn>
             </div>
           </q-form>
         </q-card-section>

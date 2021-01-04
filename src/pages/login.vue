@@ -121,10 +121,10 @@
       <MenuPass></MenuPass>
 
       <q-footer class="bg-white text-black">
-        <div style="text-align: center; margin-bottom: 16px; font-size: 24px">
+        <div style="text-align: center; margin-bottom: 16px; font-size: 20px">
           Al continuar aceptas nuestros
           <q-space />
-          <a href="" style="color: black; font-size: 22px"
+          <a href="" style="color: black; font-size: 18px"
             >Términos y Condiciones.</a
           >
         </div>

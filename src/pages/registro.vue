@@ -122,12 +122,13 @@
         </div>
       </q-form>
 
-      <q-footer class="bg-white text-primary">
-        <div style="text-align: center; margin-bottom: 16px;">
-          <a style="color: grey;"
-            >Nuestros
-            <router-link to="/page1">Términos y Condiciones</router-link>
-          </a>
+      <q-footer class="bg-white text-black">
+        <div style="text-align: center; margin-bottom: 16px; font-size: 20px">
+          Al continuar aceptas nuestros
+          <q-space />
+          <a href="" style="color: black; font-size: 18px"
+            >Términos y Condiciones.</a
+          >
         </div>
       </q-footer>
     </q-page>
