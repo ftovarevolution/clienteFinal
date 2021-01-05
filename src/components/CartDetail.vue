@@ -114,25 +114,25 @@
       </q-card-section>
       <q-card-section v-else class="shadow-2">
         <div
-          class="q-pa-sm text-h6 text-grey-8"
+          class="q-pa-sm text-h6 text-grey-8 text-center"
           style="font-size: 22px; white-space: nowrap"
         >
           {{ cartEmptyMessage }}
         </div>
-        <div class="q-pa-lg row">
+        <div class="row" style="border: 0px solid;">
           <q-img
-            class="offset-xs-4 col-xs-4"
-            style="width: 35%"
+            class="q-ml-none q-pl-none offset-xs-4 col-xs-4"
+            style="width: 35%;"
             src="https://image.flaticon.com/icons/svg/2038/2038854.svg"
           ></q-img>
         </div>
         <div class="q-pa-lg row">
           <q-btn
-            class="offset-xs-1 col-xs-11"
+            style="width: 330px; height: 46px"
             align="center"
+            rounded
+            color="red-10"
             label="Comienza un Pedido"
-            color="primary"
-            outline
             to="/services"
           />
         </div>

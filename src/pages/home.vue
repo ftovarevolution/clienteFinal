@@ -152,7 +152,7 @@ export default {
   },
   data() {
     return {
-      splash: true,
+      splash: false,
       markers: [],
       dialogBusca: false,
       dialogOperador: false,
@@ -179,6 +179,12 @@ export default {
     directionNow() {
       return this.$store.state.global.directionNow;
     },
+    directionNowLat() {
+      return this.$store.state.global.directionNowLat;
+    },
+    directionNowLng() {
+      return this.$store.state.global.directionNowLng;
+    },
     title() {
       return this.$store.state.global.title;
     },
@@ -200,9 +206,8 @@ export default {
   },
   mounted() {
     const self = this;
-    self.splash = true;
-    this.$store.commit("global/setshowHeader", true);
-    //self.$store.commit("home/setMyDirectionDialog", false);
+    //self.splash = true;
+    self.$store.commit("global/setshowHeader", true);
     self.$store.commit("global/setTitle", "Dónde Estás?");
     if (localStorage.email) {
       self.$store.commit("login/setSubID", localStorage.SubID);
@@ -210,13 +215,25 @@ export default {
       self.$store.commit("login/setVerify", true);
       self.$store.commit("login/setRegister", true);
     }
-    this.getCurrentPosition();
-    this.initMarkers();
-    setTimeout(() => {
+    if (self.directionNowLat != 0) {
+      console.log("Entrando con direccion");
+      self.centroInicial2 = {
+        lat: self.directionNowLat,
+        lon: self.directionNowLng
+      };
+      self.getCurrentPosition2(self.centroInicial2);
       self.initService();
-      this.llevamealcentro();
       self.splash = false;
-    }, 2700);
+    } else {
+      //Sin  direccion
+      self.getCurrentPosition();
+      self.initMarkers();
+      setTimeout(() => {
+        self.initService();
+        self.llevamealcentro();
+        self.splash = false;
+      }, 2700);
+    }
   },
   methods: {
     confirm() {
@@ -236,6 +253,10 @@ export default {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
+          console.log(
+            "🚀 ~ file: home.vue ~ line 252 ~ getCurrentPosition ~ self.centroInicial",
+            self.centroInicial
+          );
           self.markers[0].position = self.centroInicial;
           if (this.markers[1].position.lat === 0) {
             self.markers[1].enable = true;
@@ -255,6 +276,35 @@ export default {
             persistent: true
           });
         });
+    },
+    getCurrentPosition2(event) {
+      console.log("-------> pasanbdop por aqui");
+      const self = this;
+      console.log("initMarkers .");
+      self.campo = 1;
+      self.center = event;
+      self.markers = [];
+      const centroInicial = {
+        lat: event.lat,
+        lng: event.lon
+      };
+      self.addMarker(centroInicial, 1, 1, true, ""); // el que se mueve
+      this.addMarker(
+        this.posicion_manual,
+        "a",
+        0,
+        false,
+        "Desde donde deseas partir?"
+      ); //  el que se mueve
+      self.markers[0].position = centroInicial;
+      self.markers[1].enable = true;
+      self.markers[1].zIndex = 999998;
+      self.center = centroInicial;
+      self.posicion_manual = centroInicial;
+      self.markers[self.campo].position = centroInicial;
+      self.markers[0].position = centroInicial;
+      self.markers[self.campo].direccion = "";
+      self.$refs.mapa.panTo(centroInicial);
     },
     initService() {
       const self = this;
@@ -305,7 +355,6 @@ export default {
       this.llevamealcentro();
     },
     addMarker(LatLng, icon, zIndex, estado, nombre) {
-      console.log("addMarker");
       this.markers.push({
         position: LatLng,
         activo: false,
@@ -319,6 +368,7 @@ export default {
         con_latlng: false,
         typeIcon: icon == 1 ? true : false
       });
+      console.log("addMarker");
     },
     buscaDireccion(posicion, campo) {
       if (posicion.lat !== 0 && posicion.lng !== 0) {

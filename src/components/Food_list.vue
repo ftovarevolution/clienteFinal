@@ -8,6 +8,7 @@
         <div
           class="text-h6 q-pb-md q-pt-sm text-grey-7"
           style="margin-top: -10px;"
+          v-if="list.items.items.length > 0"
         >
           {{ list.nombre }}
         </div>
@@ -24,7 +25,10 @@
             />
           </q-item-section>
           <q-item-section>
-            <div class="column items-start justify-center" style="width: 155px">
+            <div
+              class="column items-start"
+              style="width: 155px; border: 0px blue solid; min-height: 68px"
+            >
               <q-item-label class="text-bold"> {{ food.nombre }} </q-item-label>
               <q-item-label lines="2" caption>
                 {{ food.descripcion }}

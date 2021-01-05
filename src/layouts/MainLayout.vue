@@ -3,7 +3,9 @@
     <q-header reveal class="bg-white text-primary" v-if="showHeader">
       <q-toolbar>
         <q-icon name="fas fa-map-marker-alt" />
-        <q-toolbar-title style="font-size: 14px;">{{ title }}</q-toolbar-title>
+        <q-toolbar-title @click="irDireccion" style="font-size: 14px;">{{
+          title
+        }}</q-toolbar-title>
         <q-btn
           dense
           flat
@@ -238,6 +240,10 @@ export default {
     }
   },
   methods: {
+    irDireccion() {
+      console.log("Entrando direccion");
+      this.$router.push("/home");
+    },
     home() {
       this.$router.push("/services");
     },
@@ -259,6 +265,9 @@ export default {
       this.$store.commit("login/setUserVerify", "");
       this.$store.commit("login/setVerify", false);
       this.$store.commit("global/setLoginew", true);
+      this.$store.commit("global/setdirectionNow", "");
+      this.$store.commit("global/setdirectionNowLat", 0);
+      this.$store.commit("global/setdirectionNowLng", 0);
       try {
         localStorage.register = "false";
         await this.$Auth.signOut();

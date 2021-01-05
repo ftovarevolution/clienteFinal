@@ -1,9 +1,7 @@
 <template>
   <div>
     <q-list class="bg-grey-4">
-      <div v-if="search" class="q-pa-md text-black">
-        Searching for "{{ this.search }}""
-      </div>
+      <div v-if="search" class="text-black">Buscando "{{ this.search }}""</div>
       <q-item
         class="bg-white"
         clickable
@@ -11,17 +9,16 @@
         v-for="(shop, index) in data"
         :key="index"
         @click="goToSelect(shop)"
-        style="border: red 0px solid; margin-bottom: 8px;"
+        style="border: blue 0px solid; margin-bottom: 8px; display: flex; justify-content: center; align-items: center;"
       >
         <q-item-section
           thumbnail
           v-if="shop.image"
-          class="q-pl-sm"
-          style="width: 100%; padding-right: 0px; margin-right:0px ; border: red 0px solid"
+          style="width: 100%; padding-left: 0px; margin-left: 0px ; border: red 0px solid"
         >
           <img
             :src="urlImage + shop.element.id"
-            style="margin-left:-10px; min-height:140px; width: 116%"
+            style="min-height:140px; width: 100%"
           />
           <div class="column items-start justify-center">
             <q-item-label style="font-size: 38px" class="text-bold text-black">
@@ -174,9 +171,4 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
-.responsive {
-  width: 100%;
-  height: auto;
-}
-</style>
+<style lang="css" scoped></style>

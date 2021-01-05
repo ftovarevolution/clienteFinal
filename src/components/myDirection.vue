@@ -224,6 +224,8 @@ export default {
     selectItem(item) {
       const self = this;
       console.log("selectItem -> item", item);
+      self.$store.commit("global/setTitle", item.direccion);
+      console.log("Lo cambie");
       self.$store.commit("global/setdirectionNow", item.direccion);
       self.$store.commit("global/setdirectionNowLat", item.geolocacion.lat);
       self.$store.commit("global/setdirectionNowLng", item.geolocacion.lon);

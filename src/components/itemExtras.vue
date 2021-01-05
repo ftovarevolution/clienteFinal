@@ -277,6 +277,9 @@ export default {
         });
         n = n + 1;
       });
+      if (n == 0) {
+        this.selecFood = true;
+      }
     },
     closeDialog() {
       this.$store.commit("foodList/setadd", false);
