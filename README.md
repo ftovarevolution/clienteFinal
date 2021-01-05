@@ -38,4 +38,4 @@ See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
 
 ### localStorage.register // Indica si el usuario entro al app de forma correcta
 
-### quasar dev -m capacitor -T android
+### quasar build -m capacitor -T android --ide
