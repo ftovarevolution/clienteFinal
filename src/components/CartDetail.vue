@@ -2,52 +2,88 @@
   <div>
     <q-card>
       <q-card-section v-if="carritoLenght > 0" class="shadow-2">
-        <div class="text-h6 text-grey-8" style="font-size: 25px;">
-          {{ this.negocio }}
+        <div class="row">
+          <div class="col">
+            <div class="text-h6 text-grey-8" style="font-size: 25px;">
+              {{ this.negocio }}
+            </div>
+            <div class="text-h6 text-grey-8" style="font-size: 14px;">
+              {{ this.kmActual }} Km
+            </div>
+          </div>
+          <div class="col" style="float: right">
+            <q-btn
+              class="text-weight-light"
+              flat
+              size="medium"
+              text-color="red-10"
+              no-caps
+              to="/restaurant"
+            >
+              <div class="text-red-8" style="font-size: 20px;">
+                Volver al Negocio
+              </div>
+            </q-btn>
+          </div>
         </div>
-        <div class="text-h6 text-grey-8" style="font-size: 14px;">
-          {{ this.kmActual }} Km
-        </div>
-        <br />
+      </q-card-section>
+      <q-separator></q-separator>
+      <q-card-section v-if="carritoLenght > 0" class="shadow-2">
         <div class="q-pb-sm">
           <q-item v-for="(item, index) in carrito" :key="index">
-            <!-- <q-item-section top thumbnail class="q-ml-none">
-              <img style="width: auto" :src="urlImage + item.id + '.jpg'" />
-            </q-item-section> -->
             <q-item-section style="border: 0px solid">
               <div class="row">
-                <div class="col-12">
-                  <b style="font-weight: 700; color: #666">{{ item.nombre }}</b>
-                  <a style="color: #666"
-                    >Precio: ${{ item.precio }} | Cantidad : {{ item.cantidad }}
-                  </a>
-                  <div v-for="(aux, index) in item.adicionales" :key="index">
-                    <a v-if="aux.precio > 0" style="color: #666">
-                      {{ aux.nombre }} $ {{ aux.precio }}
-                    </a>
-                    <a v-else style="color: #666">
-                      {{ aux.nombre }}
-                    </a>
+                <div class="col-10" style="border: 0px solid red">
+                  <b style="font-weight: 700; color: #666; font-size: 14px">{{
+                    item.nombre
+                  }}</b>
+                </div>
+                <div class="col-2">
+                  <b
+                    style="font-weight: 700; color: #666; font-size: 20px; float: right"
+                    >${{ item.precio }}</b
+                  >
+                </div>
+              </div>
+              <!-- <a style="color: #666">
+                Cantidad :
+                {{ item.cantidad }}
+              </a> -->
+              <div v-for="(aux, index) in item.adicionales" :key="index">
+                <a v-if="aux.precio > 0" style="color: #666; font-size: 16px">
+                  {{ aux.nombre }} (${{ aux.precio }})
+                </a>
+                <a v-else style="color: #666; font-size: 16px">
+                  {{ aux.nombre }}
+                </a>
+              </div>
+              <div class="row">
+                <div class="col-8"></div>
+                <div class="col-4">
+                  <div class="row justify-center items-center q-mt-lg">
+                    <div class="col-4">
+                      <q-btn
+                        color="negative"
+                        icon="fas fa-minus"
+                        style="border-radius: 6px; height:23px; width:29px; font-size:8px; float: right;"
+                        @click="modificar_cantidad(false, item)"
+                      />
+                    </div>
+                    <div class="col q-ml-xs row justify-center">
+                      {{ item.cantidad }}
+                    </div>
+                    <div class="col">
+                      <q-btn
+                        color="positive"
+                        icon="fas fa-plus"
+                        style="border-radius: 6px; height:23px; width:29px; font-size:8px; float: left;"
+                        @click="modificar_cantidad(true, item)"
+                      />
+                    </div>
                   </div>
                 </div>
-                <!-- <div class="col-4">
-                  <div class="row">
-                    <q-icon
-                      v-if="item.cantidad > 0"
-                      class="q-mr-md"
-                      color="primary"
-                      size="sm"
-                      name="fal fa-minus-circle"
-                      @click="decrement(index, item)"
-                    />
-                    <q-icon
-                      size="sm"
-                      name="fal fa-plus-circle"
-                      @click="increment(index, item)"
-                    />
-                  </div>
-                </div> -->
               </div>
+              <q-separator class="q-mt-sm" />
             </q-item-section>
           </q-item>
         </div>
@@ -265,13 +301,13 @@ export default {
         console.log("🚀 - mounted - distance", distance);
         let auxSubTotal = 0.0;
         this.carrito.forEach(element => {
-          auxSubTotal = auxSubTotal + element.precio;
+          auxSubTotal = auxSubTotal + element.precio * element.cantidad;
           element.adicionales.forEach(adicionales => {
             auxSubTotal = auxSubTotal + adicionales.precio;
           });
         });
         this.subtotal = (Math.round(auxSubTotal * 100) / 100).toFixed(2); //round(auxSubTotal);
-        this.impuesto = (Math.round(this.subtotal * 0.07 * 100) / 100).toFixed(
+        this.impuesto = (Math.round(this.subtotal * 0.0 * 100) / 100).toFixed(
           2
         );
         let auDelivery = await this.calculaDelivery(distance);
@@ -306,6 +342,17 @@ export default {
       });
   },
   methods: {
+    modificar_cantidad(accion, item) {
+      if (accion) {
+        if (item.cantidad < 20) {
+          item.cantidad++;
+        }
+      } else {
+        if (item.cantidad > 1) {
+          item.cantidad--;
+        }
+      }
+    },
     procesaPedido() {
       const self = this;
       const idPedido = uuidv4();

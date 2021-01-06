@@ -232,10 +232,14 @@ export default {
   },
   watch: {
     carrito(Valores, o) {
-      this.$store.commit("carrito/setcarritoLenght", Valores.length);
+      let totalItem = 0;
+      Valores.forEach(element => {
+        totalItem = totalItem + element.cantidad;
+      });
+      this.$store.commit("carrito/setcarritoLenght", totalItem);
       console.log(
         "🚀 ~ file: MainLayout.vue ~ line 249 ~ carrito ~ Valores.length",
-        Valores.length
+        Valores
       );
     }
   },

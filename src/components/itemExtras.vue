@@ -13,9 +13,9 @@
       <q-card class="bg-white text-black mycard">
         <q-list>
           <q-item>
-            <q-item-section class="col items-end">
+            <q-item-section class="col-1">
               <q-btn
-                outline
+                flat
                 size="md"
                 color="primary"
                 icon="fas fa-times"
@@ -23,13 +23,17 @@
               />
             </q-item-section>
           </q-item>
-          <div class="row">
-            <div class="col-3">
-              <q-item-section thumbnail class="q-pl-sm">
-                <img src="comida1.jpg" class="imageFood" />
-              </q-item-section>
+          <div class="row q-ml-md">
+            <div class="col-12" style="width: 100%; border: red 0px solid">
+              <img
+                class="image1"
+                :src="urlImage + foodSelect.id"
+                style="margin-left:-10px; max-height:160px; min-height:160px; width: 100%"
+              />
             </div>
-            <div class="col-7">
+          </div>
+          <div class="row q-ml-md">
+            <div class="col-9">
               <q-item-label class="text-bold">
                 {{ foodSelect.nombre }}
               </q-item-label>
@@ -44,10 +48,18 @@
             </div>
           </div>
           <q-item dense v-for="(comOption, idx) in optionFood" :key="idx">
-            <div class="row">
-              <div class="col-sm-9">
-                <div class="text-bold text-grey titleExtras">
-                  {{ comOption.nombre }}
+            <div class="row" style="min-width: 100%; margin-left: 0px;">
+              <div class="col-11" style="min-width: 100%; ">
+                <div
+                  class="text-bold text-grey-8 titleExtras bg-grey-3"
+                  style="border: 0px solid; min-width: 100%; margin-left: 0px; height: 40px;"
+                >
+                  <div
+                    class="q-ml-md q-pt-sm"
+                    style="pading-top: 12px; border: 0px solid red"
+                  >
+                    {{ comOption.nombre }}
+                  </div>
                 </div>
                 <div class="row">
                   <div class="col-24 col-sm-8">
@@ -134,52 +146,79 @@
                   </div>
                 </div>
               </div>
-              <q-separator inset v-if="idx + 1 != optionFood.length" />
+              <!-- <q-separator inset v-if="idx + 1 != optionFood.length" /> -->
             </div>
           </q-item>
-          <q-separator color="primary" inset />
+          <!-- <q-separator color="primary" inset /> -->
           <!-- aqui los extras   -->
-          <q-item
-            dense
-            v-for="(optionextra, id) in optionExtras"
-            :key="'a' + id"
-          >
-            <div class="column" style="height: 100%">
-              <div class="col">
-                <div class="text-bold text-grey titleExtras">
-                  {{ optionextra.nombre }}
+          <div dense v-for="(optionextra, id) in optionExtras" :key="'a' + id">
+            <div class="row">
+              <div class="col-11 q-ml-md">
+                <div
+                  class="text-bold text-grey-8 titleExtras bg-grey-3"
+                  style="border: 0px solid; min-width: 100%; margin-left: 0px; height: 40px;"
+                >
+                  <div class="q-ml-md q-pt-sm">
+                    {{ optionextra.nombre }}
+                  </div>
                 </div>
               </div>
-              <div
-                class="col"
-                v-if="opcionesExtras.length > 0"
-                style="border: 0px solid"
-              >
-                <q-item
-                  dense
-                  clickable
-                  tag="label"
-                  v-ripple
-                  v-for="(option, index) in optionextra.items.items"
-                  :key="index"
-                  style="border: 0px solid red; height: 1px;"
-                >
-                  <q-checkbox
-                    v-model="opcionesExtras[id][index].valor"
-                    :label="option.nombre"
-                    color="primary"
-                    @input="
-                      seleccion(option, 2, opcionesExtras[id][index].valor)
-                    "
-                  >
-                    <strong style="color: grey"> + ${{ option.precio }}</strong>
-                  </q-checkbox>
-                </q-item>
-              </div>
             </div>
-          </q-item>
-
-          <div class="col column items-center">
+            <div
+              class="row"
+              style="min-width: 100%; border: 0px solid;"
+              v-if="opcionesExtras.length > 0"
+            >
+              <q-item
+                dense
+                clickable
+                tag="label"
+                v-ripple
+                v-for="(option, index) in optionextra.items.items"
+                :key="index"
+                style="border: 0px solid red; height: 1px;"
+              >
+                <div class="row" style="min-width: 400px;">
+                  <div class="col-12">
+                    <q-checkbox
+                      v-model="opcionesExtras[id][index].valor"
+                      :label="option.nombre"
+                      color="primary"
+                      @input="
+                        seleccion(option, 2, opcionesExtras[id][index].valor)
+                      "
+                    >
+                      <strong style="color: grey">
+                        + ${{ option.precio }}</strong
+                      >
+                    </q-checkbox>
+                  </div>
+                </div>
+              </q-item>
+            </div>
+          </div>
+          <div class="row justify-center items-center q-mt-lg">
+            <div class="col-4">
+              <q-btn
+                color="negative"
+                icon="fas fa-minus"
+                style="border-radius: 6px; height:23px; width:29px; font-size:8px; float: right;"
+                @click="modificar_cantidad(false)"
+              />
+            </div>
+            <div class="col q-ml-xs row justify-center">
+              {{ this.cantidad }}
+            </div>
+            <div class="col">
+              <q-btn
+                color="positive"
+                icon="fas fa-plus"
+                style="border-radius: 6px; height:23px; width:29px; font-size:8px; float: left;"
+                @click="modificar_cantidad(true)"
+              />
+            </div>
+          </div>
+          <div class="col column items-center q-mb-xl">
             <q-btn
               :disable="!selecFood"
               no-caps
@@ -201,6 +240,10 @@
 export default {
   data() {
     return {
+      urlImageNegocio:
+        "https://bucket-onway154115-dev.s3-us-west-2.amazonaws.com/negocios/",
+      urlImage:
+        "https://bucket-onway154115-dev.s3-us-west-2.amazonaws.com/items/",
       selecFood: "",
       selecFood0: "",
       selecFood1: "",
@@ -210,7 +253,8 @@ export default {
       selecFood5: "",
       selecFood6: "",
       opciones: [],
-      opcionesExtras: []
+      opcionesExtras: [],
+      cantidad: 1
     };
   },
   props: {
@@ -231,6 +275,17 @@ export default {
     }
   },
   methods: {
+    modificar_cantidad(accion) {
+      if (accion) {
+        if (this.cantidad < 20) {
+          this.cantidad++;
+        }
+      } else {
+        if (this.cantidad > 1) {
+          this.cantidad--;
+        }
+      }
+    },
     seleccion(objeto, tipo, value) {
       if (tipo == 1) {
         for (let index = 0; index < this.opciones.length; index++) {
@@ -269,6 +324,7 @@ export default {
       });
     },
     cargaDatos() {
+      this.cantidad = 1;
       let n = 0;
       this.optionExtras.forEach(element => {
         this.opcionesExtras.push([]);
@@ -351,23 +407,23 @@ export default {
             self.$store.commit("carrito/setcarrito", carritoTemp);
             carrito = [];
             let carritoAux = {
-              id: this.foodSelect.id,
-              nombre: this.foodSelect.nombre,
-              precio: this.foodSelect.precioBase,
-              cantidad: 1,
-              adicionales: this.opciones
+              id: self.foodSelect.id,
+              nombre: self.foodSelect.nombre,
+              precio: self.foodSelect.precioBase,
+              cantidad: self.cantidad,
+              adicionales: self.opciones
             };
             carritoTemp.push(carritoAux);
-            const lat = this.negocioSelect.element.geolocacion.lat;
-            const lon = this.negocioSelect.element.geolocacion.lon;
-            this.$store.commit("carrito/setcarrito", carritoTemp);
-            this.$store.commit(
+            const lat = self.negocioSelect.element.geolocacion.lat;
+            const lon = self.negocioSelect.element.geolocacion.lon;
+            self.$store.commit("carrito/setcarrito", carritoTemp);
+            self.$store.commit(
               "carrito/setidnegocio",
-              this.negocioSelect.element.id
+              self.negocioSelect.element.id
             );
-            this.$store.commit("carrito/setnegocioLat", lat);
-            this.$store.commit("carrito/setnegocioLon", lon);
-            this.$store.commit("foodList/setadd", false);
+            self.$store.commit("carrito/setnegocioLat", lat);
+            self.$store.commit("carrito/setnegocioLon", lon);
+            self.$store.commit("foodList/setadd", false);
           })
           .onCancel(() => {
             return;
@@ -377,23 +433,23 @@ export default {
           carritoTemp.push(element);
         });
         let carritoAux = {
-          id: this.foodSelect.id,
-          nombre: this.foodSelect.nombre,
-          precio: this.foodSelect.precioBase,
-          cantidad: 1,
-          adicionales: this.opciones
+          id: self.foodSelect.id,
+          nombre: self.foodSelect.nombre,
+          precio: self.foodSelect.precioBase,
+          cantidad: self.cantidad,
+          adicionales: self.opciones
         };
         carritoTemp.push(carritoAux);
-        const lat = this.negocioSelect.element.geolocacion.lat;
-        const lon = this.negocioSelect.element.geolocacion.lon;
-        this.$store.commit("carrito/setcarrito", carritoTemp);
-        this.$store.commit(
+        const lat = self.negocioSelect.element.geolocacion.lat;
+        const lon = self.negocioSelect.element.geolocacion.lon;
+        self.$store.commit("carrito/setcarrito", carritoTemp);
+        self.$store.commit(
           "carrito/setidnegocio",
-          this.negocioSelect.element.id
+          self.negocioSelect.element.id
         );
-        this.$store.commit("carrito/setnegocioLat", lat);
-        this.$store.commit("carrito/setnegocioLon", lon);
-        this.$store.commit("foodList/setadd", false);
+        self.$store.commit("carrito/setnegocioLat", lat);
+        self.$store.commit("carrito/setnegocioLon", lon);
+        self.$store.commit("foodList/setadd", false);
       }
     }
   }
