@@ -8,6 +8,7 @@ export default function() {
     directionNowLat: "",
     directionNowLng: "",
     showHeader: true,
-    negocioSelect: null
+    negocioSelect: null,
+    navigateNow: ""
   };
 }

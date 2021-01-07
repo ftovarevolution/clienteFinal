@@ -151,7 +151,8 @@
 
 <script>
 import { API, Auth } from "aws-amplify";
-import { createPedidos } from "./../graphql/mutations";
+import { createPedidos, createItemsPedidos } from "./../graphql/mutations";
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   data() {
@@ -162,6 +163,9 @@ export default {
     };
   },
   computed: {
+    carrito() {
+      return this.$store.state.carrito.carrito;
+    },
     variables() {
       return this.$store.state.carrito.variables;
     }
@@ -208,6 +212,7 @@ export default {
     procesarpedido() {
       const self = this;
       const xVariable = this.variables;
+      const idItemPedido = uuidv4();
       console.log("🚀 line 208 xVariable: ", xVariable);
 
       Auth.currentUserInfo()
@@ -218,12 +223,39 @@ export default {
                 input: self.variables
               })
             )
-            .then(data => {
+            .then(async data => {
+              console.log("grabarDatos -> data", data);
+              let xvariableItem = [];
+              self.carrito.forEach(element => {
+                xvariableItem.push({
+                  estado: true,
+                  id: idItemPedido,
+                  idItems: element.id,
+                  idPedido: self.variables.codigoPedido
+                });
+              });
               console.log("grabarDatos -> data", data);
               self.$store.commit("carrito/setcarrito", []);
               self.$store.commit("carrito/setcarritoLenght", 0);
               self.$store.commit("carrito/setEstado", "Pedido");
               self.$router.push("/seguimientoPedido");
+
+              //   await self.$API
+              //     .graphql(
+              //       self.$API.graphqlOperation(createItemsPedidos, {
+              //         input: xvariableItem
+              //       })
+              //     )
+              //     .then(data => {
+              //       console.log("grabarDatos -> data", data);
+              //       self.$store.commit("carrito/setcarrito", []);
+              //       self.$store.commit("carrito/setcarritoLenght", 0);
+              //       self.$store.commit("carrito/setEstado", "Pedido");
+              //       self.$router.push("/seguimientoPedido");
+              //     })
+              //     .catch(e => {
+              //       console.log("TCL: e", e);
+              //     });
             })
             .catch(e => {
               console.log("TCL: e", e);

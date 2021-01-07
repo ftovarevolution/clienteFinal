@@ -35,6 +35,7 @@ const routes = [
       { path: "/restaurant", component: () => import("pages/restaurant.vue") },
       { path: "/item", component: () => import("pages/Menu.vue") },
       { path: "/cart", component: () => import("pages/Cart.vue") },
+      { path: "/myAcount", component: () => import("pages/myAcount.vue") },
       {
         path: "/seguimientoPedido",
         component: () => import("pages/seguimientoPedido.vue")

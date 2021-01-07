@@ -380,6 +380,13 @@ export default {
           return false;
         });
     },
+    cuentaCarrito(Valores) {
+      let totalItem = 0;
+      Valores.forEach(element => {
+        totalItem = totalItem + element.cantidad;
+      });
+      this.$store.commit("carrito/setcarritoLenght", totalItem);
+    },
     addfood() {
       let self = this;
       const valEnCarrito = self.$store.state.carrito.idnegocio;
@@ -421,6 +428,7 @@ export default {
               "carrito/setidnegocio",
               self.negocioSelect.element.id
             );
+            this.cuentaCarrito(carritoTemp);
             self.$store.commit("carrito/setnegocioLat", lat);
             self.$store.commit("carrito/setnegocioLon", lon);
             self.$store.commit("foodList/setadd", false);
@@ -447,6 +455,7 @@ export default {
           "carrito/setidnegocio",
           self.negocioSelect.element.id
         );
+        self.cuentaCarrito(carritoTemp);
         self.$store.commit("carrito/setnegocioLat", lat);
         self.$store.commit("carrito/setnegocioLon", lon);
         self.$store.commit("foodList/setadd", false);

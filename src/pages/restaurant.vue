@@ -1,6 +1,8 @@
 <template>
   <div class="full-width text-center my-font">
     <q-input
+      @keypress="keypress"
+      @input="keypress"
       standout="bg-red-2 text-white"
       rounded
       style="width: 90%; margin-top: 10px; margin-left: 20px; margin-right: 20px"
@@ -27,6 +29,7 @@
     <Shop_list_home
       :idServicios="this.IdService"
       :search="this.textSearch"
+      :buscar="this.buscar"
     ></Shop_list_home>
   </div>
 </template>
@@ -46,6 +49,7 @@ export default {
   name: "Restaurant",
   data() {
     return {
+      buscar: false,
       textSearch: ""
     };
   },
@@ -86,7 +90,6 @@ export default {
       .then(async () => {
         self.$store.commit("global/setTitle", localStorage.directionNow);
         this.$store.commit("global/setshowHeader", true);
-        console.log("🚀 - .then - this.estado", this.estado);
         if (this.estado == "Pedido") {
           this.$router.push("/seguimientoPedido");
         }
@@ -103,7 +106,17 @@ export default {
         }
       });
   },
-  methods: {}
+  methods: {
+    keypress(key) {
+      if (this.textSearch.length > 0) {
+        if (key.keyCode == 13) {
+          this.buscar = this.textSearch;
+        }
+      } else {
+        this.buscar = "*";
+      }
+    }
+  }
 };
 </script>
 

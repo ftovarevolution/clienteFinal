@@ -13,7 +13,7 @@
       >
         <q-item-section
           thumbnail
-          v-if="shop.image"
+          v-if="shop.image && shop.estado"
           style="width: 100%; padding-left: 0px; margin-left: 0px ; border: red 0px solid"
         >
           <img
@@ -65,7 +65,42 @@ export default {
   },
   props: {
     idServicios: null,
-    search: null
+    search: null,
+    buscar: null
+  },
+  watch: {
+    buscar(a, b) {
+      let val1 = "";
+      let val2 = "";
+      let val3 = "";
+      val2 = a.toLowerCase();
+      this.data.forEach(items => {
+        if (a != "*") {
+          let regex = new RegExp(val2, "g");
+          items.estado = false;
+          const valores = items.element.tag;
+          val3 = items.element.nombre.toLowerCase();
+          const greeting = val3.match(regex);
+          console.log("🚀 ~ file: line 86 ~greeting", greeting);
+          if (greeting) {
+            items.estado = true;
+          } else {
+            if (valores) {
+              valores.forEach(element => {
+                val1 = element.toLowerCase();
+                if (val1 == val2) {
+                  items.estado = true;
+                }
+              });
+            }
+          }
+        } else {
+          console.log("**************");
+          items.estado = true;
+        }
+      });
+      console.log(this.data);
+    }
   },
   methods: {
     goToSelect(negocio) {
@@ -147,7 +182,8 @@ export default {
                 element,
                 image: element.profile,
                 rating: ranking,
-                tiempo: "25-30min"
+                tiempo: "25-30min",
+                estado: true
               });
             });
             self.loading = false;

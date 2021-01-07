@@ -25,3 +25,6 @@ export function getnegocioSelect(state) {
 export function getshowHeader(state) {
   return state.showHeader;
 }
+export function getnavigateNow(state) {
+  return state.navigateNow;
+}

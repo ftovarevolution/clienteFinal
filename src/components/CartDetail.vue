@@ -123,7 +123,7 @@
           </div>
           <div class="q-pa-sm" style="width: 100%">
             <q-input
-              v-model="text"
+              v-model="textObserva"
               type="textarea"
               label="Nota Adicional"
               autogrow
@@ -235,7 +235,7 @@ export default {
       negocio: "",
       MostrarformaPago: false,
       formaPago: "",
-      text: "",
+      textObserva: "",
       kmMinimo: 0.0,
       tarifaEnvioMinima: 0.0,
       costoKmAdicional: 0.0,
@@ -283,9 +283,31 @@ export default {
       return this.$store.state.login.SubID;
     }
   },
+  beforeDestroy() {
+    this.$store.commit("global/setnavigateNow", "");
+  },
   async mounted() {
     const self = this;
+    console.log(
+      "🚀 ~ file: CartDetail.vue ~ line 349 ~ mounted ~ this.carrito",
+      this.carrito
+    );
+    const idItemPedido = uuidv4();
+    let xvariableItem = [];
+    self.carrito.forEach(element => {
+      xvariableItem.push({
+        estado: true,
+        id: idItemPedido,
+        idItems: element.id,
+        idPedido: "self.variables.codigoPedido"
+      });
+    });
+    console.log(
+      "🚀 ~ file: CartDetail.vue ~ line 297 ~ mounted ~ xvariableItem",
+      xvariableItem
+    );
     const miToKm = 1.60934;
+    this.$store.commit("global/setnavigateNow", "/cart");
     this.negocio = this.negocioSelect.element.nombre;
     let geolocalitation = this.negocioSelect.element.geolocacion;
     let destino = this.directionNowLat + ", " + this.directionNowLng;
@@ -341,6 +363,7 @@ export default {
         console.log("TCL: error", e);
       });
   },
+
   methods: {
     modificar_cantidad(accion, item) {
       if (accion) {
@@ -352,6 +375,7 @@ export default {
           item.cantidad--;
         }
       }
+      this.cuentaCarrito(this.carrito);
     },
     procesaPedido() {
       const self = this;
@@ -364,7 +388,7 @@ export default {
       const min = dateTmp.getMinutes();
       const seg = dateTmp.getSeconds();
       const fechahora = moment([year, month, day, hora, min, seg, 150]);
-      const observa = self.text;
+      const observa = self.textObserva;
 
       let variables = {
         codigoPedido: idPedido,
@@ -433,6 +457,13 @@ export default {
         });
 
       return pago;
+    },
+    cuentaCarrito(Valores) {
+      let totalItem = 0;
+      Valores.forEach(element => {
+        totalItem = totalItem + element.cantidad;
+      });
+      this.$store.commit("carrito/setcarritoLenght", totalItem);
     },
     round(num, decimales = 2) {
       var signo = num >= 0 ? 1 : -1;

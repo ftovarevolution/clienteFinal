@@ -124,7 +124,7 @@
               size="16px"
               class="q-mt-sm col-xs-3"
               style="visibility: inherit; box-sizing: border-box; -webkit-tap-highlight-color"
-              @click="$router.push('/cart')"
+              @click="irCarrito"
             >
               <q-avatar size="32px" style="position: relative;">
                 <img style="width: 32px" src="iconos_CARRITO-01.svg" />
@@ -144,6 +144,7 @@
               size="16px"
               class="q-mt-sm col-xs-3"
               style="visibility: inherit; box-sizing: border-box; -webkit-tap-highlight-color"
+              @click="myAcount"
             >
               <q-avatar size="32px" style="position: relative;">
                 <img style="width: 32px" src="iconos_perfil_mi_cuenta-01.svg" />
@@ -207,7 +208,8 @@ export default {
         },
         {
           icon: "fas fa-user",
-          caption: "Mi Cuenta"
+          caption: "Mi Cuenta",
+          function: "myAcount"
         },
         {
           icon: "fas fa-balance-scale",
@@ -231,19 +233,24 @@ export default {
     };
   },
   watch: {
-    carrito(Valores, o) {
-      let totalItem = 0;
-      Valores.forEach(element => {
-        totalItem = totalItem + element.cantidad;
-      });
-      this.$store.commit("carrito/setcarritoLenght", totalItem);
-      console.log(
-        "🚀 ~ file: MainLayout.vue ~ line 249 ~ carrito ~ Valores.length",
-        Valores
-      );
-    }
+    // carritoLenght(Valores, o) {
+    //   console.log("Carrito Cambiando ------>");
+    //   let totalItem = 0;
+    //   Valores.forEach(element => {
+    //     totalItem = totalItem + element.cantidad;
+    //   });
+    //   this.$store.commit("carrito/setcarritoLenght", totalItem);
+    // }
   },
   methods: {
+    myAcount() {
+      this.$router.push("/myAcount");
+    },
+    irCarrito() {
+      if (this.$store.state.global.navigateNow != "/cart") {
+        this.$router.push("/cart");
+      }
+    },
     irDireccion() {
       console.log("Entrando direccion");
       this.$router.push("/home");
@@ -265,6 +272,7 @@ export default {
     },
     exit() {},
     async logout() {
+      this.$store.commit("global/setnavigateNow", "");
       this.$store.commit("login/setRegister", false);
       this.$store.commit("login/setUserVerify", "");
       this.$store.commit("login/setVerify", false);
@@ -272,6 +280,7 @@ export default {
       this.$store.commit("global/setdirectionNow", "");
       this.$store.commit("global/setdirectionNowLat", 0);
       this.$store.commit("global/setdirectionNowLng", 0);
+      this.$store.commit("carrito/setcarrito", []);
       try {
         localStorage.register = "false";
         await this.$Auth.signOut();
