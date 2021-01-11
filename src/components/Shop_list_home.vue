@@ -95,7 +95,6 @@ export default {
             }
           }
         } else {
-          console.log("**************");
           items.estado = true;
         }
       });

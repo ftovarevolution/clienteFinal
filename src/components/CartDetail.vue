@@ -18,9 +18,9 @@
               size="medium"
               text-color="red-10"
               no-caps
-              to="/restaurant"
+              @click="irRestaurant"
             >
-              <div class="text-red-8" style="font-size: 20px;">
+              <div class="text-red-8" style="font-size: 16px;">
                 Volver al Negocio
               </div>
             </q-btn>
@@ -58,7 +58,16 @@
                 </a>
               </div>
               <div class="row">
-                <div class="col-8"></div>
+                <div class="col-8">
+                  <q-btn
+                    class="q-mt-sm"
+                    flat
+                    round
+                    color="gret"
+                    icon="fal fa-trash-alt"
+                    @click="eliminarItem(item)"
+                  />
+                </div>
                 <div class="col-4">
                   <div class="row justify-center items-center q-mt-lg">
                     <div class="col-4">
@@ -174,7 +183,7 @@
         </div>
       </q-card-section>
     </q-card>
-    <q-dialog v-model="MostrarformaPago" persistent>
+    <q-dialog v-model="MostrarformaPago" persistent class="q-mb-xl">
       <q-card style="min-width: 350px">
         <q-card-section>
           <div class="text-h6 text-red">Forma de Pago</div>
@@ -230,6 +239,7 @@ export default {
   },
   data() {
     return {
+      distancia: 0.0,
       tiposDePago: [],
       kmActual: "",
       negocio: "",
@@ -320,26 +330,8 @@ export default {
           parseFloat(controlDistancia.rows[0].elements[0].distance.text) *
           miToKm;
         let distance = (Math.round(distanceTmp * 100) / 100).toFixed(2);
-        console.log("🚀 - mounted - distance", distance);
-        let auxSubTotal = 0.0;
-        this.carrito.forEach(element => {
-          auxSubTotal = auxSubTotal + element.precio * element.cantidad;
-          element.adicionales.forEach(adicionales => {
-            auxSubTotal = auxSubTotal + adicionales.precio;
-          });
-        });
-        this.subtotal = (Math.round(auxSubTotal * 100) / 100).toFixed(2); //round(auxSubTotal);
-        this.impuesto = (Math.round(this.subtotal * 0.0 * 100) / 100).toFixed(
-          2
-        );
-        let auDelivery = await this.calculaDelivery(distance);
-        this.delivery = (Math.round(auDelivery * 100) / 100).toFixed(2);
-        let auxTotal = 0.0;
-        auxTotal =
-          parseFloat(this.subtotal) +
-          parseFloat(this.impuesto) +
-          parseFloat(this.delivery);
-        this.total = (Math.round(auxTotal * 100) / 100).toFixed(2);
+        this.distancia = distance;
+        this.calculaTotales();
       }
     }
     await self.$API
@@ -365,6 +357,43 @@ export default {
   },
 
   methods: {
+    eliminarItem(item) {
+      for (let index = 0; index < this.carrito.length; index++) {
+        const element = this.carrito[index];
+        console.log(
+          "🚀 ~ file: CartDetail.vue ~ line 363 ~ eliminarItem ~ element",
+          element
+        );
+        if (element.id == item.id) {
+          this.carrito.splice(index, 1);
+          this.cuentaCarrito(this.carrito);
+          this.calculaTotales();
+          console.log("Eliminado");
+        }
+      }
+    },
+    async calculaTotales() {
+      let auxSubTotal = 0.0;
+      this.carrito.forEach(element => {
+        auxSubTotal = auxSubTotal + element.precio * element.cantidad;
+        element.adicionales.forEach(adicionales => {
+          auxSubTotal = auxSubTotal + adicionales.precio;
+        });
+      });
+      this.subtotal = (Math.round(auxSubTotal * 100) / 100).toFixed(2); //round(auxSubTotal);
+      this.impuesto = (Math.round(this.subtotal * 0.0 * 100) / 100).toFixed(2);
+      let auDelivery = await this.calculaDelivery(this.distancia);
+      this.delivery = (Math.round(auDelivery * 100) / 100).toFixed(2);
+      let auxTotal = 0.0;
+      auxTotal =
+        parseFloat(this.subtotal) +
+        parseFloat(this.impuesto) +
+        parseFloat(this.delivery);
+      this.total = (Math.round(auxTotal * 100) / 100).toFixed(2);
+    },
+    irRestaurant() {
+      this.$router.push("/item");
+    },
     modificar_cantidad(accion, item) {
       if (accion) {
         if (item.cantidad < 20) {
@@ -376,6 +405,7 @@ export default {
         }
       }
       this.cuentaCarrito(this.carrito);
+      this.calculaTotales();
     },
     procesaPedido() {
       const self = this;

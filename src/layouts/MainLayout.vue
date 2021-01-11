@@ -195,7 +195,7 @@ export default {
         {
           icon: "fas fa-home",
           caption: "Inicio",
-          menuRouter: "/home"
+          function: "home"
         },
         {
           icon: "fas fa-map-marker-alt",
@@ -204,7 +204,8 @@ export default {
         },
         {
           icon: "fas fa-clipboard-list",
-          caption: "Mis Pedidos"
+          caption: "Mis Pedidos",
+          menuRouter: "/historialPedidos"
         },
         {
           icon: "fas fa-user",

@@ -13,7 +13,7 @@
       <q-card class="bg-white text-black mycard">
         <q-list>
           <q-item>
-            <q-item-section class="col-1">
+            <q-item-section class="col-1" style="margin-left: -20px">
               <q-btn
                 flat
                 size="md"
@@ -197,39 +197,45 @@
               </q-item>
             </div>
           </div>
-          <div class="row justify-center items-center q-mt-lg">
-            <div class="col-4">
-              <q-btn
-                color="negative"
-                icon="fas fa-minus"
-                style="border-radius: 6px; height:23px; width:29px; font-size:8px; float: right;"
-                @click="modificar_cantidad(false)"
-              />
+          <q-footer reveal class="bg-white text-black">
+            <div
+              style="text-align: center; margin-bottom: 16px; font-size: 20px"
+            >
+              <div class="row justify-center items-center q-mt-lg">
+                <div class="col-4">
+                  <q-btn
+                    color="negative"
+                    icon="fas fa-minus"
+                    style="border-radius: 6px; height:23px; width:29px; font-size:8px; float: right;"
+                    @click="modificar_cantidad(false)"
+                  />
+                </div>
+                <div class="col q-ml-xs row justify-center">
+                  {{ this.cantidad }}
+                </div>
+                <div class="col">
+                  <q-btn
+                    color="positive"
+                    icon="fas fa-plus"
+                    style="border-radius: 6px; height:23px; width:29px; font-size:8px; float: left;"
+                    @click="modificar_cantidad(true)"
+                  />
+                </div>
+              </div>
+              <div class="col column items-center q-mb-xl">
+                <q-btn
+                  :disable="!selecFood"
+                  no-caps
+                  rounded
+                  label="Agregar al Carrito"
+                  color="primary"
+                  class="q-mt-md"
+                  style="width: 90%; height: 50px"
+                  @click="addfood"
+                />
+              </div>
             </div>
-            <div class="col q-ml-xs row justify-center">
-              {{ this.cantidad }}
-            </div>
-            <div class="col">
-              <q-btn
-                color="positive"
-                icon="fas fa-plus"
-                style="border-radius: 6px; height:23px; width:29px; font-size:8px; float: left;"
-                @click="modificar_cantidad(true)"
-              />
-            </div>
-          </div>
-          <div class="col column items-center q-mb-xl">
-            <q-btn
-              :disable="!selecFood"
-              no-caps
-              rounded
-              label="Agregar al Carrito"
-              color="primary"
-              class="q-mt-md"
-              style="width: 90%; height: 50px"
-              @click="addfood"
-            />
-          </div>
+          </q-footer>
         </q-list>
       </q-card>
     </q-dialog>
@@ -477,7 +483,7 @@ export default {
   height: 100%;
   width: 100%;
   margin-top: 0px;
-  border: 1px solid black
+  border: 0px solid black
 
 .imageFood
   min-height: 67px;

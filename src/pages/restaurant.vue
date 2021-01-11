@@ -84,7 +84,7 @@ export default {
       return this.$store.state.global.directionNowLng;
     }
   },
-  async mounted() {
+  mounted() {
     const self = this;
     Auth.currentUserInfo()
       .then(async () => {

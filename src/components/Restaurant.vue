@@ -29,8 +29,10 @@
       {{ datosNegocio.element.descripcion }}
     </div>
     <div class="text-grey-7" style="font-size: 14px">
-      Dirección: {{ datosNegocio.element.direccion }} Teléfono:
-      {{ datosNegocio.element.telefono }}
+      Dirección: {{ datosNegocio.element.direccion }}
+    </div>
+    <div class="text-grey-7" style="font-size: 14px">
+      Teléfono: {{ datosNegocio.element.telefono }}
     </div>
   </div>
 </template>

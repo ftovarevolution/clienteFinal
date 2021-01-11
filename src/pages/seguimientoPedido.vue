@@ -8,7 +8,7 @@
         class="text-h8 text-primary text-center"
         style="margin: 0px 20px 10px 20px;"
       >
-        Tienes 10 Segundos para cancelarlo.
+        Tienes 1 Minuto para cancelarlo.
       </div>
       <div
         class="q-pa-md"
@@ -146,6 +146,80 @@
         </div>
       </div>
     </div>
+    <q-page-sticky
+      v-if="progress1 >= 1"
+      position="bottom-right"
+      :offset="[28, 88]"
+    >
+      <q-btn
+        @click="addchat = true"
+        fab
+        icon="fal fa-comments-alt"
+        color="primary"
+      />
+    </q-page-sticky>
+    <q-dialog v-model="addchat" persistent :maximized="true">
+      <q-card class="bg-white">
+        <q-header class="bg-primary text-white fixed-top">
+          <q-btn
+            class="float-left q-mt-xs"
+            flat
+            icon="fal fa-arrow-left"
+            @click="closedialogMyChat"
+            size="xs"
+            v-close-popup
+          >
+          </q-btn>
+          <div class="text-center text-weight-bold float-left  q-pt-xs">
+            Chat Orden #{{ idPedido }}
+          </div>
+        </q-header>
+
+        <q-card-section class="q-mt-xl q-mb-xl">
+          <q-list style="max-width: 100%" class="q-pb-sm ">
+            <template v-for="item in chatListData">
+              <q-chat-message
+                v-if="item.idUsuario == idUsuario"
+                v-bind:key="item.id"
+                name="Yo"
+                avatar="https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png"
+                :text="[item.mensaje]"
+                sent
+                :stamp="item.fechaFormat"
+              />
+              <q-chat-message
+                v-else
+                v-bind:key="item.id"
+                name="Soporte"
+                bg-color="dark"
+                text-color="white"
+                avatar="https://cdn4.iconfinder.com/data/icons/tech-support-3/512/customer_service_1-512.png"
+                :text="[item.mensaje]"
+                :stamp="item.fechaFormat"
+              />
+            </template>
+          </q-list>
+
+          <div class="fixed-bottom q-pa-sm bg-blue-grey-2">
+            <q-input rounded outlined v-model="text" class="">
+              <template v-slot:append>
+                <q-btn
+                  type="button"
+                  v-on:click="sendChat"
+                  :disabled="textStatus"
+                  unelevated
+                  round
+                  color="primary"
+                  icon="far fa-arrow-right"
+                />
+              </template>
+            </q-input>
+          </div>
+
+          <div></div>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -153,14 +227,33 @@
 import { API, Auth } from "aws-amplify";
 import { createPedidos, createItemsPedidos } from "./../graphql/mutations";
 import { v4 as uuidv4 } from "uuid";
+import { date } from "quasar";
+import { createChatUsuarios } from "../graphql/mutations";
+import { listChatUsuarioss } from "../graphql/queries";
 
 export default {
   data() {
     return {
+      idPedido: "",
+      addchat: false,
       progress1: 0.0,
       progressLabel1: 0.0,
-      step: 0
+      textStatus: true,
+      step: 0,
+      text: null,
+      chatListData: []
     };
+  },
+  async created() {
+    await this.$Auth
+      .currentAuthenticatedUser()
+      .then(async user => {
+        this.idUsuario = user.attributes.sub;
+      })
+      .catch(err => console.log(err))
+      .finally(end => {
+        this.$q.loading.hide();
+      });
   },
   computed: {
     carrito() {
@@ -178,18 +271,29 @@ export default {
       const self = this;
       if (self.progress1 >= 1) {
         if (Valores == 1) {
+          console.log("Entrando al ciclo");
+          self.procesarpedido();
+          self.step++;
           var id = await setInterval(function() {
             self.step++;
-            if (self.step == 1) {
-              self.procesarpedido();
-            }
             if (self.step >= 6) {
               console.log("----->aqui");
               clearInterval(id);
-              self.$router.push("/restaurant");
+              self.$router.push("/valorizacion");
             }
-          }, 3000);
+          }, 60000);
         }
+      }
+    },
+    text: function(v) {
+      //this.info.correo = v.toLowerCase();
+      //this.text = v.trim();
+      var text = v.trim();
+      var length = text.length;
+      if (length >= 2) {
+        this.textStatus = false;
+      } else {
+        this.textStatus = true;
       }
     }
   },
@@ -213,7 +317,8 @@ export default {
       const self = this;
       const xVariable = this.variables;
       const idItemPedido = uuidv4();
-      console.log("🚀 line 208 xVariable: ", xVariable);
+      self.idPedido = idItemPedido;
+      console.log("🚀 line 208 xVariable: ", self.idPedido);
 
       Auth.currentUserInfo()
         .then(async () => {
@@ -265,11 +370,137 @@ export default {
           console.log(e);
         });
     },
+    resetForm() {},
+    closedialogMyChat() {
+      this.addchat = false;
+    },
     cancelaPedido() {
       // this.$store.commit("carrito/setcarritoLenght", 0);
       // this.$store.commit("carrito/setcarrito", []);
       // this.$store.commit("carrito/setEstado", "Pedido");
       this.$router.push("/restaurant");
+    },
+    async sendChat() {
+      let timeStamp = Date.now();
+      let formattedString = date.formatDate(
+        timeStamp,
+        "YYYY-MM-DDTHH:mm:ss.SSSZ"
+      );
+
+      const info = {
+        idPedido: this.idPedido,
+        idUsuario: this.idUsuario,
+        mensaje: this.text,
+        tipoChat: "CLIENTE_NEGOCIO",
+        estado: true,
+        fechaHora: formattedString
+      };
+      console.log(
+        "🚀 ~ file: seguimientoPedido.vue ~ line 396 ~ sendChat ~ info",
+        info
+      );
+
+      this.text = null;
+
+      const createChat = await this.$API
+        .graphql(
+          this.$API.graphqlOperation(createChatUsuarios, { input: info })
+        )
+        .then(async res => {
+          console.log("res", res.data.createChatUsuarios);
+          var data = res.data.createChatUsuarios;
+          data.fechaFormat = date.formatDate(
+            data.fechaHora,
+            "DD-MM-YYYY HH:mm:ss"
+          );
+          this.chatListData.unshift(data);
+
+          this.testCreateChatNegocio(info);
+        })
+        .catch(e => {
+          //alert("Por favor verifique los datos introducido");
+          console.log("TCL: e-createChatUsuario", e);
+        })
+        .finally(f => {
+          this.$q.loading.hide();
+        });
+    },
+    dataChat() {
+      this.$API
+        .graphql(
+          this.$API.graphqlOperation(listChatUsuarioss, {
+            filter: {
+              idPedido: { eq: this.idPedido },
+              tipoChat: { eq: "CLIENTE_NEGOCIO" },
+              estado: { eq: true }
+            }
+          })
+        )
+        .then(data => {
+          console.log("Listado del Chat", data.data.listChatUsuarioss);
+          var chatListData = data.data.listChatUsuarioss.items;
+          var newData = chatListData.sort(function(a, b) {
+            // Turn your strings into dates, and then subtract them
+            // to get a value that is either negative, positive, or zero.
+            return new Date(b.fechaHora) - new Date(a.fechaHora);
+          });
+          console.log(newData);
+          var listData = newData.map(function(obj) {
+            var rObj = {};
+            rObj = obj;
+            rObj["fechaFormat"] = date.formatDate(
+              obj.fechaHora,
+              "DD-MM-YYYY HH:mm:ss"
+            );
+            //rObj[obj.clave] = obj.valor;
+            /*
+          rbj['idPedido'] = obj.idPedido;
+          rObj['idUsuario'] = obj.idUsuario;
+          rObj['mensaje'] = obj.mesaje;
+          rObj['tipoChat'] = obj.tipoChat;
+          rObj['estado'] = obj.estado;
+          rObj['fechaHora'] = obj.fechaHora;
+          rObj['updatedAt'] = obj.updatedAt;
+          rObj['createdAt'] = obj.createdAt;
+          */
+            return rObj;
+          });
+          this.chatListData = listData;
+          console.log("listData: ", listData);
+        })
+        .catch(e => {
+          //alert("Por favor verifique los datos introducido");
+          console.log("TCL: e-listChatUsuarioss", e);
+        })
+        .finally(f => {
+          this.$q.loading.hide();
+        });
+    },
+    async testCreateChatNegocio(info) {
+      info.mensaje = `Respuesta de: "${info.mensaje}"`;
+      info.idUsuario = "8db6398c-9e61-4f68-8e8f-26995e74621f";
+      let newDate = date.addToDate(info.fechaHora, { seconds: 1 });
+      info.fechaHora = newDate;
+      const createChat = await this.$API
+        .graphql(
+          this.$API.graphqlOperation(createChatUsuarios, { input: info })
+        )
+        .then(async res => {
+          console.log("res", res.data.createChatUsuarios);
+          var data = res.data.createChatUsuarios;
+          data.fechaFormat = date.formatDate(
+            data.fechaHora,
+            "DD-MM-YYYY HH:mm:ss"
+          );
+          this.chatListData.unshift(data);
+        })
+        .catch(e => {
+          //alert("Por favor verifique los datos introducido");
+          console.log("TCL: e-createChatUsuario - Negocio", e);
+        })
+        .finally(f => {
+          this.$q.loading.hide();
+        });
     }
   }
 };

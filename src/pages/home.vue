@@ -135,14 +135,11 @@
 
 <script>
 import { gmapApi } from "vue2-google-maps";
-
+import { API, Auth } from "aws-amplify";
 const GmapCustomMarker = () =>
   import(/*webpackChunkName: "GmapCustomMarker" */ "vue2-gmap-custom-marker");
-
 import { style } from "./../boot/google.style.js";
-
 import { Plugins } from "@capacitor/core";
-
 const { Geolocation } = Plugins;
 
 export default {
@@ -204,36 +201,66 @@ export default {
   beforeCreate() {
     this.campo = 1;
   },
+  async beforeMount() {
+    const self = this;
+    console.log("Estoy en create");
+    const user = await Auth.currentAuthenticatedUser()
+      .then(() => {
+        console.log("Si esta entrando");
+      })
+      .catch(e => {
+        console.log(e);
+        localStorage.register = "false";
+        this.$Auth.signOut();
+        this.$router.push("/login");
+      });
+  },
   mounted() {
     const self = this;
+
     //self.splash = true;
-    self.$store.commit("global/setshowHeader", true);
-    self.$store.commit("global/setTitle", "Dónde Estás?");
-    if (localStorage.email) {
-      self.$store.commit("login/setSubID", localStorage.SubID);
-      self.$store.commit("login/setUserVerify", this.email);
-      self.$store.commit("login/setVerify", true);
-      self.$store.commit("login/setRegister", true);
-    }
-    if (self.directionNowLat != 0) {
-      console.log("Entrando con direccion");
-      self.centroInicial2 = {
-        lat: self.directionNowLat,
-        lon: self.directionNowLng
-      };
-      self.getCurrentPosition2(self.centroInicial2);
-      self.initService();
-      self.splash = false;
-    } else {
-      //Sin  direccion
-      self.getCurrentPosition();
-      self.initMarkers();
-      setTimeout(() => {
-        self.initService();
-        self.llevamealcentro();
-        self.splash = false;
-      }, 2700);
-    }
+    Auth.currentUserInfo()
+      .then(() => {
+        console.log("Si logeado");
+        self.$store.commit("global/setshowHeader", true);
+        self.$store.commit("global/setTitle", "Dónde Estás?");
+        if (localStorage.email) {
+          self.$store.commit("login/setSubID", localStorage.SubID);
+          self.$store.commit("login/setUserVerify", this.email);
+          self.$store.commit("login/setVerify", true);
+          self.$store.commit("login/setRegister", true);
+        }
+        if (self.directionNowLat != 0) {
+          console.log("Entrando con direccion");
+          self.centroInicial2 = {
+            lat: self.directionNowLat,
+            lon: self.directionNowLng
+          };
+          self.getCurrentPosition2(self.centroInicial2);
+          self.initService();
+          self.splash = false;
+        } else {
+          //Sin  direccion
+          self.getCurrentPosition();
+          self.initMarkers();
+          setTimeout(() => {
+            self.initService();
+            self.llevamealcentro();
+            self.splash = false;
+          }, 2700);
+        }
+      })
+      .catch(e => {
+        console.log(e);
+        try {
+          localStorage.register = "false";
+          this.$Auth.signOut();
+          this.$router.push("/login");
+        } catch (error) {
+          console.log("error signing out: ", error);
+          this.$router.push("/");
+        }
+      });
   },
   methods: {
     confirm() {
@@ -253,10 +280,6 @@ export default {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
-          console.log(
-            "🚀 ~ file: home.vue ~ line 252 ~ getCurrentPosition ~ self.centroInicial",
-            self.centroInicial
-          );
           self.markers[0].position = self.centroInicial;
           if (this.markers[1].position.lat === 0) {
             self.markers[1].enable = true;
@@ -278,9 +301,7 @@ export default {
         });
     },
     getCurrentPosition2(event) {
-      console.log("-------> pasanbdop por aqui");
       const self = this;
-      console.log("initMarkers .");
       self.campo = 1;
       self.center = event;
       self.markers = [];
@@ -333,7 +354,6 @@ export default {
       this.directionsRenderer.setMap(this.$refs.mapa.$mapObject);
     },
     initMarkers() {
-      console.log("initMarkers");
       this.campo = 1;
       this.timer_public = setInterval(() => {
         this.getCurrentPosition();
@@ -368,37 +388,38 @@ export default {
         con_latlng: false,
         typeIcon: icon == 1 ? true : false
       });
-      console.log("addMarker");
     },
     buscaDireccion(posicion, campo) {
       if (posicion.lat !== 0 && posicion.lng !== 0) {
         const self = this;
-        self.geocoder.geocode(
-          {
-            location: posicion
-          },
-          function(responses, status) {
-            if (status === "OK") {
-              //console.log("buscaDireccion -> responses", responses);
-              let direccionConcat =
-                responses[0].formatted_address.trim() +
-                " " +
-                responses[1].formatted_address.trim() +
-                " " +
-                responses[2].formatted_address.trim();
-              self.markers[campo].direccion = direccionConcat;
-              self.$store.commit("global/setdirectionNow", direccionConcat);
-              self.$store.commit(
-                "global/setdirectionNowLat",
-                self.markers[campo].position.lat
-              );
-              self.$store.commit(
-                "global/setdirectionNowLng",
-                self.markers[campo].position.lng
-              );
+        if (self.geocoder) {
+          self.geocoder.geocode(
+            {
+              location: posicion
+            },
+            function(responses, status) {
+              if (status === "OK") {
+                //console.log("buscaDireccion -> responses", responses);
+                let direccionConcat =
+                  responses[0].formatted_address.trim() +
+                  " " +
+                  responses[1].formatted_address.trim() +
+                  " " +
+                  responses[2].formatted_address.trim();
+                self.markers[campo].direccion = direccionConcat;
+                self.$store.commit("global/setdirectionNow", direccionConcat);
+                self.$store.commit(
+                  "global/setdirectionNowLat",
+                  self.markers[campo].position.lat
+                );
+                self.$store.commit(
+                  "global/setdirectionNowLng",
+                  self.markers[campo].position.lng
+                );
+              }
             }
-          }
-        );
+          );
+        }
       } else {
         console.log("no se puede buscar la direccion");
       }

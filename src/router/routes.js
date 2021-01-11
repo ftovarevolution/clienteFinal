@@ -31,11 +31,20 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       { path: "/home", component: () => import("pages/home.vue") },
+      {
+        path: "/valorizacion",
+        component: () => import("pages/valorizacion.vue")
+      },
       { path: "/services", component: () => import("pages/servicios.vue") },
       { path: "/restaurant", component: () => import("pages/restaurant.vue") },
       { path: "/item", component: () => import("pages/Menu.vue") },
       { path: "/cart", component: () => import("pages/Cart.vue") },
       { path: "/myAcount", component: () => import("pages/myAcount.vue") },
+      {
+        path: "/historialPedidos",
+        component: () => import("pages/historialPedidos.vue")
+      },
+
       {
         path: "/seguimientoPedido",
         component: () => import("pages/seguimientoPedido.vue")

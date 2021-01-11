@@ -12,75 +12,76 @@
         >
           {{ list.nombre }}
         </div>
-        <q-item
-          v-for="(food, indexx) in list.items.items"
-          :key="indexx"
-          style="margin-top: -10px;"
-        >
-          <q-item-section thumbnail v-if="true" class="q-pl-sm">
-            <!-- <img style="width: auto" :src="urlImage + item.id + '.jpg'" /> -->
-            <img
-              :src="urlImage + food.id"
-              style="min-height:67px; width:90px"
-            />
-          </q-item-section>
-          <q-item-section>
-            <div
-              class="column items-start"
-              style="width: 155px; border: 0px blue solid; min-height: 68px"
-            >
-              <q-item-label class="text-bold"> {{ food.nombre }} </q-item-label>
-              <q-item-label lines="2" caption>
-                {{ food.descripcion }}
-              </q-item-label>
-              <q-item-label class="text-bold" style="font-size: 15px;" caption
-                >$· {{ food.precioBase }}
-              </q-item-label>
-            </div>
-          </q-item-section>
-          <q-item-section class="col items-end">
-            <q-btn
-              v-if="true"
-              style="margin-left: 45px;"
-              size="sm"
-              rounded
-              color="red-10"
-              label="Agregar"
-              @click="
-                optionList(food.listadoComponentes, food.listadoExtras, food)
-              "
-            />
-            <div v-else>
-              <div class="row justify-center items-center">
-                <div class="col">
-                  <q-btn
-                    color="negative"
-                    icon="fas fa-minus"
-                    class=""
-                    style="border-radius: 6px; height:23px; width:29px; font-size:8px"
-                    @click="
-                      modificar_cantidad(false, food.id, food, index, indexx)
-                    "
-                  />
-                </div>
-                <div class="col q-ml-xs row justify-center">
-                  {{ food.cantidad }}
-                </div>
-                <div class="col">
-                  <q-btn
-                    color="positive"
-                    class=""
-                    icon="fas fa-plus"
-                    style="border-radius: 6px; height:23px; width:29px; font-size:8px"
-                    @click="
-                      modificar_cantidad(true, food.id, food, index, indexx)
-                    "
-                  />
+        <div v-for="(food, indexx) in list.items.items" :key="indexx">
+          <q-item style="margin-top: -10px;">
+            <q-item-section thumbnail v-if="true" class="q-pl-sm">
+              <!-- <img style="width: auto" :src="urlImage + item.id + '.jpg'" /> -->
+              <img
+                :src="urlImage + food.id"
+                style="min-height:67px; width:90px"
+              />
+            </q-item-section>
+            <q-item-section>
+              <div
+                class="column items-start"
+                style="width: 155px; border: 0px blue solid; min-height: 68px"
+              >
+                <q-item-label class="text-bold">
+                  {{ food.nombre }}
+                </q-item-label>
+                <q-item-label lines="2" caption>
+                  {{ food.descripcion }}
+                </q-item-label>
+                <q-item-label class="text-bold" style="font-size: 15px;" caption
+                  >$· {{ food.precioBase }}
+                </q-item-label>
+              </div>
+            </q-item-section>
+            <q-item-section class="col items-end">
+              <q-btn
+                v-if="true"
+                style="margin-left: 45px;"
+                size="sm"
+                rounded
+                color="red-10"
+                label="Agregar"
+                @click="
+                  optionList(food.listadoComponentes, food.listadoExtras, food)
+                "
+              />
+              <div v-else>
+                <div class="row justify-center items-center">
+                  <div class="col">
+                    <q-btn
+                      color="negative"
+                      icon="fas fa-minus"
+                      class=""
+                      style="border-radius: 6px; height:23px; width:29px; font-size:8px"
+                      @click="
+                        modificar_cantidad(false, food.id, food, index, indexx)
+                      "
+                    />
+                  </div>
+                  <div class="col q-ml-xs row justify-center">
+                    {{ food.cantidad }}
+                  </div>
+                  <div class="col">
+                    <q-btn
+                      color="positive"
+                      class=""
+                      icon="fas fa-plus"
+                      style="border-radius: 6px; height:23px; width:29px; font-size:8px"
+                      @click="
+                        modificar_cantidad(true, food.id, food, index, indexx)
+                      "
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          </q-item-section>
-        </q-item>
+            </q-item-section>
+          </q-item>
+          <q-separator style="margin-bottom: 10px;" />
+        </div>
       </div>
     </q-list>
     <itemExtrass
@@ -161,10 +162,6 @@ export default {
     },
     selectOption(option) {
       console.log("object");
-      console.log(
-        "🚀 ~ file: Food_list.vue ~ line 261 ~ selectOption ~ option",
-        option
-      );
     },
     modificar_cantidad(accion, id, record, index, index2) {
       for (let x = 0; x < this.carro.length; x++) {

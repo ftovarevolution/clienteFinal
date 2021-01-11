@@ -24,7 +24,7 @@
                 <img src="iconos_salida-01.svg" class="imageFood" />
               </q-item-section>
             </div>
-            <div class="col-8 text-left flex flex-center">
+            <div class="col-8 text-left flex flex-center" @click="salir">
               <strong>Salir</strong>
             </div>
           </div>
@@ -94,14 +94,10 @@
                 v-model="form.phone"
                 no-error-icon
                 lazy-rules
-                :rules="[
-                  $rules.required('Campo Obligatorio..'),
-                  $rules.email('No es un email..')
-                ]"
                 label="Teléfono"
               >
                 <template v-slot:prepend>
-                  <q-icon color="primary" name="fal fa-envelope" />
+                  <q-icon color="primary" name="fal fa-phone" />
                 </template>
                 <template v-slot:append>
                   <q-btn
@@ -208,6 +204,25 @@ export default {
     );
   },
   methods: {
+    async salir() {
+      this.$store.commit("global/setnavigateNow", "");
+      this.$store.commit("login/setRegister", false);
+      this.$store.commit("login/setUserVerify", "");
+      this.$store.commit("login/setVerify", false);
+      this.$store.commit("global/setLoginew", true);
+      this.$store.commit("global/setdirectionNow", "");
+      this.$store.commit("global/setdirectionNowLat", 0);
+      this.$store.commit("global/setdirectionNowLng", 0);
+      this.$store.commit("carrito/setcarrito", []);
+      try {
+        localStorage.register = "false";
+        await this.$Auth.signOut();
+        this.$router.push("/login");
+      } catch (error) {
+        console.log("error signing out: ", error);
+        this.$router.push("/");
+      }
+    },
     execute(name) {
       console.log(name, "excute");
       if (typeof this[name] === "function") {
