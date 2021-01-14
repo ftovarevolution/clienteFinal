@@ -218,7 +218,7 @@ export default {
   mounted() {
     const self = this;
 
-    //self.splash = true;
+    self.splash = true;
     Auth.currentUserInfo()
       .then(() => {
         console.log("Si logeado");

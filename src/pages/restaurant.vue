@@ -1,5 +1,8 @@
 <template>
-  <div class="full-width text-center my-font">
+  <div
+    class="full-width text-center my-font"
+    style="border: 0px solid; padding-bottom: 100px;"
+  >
     <q-input
       @keypress="keypress"
       @input="keypress"

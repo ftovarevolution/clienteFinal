@@ -15,6 +15,7 @@
         />
       </q-toolbar>
     </q-header>
+
     <q-header reveal class="bg-white text-black" v-else>
       <div class="row items-center no-wrap" style="margin-bottom: -10px">
         <div class="col-3">
@@ -48,37 +49,6 @@
         </div>
       </div>
     </q-header>
-    <q-drawer v-model="right" side="right" behavior="mobile" bordered>
-      <div class="bg-primary">
-        <div class="q-pa-lg">
-          <!-- <q-img
-            style="width: 70%; margin-left: 10%; padding: 10px;"
-            src="http://209.208.110.222/assets/welcome.svg"
-          /> -->
-        </div>
-      </div>
-      <div class="q-pa-md">
-        <q-list>
-          <q-item
-            @click="selectItem(item)"
-            clickable
-            v-ripple
-            v-for="(item, index) in menu"
-            :key="index"
-          >
-            <q-item-section avatar>
-              <q-icon color="grey" :name="item.icon" />
-            </q-item-section>
-            <q-item-section>{{ item.caption }}</q-item-section>
-          </q-item>
-        </q-list>
-      </div>
-    </q-drawer>
-
-    <q-page-container>
-      <router-view />
-    </q-page-container>
-
     <q-footer elevated class="text-white">
       <q-toolbar style="background-color: black">
         <q-toolbar-title>
@@ -155,6 +125,37 @@
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>
+    <q-drawer v-model="right" side="right" behavior="mobile" bordered>
+      <div class="bg-primary">
+        <div class="q-pa-lg">
+          <!-- <q-img
+            style="width: 70%; margin-left: 10%; padding: 10px;"
+            src="http://209.208.110.222/assets/welcome.svg"
+          /> -->
+        </div>
+      </div>
+      <div class="q-pa-md">
+        <q-list>
+          <q-item
+            @click="selectItem(item)"
+            clickable
+            v-ripple
+            v-for="(item, index) in menu"
+            :key="index"
+          >
+            <q-item-section avatar>
+              <q-icon color="grey" :name="item.icon" />
+            </q-item-section>
+            <q-item-section>{{ item.caption }}</q-item-section>
+          </q-item>
+        </q-list>
+      </div>
+    </q-drawer>
+
+    <q-page-container>
+      <router-view />
+    </q-page-container>
+
     <myDirection></myDirection>
   </q-layout>
 </template>

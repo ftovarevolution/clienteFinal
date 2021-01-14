@@ -1,14 +1,14 @@
 <template>
-  <div>
-    <q-card style="border: 0px solid; padding-bottom: 200px;">
-      <q-card-section v-if="carritoLenght > 0" class="shadow-2">
+  <q-dialog v-model="MyOrdenDialog" persistent :maximized="true">
+    <q-card>
+      <q-card-section class="shadow-2">
         <div class="row">
           <div class="col">
             <div class="text-h6 text-grey-8" style="font-size: 25px;">
               {{ this.negocio }}
             </div>
             <div class="text-h6 text-grey-8" style="font-size: 14px;">
-              {{ this.kmActual }} Km
+              {{ orden.fecha }}
             </div>
           </div>
           <div class="col" style="float: right">
@@ -28,7 +28,7 @@
         </div>
       </q-card-section>
       <q-separator></q-separator>
-      <q-card-section v-if="carritoLenght > 0" class="shadow-2">
+      <q-card-section class="shadow-2">
         <div class="q-pb-sm">
           <q-item v-for="(item, index) in carrito" :key="index">
             <q-item-section style="border: 0px solid">
@@ -41,14 +41,10 @@
                 <div class="col-2">
                   <b
                     style="font-weight: 700; color: #666; font-size: 20px; float: right"
-                    >${{ item.precio }}</b
+                    >${{ orden.total }}</b
                   >
                 </div>
               </div>
-              <!-- <a style="color: #666">
-                Cantidad :
-                {{ item.cantidad }}
-              </a> -->
               <div v-for="(aux, index) in item.adicionales" :key="index">
                 <a v-if="aux.precio > 0" style="color: #666; font-size: 16px">
                   {{ aux.nombre }} (${{ aux.precio }})
@@ -57,171 +53,25 @@
                   {{ aux.nombre }}
                 </a>
               </div>
-              <div class="row">
-                <div class="col-8">
-                  <q-btn
-                    class="q-mt-sm"
-                    flat
-                    round
-                    color="gret"
-                    icon="fal fa-trash-alt"
-                    @click="eliminarItem(item)"
-                  />
-                </div>
-                <div class="col-4">
-                  <div class="row justify-center items-center q-mt-lg">
-                    <div class="col-4">
-                      <q-btn
-                        color="negative"
-                        icon="fas fa-minus"
-                        style="border-radius: 6px; height:23px; width:29px; font-size:8px; float: right;"
-                        @click="modificar_cantidad(false, item)"
-                      />
-                    </div>
-                    <div class="col q-ml-xs row justify-center">
-                      {{ item.cantidad }}
-                    </div>
-                    <div class="col">
-                      <q-btn
-                        color="positive"
-                        icon="fas fa-plus"
-                        style="border-radius: 6px; height:23px; width:29px; font-size:8px; float: left;"
-                        @click="modificar_cantidad(true, item)"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
               <q-separator class="q-mt-sm" />
             </q-item-section>
           </q-item>
         </div>
       </q-card-section>
-      <q-separator></q-separator>
       <q-card-section v-if="carritoLenght > 0" class="shadow-2">
         <div class="q-pt-none row">
-          <div class="col-xs-9  q-pl-sm">
-            <p>Sub Total</p>
-          </div>
-          <div class="col-xs-3 text-right q-pr-sm">
-            <p>$ {{ this.subtotal }}</p>
-          </div>
-          <q-separator />
-          <div class="col-xs-9 q-pl-sm">
-            <p>Impuesto</p>
-          </div>
-          <div class="col-xs-3 text-right q-pr-sm">
-            <p>$ {{ this.impuesto }}</p>
-          </div>
-          <q-separator />
-          <div class="col-xs-9 q-pl-sm">
-            <p>Delivery</p>
-          </div>
-          <div class="col-xs-3 text-right q-pr-sm">
-            <p>$ {{ this.delivery }}</p>
-          </div>
-          <q-separator />
-          <div class="col-xs-9 q-pl-sm">
-            <strong style="font-size: 18px;">Total del Pedido</strong>
-          </div>
-          <div class="col-xs-3 text-right q-pr-sm">
-            <strong style="font-size: 18px;"> $ {{ this.total }} </strong>
-          </div>
-          <div class="col-xs-12 text-center	 q-pt-sm ">
-            <a style="font-size: 14px;"> Enviar a: {{ this.directionNow }} </a>
-          </div>
-          <div class="q-pa-sm" style="width: 100%">
-            <q-input
-              v-model="textObserva"
-              type="textarea"
-              label="Nota Adicional"
-              autogrow
-            />
-          </div>
-          <q-btn
-            :disable="this.total == 0.0"
-            class="full-width q-mt-md"
-            color="red-10"
-            rounded
-            label="Procesar el Pedido"
-            push
-            @click="MostrarformaPago = true"
-          />
           <q-btn
             class="full-width q-mt-md"
             color="red-10"
             rounded
-            label="Cancelar el Pedido"
+            label="Regresar"
             push
             @click="cancelaPedido"
           />
         </div>
       </q-card-section>
-      <q-card-section v-else class="shadow-2">
-        <div
-          class="q-pa-sm text-h6 text-grey-8 text-center"
-          style="font-size: 22px; white-space: nowrap"
-        >
-          {{ cartEmptyMessage }}
-        </div>
-        <div class="row" style="border: 0px solid;">
-          <q-img
-            class="q-ml-none q-pl-none offset-xs-4 col-xs-4"
-            style="width: 35%;"
-            src="https://image.flaticon.com/icons/svg/2038/2038854.svg"
-          ></q-img>
-        </div>
-        <div class="q-pa-lg row">
-          <q-btn
-            style="width: 330px; height: 46px"
-            align="center"
-            rounded
-            color="red-10"
-            label="Comienza un Pedido"
-            to="/services"
-          />
-        </div>
-      </q-card-section>
     </q-card>
-    <q-dialog v-model="MostrarformaPago" persistent class="q-mb-xl">
-      <q-card style="min-width: 350px">
-        <q-card-section>
-          <div class="text-h6 text-red">Forma de Pago</div>
-        </q-card-section>
-
-        <q-card-section class="q-pt-none ">
-          <q-option-group
-            :options="tiposDePago"
-            type="radio"
-            v-model="formaPago"
-          />
-          <q-input
-            v-if="formaPago == '0000001'"
-            dense
-            square
-            outlined
-            v-model="efectivo"
-            label="Monto Efectivo"
-            maxlength="6"
-            @keypress="keypress"
-          />
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn flat label="Cancelar" v-close-popup />
-          <q-btn
-            flat
-            label="Procesar el Pedido"
-            v-close-popup
-            @click="procesaPedido"
-          />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-    <!-- <q-dialog v-model="showCoupon" position="bottom" class="height:5000px">
-      <coupon />
-    </q-dialog> -->
-  </div>
+  </q-dialog>
 </template>
 
 <script>
@@ -255,7 +105,7 @@ export default {
       delivery: 0.0,
       total: 0.0,
       urlImage:
-        "https://bucket-onway154115-dev.s3-us-west-2.amazonaws.com/items/",
+        "https://bucket-onway154115-dev.s3-us-west-2.amazonaws.com/logo/",
       title: "Manage Cart Items",
       cartEmptyMessage: "Opps! Tu carrito está vacio",
       qty: 1,
@@ -269,8 +119,14 @@ export default {
       showCoupon: false
     };
   },
+  props: {
+    orden: null
+  },
   computed: {
     ...mapState("generals", ["carro"]),
+    MyOrdenDialog() {
+      return this.$store.state.home.MyOrdenDialog;
+    },
     carrito() {
       return this.$store.state.carrito.carrito;
     },
@@ -375,13 +231,9 @@ export default {
     async calculaTotales() {
       let auxSubTotal = 0.0;
       this.carrito.forEach(element => {
-        console.log(
-          "🚀 ~ file: CartDetail.vue ~ line 379 ~ calculaTotales ~ element",
-          element
-        );
         auxSubTotal = auxSubTotal + element.precio * element.cantidad;
         element.adicionales.forEach(adicionales => {
-          auxSubTotal = auxSubTotal + adicionales.precio * element.cantidad;
+          auxSubTotal = auxSubTotal + adicionales.precio;
         });
       });
       this.subtotal = (Math.round(auxSubTotal * 100) / 100).toFixed(2); //round(auxSubTotal);
@@ -396,7 +248,7 @@ export default {
       this.total = (Math.round(auxTotal * 100) / 100).toFixed(2);
     },
     irRestaurant() {
-      this.$router.push("/item");
+      this.$store.commit("home/setMyOrdenDialog", false);
     },
     modificar_cantidad(accion, item) {
       if (accion) {
@@ -450,10 +302,7 @@ export default {
       this.$router.push("/seguimientoPedido");
     },
     cancelaPedido() {
-      this.$store.commit("carrito/setcarritoLenght", 0);
-      this.$store.commit("carrito/setcarrito", []);
-      this.$store.commit("carrito/setEstado", "Pedido");
-      this.$router.push("/restaurant");
+      this.$store.commit("home/setMyOrdenDialog", false);
     },
     keypress(key) {
       if (key.keyCode < 48 || key.keyCode > 57) {

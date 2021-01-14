@@ -13,7 +13,7 @@
       >
         <q-item-section
           thumbnail
-          v-if="shop.image && shop.estado"
+          v-if="shop.estado"
           style="width: 100%; padding-left: 0px; margin-left: 0px ; border: red 0px solid"
         >
           <img
@@ -173,6 +173,7 @@ export default {
         )
         .then(data => {
           let datosItem = data.data.listNegocioss.items;
+          console.log("🚀 - readData - datosItem", datosItem);
           let ranking = 0;
           if (datosItem.length > 0) {
             datosItem.forEach(async element => {
@@ -184,6 +185,7 @@ export default {
                 tiempo: "25-30min",
                 estado: true
               });
+              console.log("🚀 - readData - self.data", self.data);
             });
             self.loading = false;
           }

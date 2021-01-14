@@ -15,7 +15,10 @@
     <div style="margin-left: 15px">
       <restaurant-info :datosNegocio="this.negocioSelect" />
     </div>
-    <q-card class="q-pa-sm q-ma-sm">
+    <q-card
+      class="q-pa-sm q-ma-sm"
+      style="border: 0px solid; padding-bottom: 100px;"
+    >
       <q-card-section>
         <FoodList :datosNegocio="this.negocioSelect" />
       </q-card-section>
