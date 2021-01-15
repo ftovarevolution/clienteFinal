@@ -218,15 +218,15 @@ export default {
           caption: "Información Legal",
           function: ""
         },
-        {
-          icon: "fad fa-sign-out-alt",
-          caption: "Logout",
-          function: "logout"
-        },
+        // {
+        //   icon: "fad fa-sign-out-alt",
+        //   caption: "Logout",
+        //   function: "logout"
+        // },
         {
           icon: "fas fa-door-open",
           caption: "Salir",
-          function: "exit"
+          function: "logout"
         }
       ],
       tab: "tab1",

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-list class="bg-grey-4">
+    <q-list v-if="data.length > 0" class="bg-grey-4">
       <div v-if="search" class="text-black">Buscando "{{ this.search }}""</div>
       <q-item
         class="bg-white"
@@ -44,6 +44,31 @@
         </q-item-section>
       </q-item>
     </q-list>
+    <q-card-section v-else class="shadow-2">
+      <div
+        class="q-pa-sm text-h6 text-grey-8 text-center"
+        style="font-size: 18px; white-space: nowrap"
+      >
+        Lo Sentimos no hay ningun servicio registrado
+      </div>
+      <div class="row" style="border: 0px solid;">
+        <q-img
+          class="q-ml-none q-pl-none offset-xs-4 col-xs-4"
+          style="width: 35%;"
+          src="BACKPACK-logo-color.png"
+        ></q-img>
+      </div>
+      <div class="q-pa-lg row">
+        <q-btn
+          style="width: 330px; height: 46px"
+          align="center"
+          rounded
+          color="red-10"
+          label="Regresar"
+          to="/services"
+        />
+      </div>
+    </q-card-section>
   </div>
 </template>
 
@@ -182,7 +207,7 @@ export default {
                 element,
                 image: element.profile,
                 rating: ranking,
-                tiempo: "25-30min",
+                tiempo: element.tiempoAproxEntrega,
                 estado: true
               });
               console.log("🚀 - readData - self.data", self.data);

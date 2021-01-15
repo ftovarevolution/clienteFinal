@@ -21,7 +21,7 @@
               @click="irRestaurant"
             >
               <div class="text-red-8" style="font-size: 16px;">
-                Volver al Negocio
+                Regresar
               </div>
             </q-btn>
           </div>

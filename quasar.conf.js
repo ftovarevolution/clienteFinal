@@ -158,6 +158,7 @@ module.exports = function(/* ctx */) {
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor
     capacitor: {
+      orientation: "portrait",
       hideSplashscreen: true
     },
 

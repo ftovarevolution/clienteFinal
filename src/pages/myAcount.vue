@@ -14,7 +14,7 @@
                 />
               </q-item-section>
             </div>
-            <div class="col-8 text-left flex flex-center">
+            <div class="col-8 text-left flex flex-center" @click="mispedido">
               <strong>Historial de Pedido</strong>
             </div>
           </div>
@@ -204,6 +204,9 @@ export default {
     );
   },
   methods: {
+    mispedido() {
+      this.$router.push("/historialPedidos");
+    },
     async salir() {
       this.$store.commit("global/setnavigateNow", "");
       this.$store.commit("login/setRegister", false);
