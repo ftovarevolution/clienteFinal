@@ -225,7 +225,12 @@
 
 <script>
 import { API, Auth } from "aws-amplify";
-import { createPedidos, createItemsPedidos } from "./../graphql/mutations";
+import {
+  createPedidos,
+  createItemsPedidos,
+  createItemsComponentesPedidosV2,
+  createItemsExtrasPedidosV2
+} from "./../graphql/mutations";
 import { v4 as uuidv4 } from "uuid";
 import { date } from "quasar";
 import { createChatUsuarios } from "../graphql/mutations";
@@ -316,9 +321,15 @@ export default {
     procesarpedido() {
       const self = this;
       const xVariable = this.variables;
-      const idItemPedido = uuidv4();
+      let idItemPedido = uuidv4();
+      let xIdItemAdicional = uuidv4();
+      const xCarrito = this.carrito;
       self.idPedido = idItemPedido;
-      console.log("🚀 line 208 xVariable: ", self.idPedido);
+
+      console.log(
+        "🚀 ~ file: seguimientoPedido.vue ~ line 319 ~ carrito",
+        xCarrito
+      );
 
       Auth.currentUserInfo()
         .then(async () => {
@@ -331,36 +342,76 @@ export default {
             .then(async data => {
               console.log("grabarDatos -> data", data);
               let xvariableItem = [];
-              self.carrito.forEach(element => {
-                xvariableItem.push({
+              xCarrito.forEach(element => {
+                idItemPedido = uuidv4();
+                xvariableItem = {
+                  cantidad: element.cantidad,
                   estado: true,
                   id: idItemPedido,
                   idItems: element.id,
-                  idPedido: self.variables.codigoPedido
+                  idPedido: self.variables.codigoPedido,
+                  precioTotal: element.precio
+                };
+                self.$API
+                  .graphql(
+                    self.$API.graphqlOperation(createItemsPedidos, {
+                      input: xvariableItem
+                    })
+                  )
+                  .then(data => {
+                    console.log("grabarDatos -> data", data);
+                  })
+                  .catch(e => {
+                    console.log("TCL: e", e);
+                  });
+                // Adicionales createItemsComponentesPedidosV2
+                element.adicionales.forEach(adicional => {
+                  xIdItemAdicional = uuidv4();
+                  let xvariableItemAdicional = [];
+                  xvariableItemAdicional = {
+                    cantidad: 1,
+                    estado: true,
+                    id: xIdItemAdicional,
+                    idItemPedido: idItemPedido,
+                    idItems: adicional.id,
+                    precioTotal: adicional.precio
+                  };
+                  if (adicional.idCategoriaComponente) {
+                    self.$API
+                      .graphql(
+                        self.$API.graphqlOperation(
+                          createItemsComponentesPedidosV2,
+                          {
+                            input: xvariableItemAdicional
+                          }
+                        )
+                      )
+                      .then(data => {
+                        console.log("grabarDatos -> data", data);
+                      })
+                      .catch(e => {
+                        console.log("TCL: e", e);
+                      });
+                  } else {
+                    self.$API
+                      .graphql(
+                        self.$API.graphqlOperation(createItemsExtrasPedidosV2, {
+                          input: xvariableItemAdicional
+                        })
+                      )
+                      .then(data => {
+                        console.log("grabarDatos -> data", data);
+                      })
+                      .catch(e => {
+                        console.log("TCL: e", e);
+                      });
+                  }
                 });
               });
-              console.log("grabarDatos -> data", data);
               self.$store.commit("carrito/setcarrito", []);
               self.$store.commit("carrito/setcarritoLenght", 0);
               self.$store.commit("carrito/setEstado", "Pedido");
               self.$router.push("/seguimientoPedido");
-
-              //   await self.$API
-              //     .graphql(
-              //       self.$API.graphqlOperation(createItemsPedidos, {
-              //         input: xvariableItem
-              //       })
-              //     )
-              //     .then(data => {
-              //       console.log("grabarDatos -> data", data);
-              //       self.$store.commit("carrito/setcarrito", []);
-              //       self.$store.commit("carrito/setcarritoLenght", 0);
-              //       self.$store.commit("carrito/setEstado", "Pedido");
-              //       self.$router.push("/seguimientoPedido");
-              //     })
-              //     .catch(e => {
-              //       console.log("TCL: e", e);
-              //     });
             })
             .catch(e => {
               console.log("TCL: e", e);

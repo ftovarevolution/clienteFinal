@@ -40,20 +40,16 @@
     </div>
     <q-card class="q-pa-sm q-ma-sm">
       <q-card-section>
-        <q-rating
-          style="margin-right: 0px; margin-top: 20px;"
-          no-dimming
-          v-model="rating"
-          max="5"
-          color-half="red-10"
-          color-selected="red-10"
-          color="black"
-          size="55px"
-          icon="fas fa-star"
-          icon-selected="fas fa-star"
-          icon-half="fad fa-star-half"
-        />
-
+        <div class="q-pa-md">
+          <q-rating
+            no-dimming
+            v-model="rating"
+            size="3.5em"
+            max="5"
+            icon="img:iconos_ESTRELLA__NEGRA-01.svg"
+            icon-selected="img:iconos_ESTRELLA__ROJA-01.svg"
+          />
+        </div>
         <q-input
           class="q-pt-md"
           rounded
@@ -90,7 +86,7 @@ export default {
   data() {
     return {
       text: "",
-      rating: 2,
+      rating: 2.5,
       urlImageNegocio:
         "https://bucket-onway154115-dev.s3-us-west-2.amazonaws.com/negocios/",
       form: {}

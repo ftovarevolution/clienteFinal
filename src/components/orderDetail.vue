@@ -2,10 +2,17 @@
   <q-dialog v-model="MyOrdenDialog" persistent :maximized="true">
     <q-card>
       <q-card-section class="shadow-2">
+        <q-avatar>
+          <img :src="urlImage + this.orden.idNegocio" />
+        </q-avatar>
+
         <div class="row">
-          <div class="col">
+          <div class="col-9">
             <div class="text-h6 text-grey-8" style="font-size: 25px;">
-              {{ this.negocio }}
+              {{ this.orden.datosNegocio.nombre }}
+            </div>
+            <div class="text-h6 text-grey-8" style="font-size: 14px;">
+              {{ this.orden.datosNegocio.direccion }}
             </div>
             <div class="text-h6 text-grey-8" style="font-size: 14px;">
               {{ orden.fecha }}
@@ -30,27 +37,50 @@
       <q-separator></q-separator>
       <q-card-section class="shadow-2">
         <div class="q-pb-sm">
-          <q-item v-for="(item, index) in carrito" :key="index">
+          <q-item
+            v-for="(item, index) in orden.itemsPedidos.items"
+            :key="index"
+          >
             <q-item-section style="border: 0px solid">
               <div class="row">
                 <div class="col-10" style="border: 0px solid red">
                   <b style="font-weight: 700; color: #666; font-size: 14px">{{
-                    item.nombre
+                    item.datosItem.nombre
                   }}</b>
                 </div>
                 <div class="col-2">
                   <b
                     style="font-weight: 700; color: #666; font-size: 20px; float: right"
-                    >${{ orden.total }}</b
+                    >${{ item.precioTotal }}</b
                   >
                 </div>
               </div>
-              <div v-for="(aux, index) in item.adicionales" :key="index">
-                <a v-if="aux.precio > 0" style="color: #666; font-size: 16px">
-                  {{ aux.nombre }} (${{ aux.precio }})
+              <div
+                v-for="(aux, index) in item.itemsComponentesPedidos.items"
+                :key="index"
+              >
+                <a
+                  v-if="aux.precioTotal > 0"
+                  style="color: #666; font-size: 16px"
+                >
+                  {{ aux.datosItem.nombre }} (${{ aux.precioTotal }})
                 </a>
                 <a v-else style="color: #666; font-size: 16px">
-                  {{ aux.nombre }}
+                  {{ aux.datosItem.nombre }}
+                </a>
+              </div>
+              <div
+                v-for="(aux, index) in item.itemsExtrasPedidos.items"
+                :key="index"
+              >
+                <a
+                  v-if="aux.precioTotal > 0"
+                  style="color: #666; font-size: 16px"
+                >
+                  {{ aux.datosItem.nombre }} (${{ aux.precioTotal }})
+                </a>
+                <a v-else style="color: #666; font-size: 16px">
+                  {{ aux.datosItem.nombre }}
                 </a>
               </div>
               <q-separator class="q-mt-sm" />
@@ -58,7 +88,7 @@
           </q-item>
         </div>
       </q-card-section>
-      <q-card-section v-if="carritoLenght > 0" class="shadow-2">
+      <q-card-section class="shadow-2">
         <div class="q-pt-none row">
           <q-btn
             class="full-width q-mt-md"
@@ -89,6 +119,8 @@ export default {
   },
   data() {
     return {
+      urlImage:
+        "https://bucket-onway154115-dev.s3-us-west-2.amazonaws.com/logos/",
       distancia: 0.0,
       tiposDePago: [],
       kmActual: "",
@@ -104,8 +136,6 @@ export default {
       efectivo: "",
       delivery: 0.0,
       total: 0.0,
-      urlImage:
-        "https://bucket-onway154115-dev.s3-us-west-2.amazonaws.com/logo/",
       title: "Manage Cart Items",
       cartEmptyMessage: "Opps! Tu carrito está vacio",
       qty: 1,

@@ -73,6 +73,7 @@
           v-model="directionNow"
           dense
           disable
+          borderless
         />
         <div class="text-h5 text-primary text-center" style="margin-top: 5px;">
           ¿Es esta tu ubicación?

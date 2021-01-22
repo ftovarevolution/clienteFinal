@@ -17,9 +17,11 @@
                 </q-avatar>
               </q-item-section>
               <q-item-section @click="elijePedido(pedidos)">
-                <q-item-label lines="1">KFC{{ pedidos.nombre }}</q-item-label>
+                <q-item-label lines="1">{{
+                  pedidos.datosNegocio.nombre
+                }}</q-item-label>
                 <q-item-label caption lines="2" style="width: 200px">
-                  Pollo y mas pollo{{ pedidos.descripcion }}
+                  {{ pedidos.datosNegocio.descripcion }}
                 </q-item-label>
                 <q-item-label caption lines="2" style="width: 200px">
                   {{ pedidos.fecha }}
@@ -119,6 +121,10 @@ export default {
   methods: {
     elijePedido(pedido) {
       this.orden = pedido;
+      console.log(
+        "🚀 ~ file: historialPedidos.vue ~ line 122 ~ pedido",
+        pedido
+      );
       this.$store.commit("home/setMyOrdenDialog", true);
     }
   }

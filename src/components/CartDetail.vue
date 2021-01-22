@@ -230,7 +230,6 @@ import { API, Auth } from "aws-amplify";
 import { getConfiguraciones, listTipoPagos } from "./../graphql/queries.js";
 import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
-import { createPedidos } from "./../graphql/mutations";
 
 //import Coupon from "components/Coupon";
 export default {
@@ -239,7 +238,7 @@ export default {
   },
   data() {
     return {
-      distancia: 0.0,
+      distancia: 1.0,
       tiposDePago: [],
       kmActual: "",
       negocio: "",
@@ -298,10 +297,6 @@ export default {
   },
   async mounted() {
     const self = this;
-    console.log(
-      "🚀 ~ file: CartDetail.vue ~ line 349 ~ mounted ~ this.carrito",
-      this.carrito
-    );
     const idItemPedido = uuidv4();
     let xvariableItem = [];
     self.carrito.forEach(element => {
@@ -312,10 +307,6 @@ export default {
         idPedido: "self.variables.codigoPedido"
       });
     });
-    console.log(
-      "🚀 ~ file: CartDetail.vue ~ line 297 ~ mounted ~ xvariableItem",
-      xvariableItem
-    );
     const miToKm = 1.60934;
     this.$store.commit("global/setnavigateNow", "/cart");
     this.negocio = this.negocioSelect.element.nombre;
@@ -326,13 +317,23 @@ export default {
       let controlDistancia = await this.fetchDistance(origen, destino);
       if (controlDistancia.rows[0].elements[0].status == "NOT_FOUND") {
       } else {
-        let distanceTmp =
-          parseFloat(controlDistancia.rows[0].elements[0].distance.text) *
-          miToKm;
+        let distanceTmp = 0;
+        const elementoDistancia = controlDistancia.rows[0].elements[0].distance;
+        if (typeof elementoDistancia !== "undefined") {
+          distanceTmp =
+            parseFloat(controlDistancia.rows[0].elements[0].distance.text) *
+            miToKm;
+        } else {
+          distanceTmp = 1;
+        }
+        console.log("Pasando por aqui ------>");
         let distance = (Math.round(distanceTmp * 100) / 100).toFixed(2);
         this.distancia = distance;
         this.calculaTotales();
       }
+    } else {
+      this.distancia = 1;
+      this.calculaTotales();
     }
     await self.$API
       .graphql(
@@ -470,6 +471,9 @@ export default {
         id
       };
       self.kmActual = km;
+      if (self.kmActual === 0) {
+        self.kmActual = 1;
+      }
       await self.$API
         .graphql(self.$API.graphqlOperation(getConfiguraciones, variables))
         .then(data => {

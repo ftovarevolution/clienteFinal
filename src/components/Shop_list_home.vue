@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-list v-if="data.length > 0" class="bg-grey-4">
+    <q-list v-if="data.length > 0 || iniciando" class="bg-grey-4">
       <div v-if="search" class="text-black">Buscando "{{ this.search }}""</div>
       <q-item
         class="bg-white"
@@ -79,6 +79,7 @@ import { listNegocioss, listRankingNegocioss } from "./../graphql/queries";
 export default {
   data() {
     return {
+      iniciando: true,
       urlImage:
         "https://bucket-onway154115-dev.s3-us-west-2.amazonaws.com/negocios/",
       data: [],
@@ -213,9 +214,12 @@ export default {
               console.log("🚀 - readData - self.data", self.data);
             });
             self.loading = false;
+          } else {
+            self.iniciando = false;
           }
         })
         .catch(e => {
+          self.iniciando = false;
           self.loading = false;
           console.log("TCL1: error", e);
           switch (e.code) {
