@@ -44,14 +44,17 @@
         </q-item-section>
       </q-item>
     </q-list>
-    <q-card-section v-else class="shadow-2">
+    <q-card-section v-else style="height: 100vh">
       <div
         class="q-pa-sm text-h6 text-grey-8 text-center"
-        style="font-size: 18px; white-space: nowrap"
+        style="font-size: 18px;"
       >
-        Lo Sentimos no hay ningun servicio registrado
+        Lo sentimos, no hay ningun servicio registrado
       </div>
-      <div class="row" style="border: 0px solid;">
+      <div
+        class="row"
+        style="text-align: center; display: flex; align-items: center; height: 35%; overflow:auto;"
+      >
         <q-img
           class="q-ml-none q-pl-none offset-xs-4 col-xs-4"
           style="width: 35%;"
@@ -60,7 +63,7 @@
       </div>
       <div class="q-pa-lg row">
         <q-btn
-          style="width: 330px; height: 46px"
+          style="width: 100%; height: 46px"
           align="center"
           rounded
           color="red-10"

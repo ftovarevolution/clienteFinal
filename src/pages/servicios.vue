@@ -1,5 +1,5 @@
 <template>
-  <div class="full-width text-center my-font" style="margin-top: 0px;">
+  <div class="full-width text-center my-font" style="margin-top: 0px; ">
     <div
       class="bg-primary text-white"
       style="font-size: 30px; margin-top: 0px;"
@@ -18,23 +18,38 @@
         rounded
         @click="callService(item)"
       >
-        <div class="row">
+        <div
+          class="row"
+          style="margin-top: -20px; width: 100%; margin-left: -55px"
+        >
+          <div class="col-4">
+            <q-avatar size="94px">
+              <img style="width: 100px; height: 100px" :src="item.image" />
+            </q-avatar>
+          </div>
+          <div class="col-8 self-center text-left" style="font-size: 28px;">
+            {{ item.nombre }}
+          </div>
+        </div>
+
+        <!-- <div class="row">
           <div
-            style="width: 100px; max-width: 100px;  float: left; margin-left: -50px; margin-top: -20px"
+            class="col-1"
+            style="width: 100px; max-width: 100px;  float: left; margin-left: -26px; margin-top: -20px; border: 1px red solid"
           >
             <q-avatar size="94px">
               <img style="width: 100px; height: 100px" :src="item.image" />
             </q-avatar>
           </div>
-          <div style="width: 240px; max-width: 240px; margin-top: 15px;">
-            <div
-              class="text-capitalize text-left"
-              style="font-size: 34px; margin-left: 10px;"
-            >
-              {{ item.nombre }}
+          <div
+            class="col-10 text-capitalize text-left"
+            style="float: left; border: 1px orange solid; z-index: 99999999; font-size: 34px"
+          >
+            <div style="font-size: 34px  ">
+            {{ item.nombre }}
             </div>
           </div>
-        </div>
+        </div> -->
       </q-btn>
     </div>
   </div>
