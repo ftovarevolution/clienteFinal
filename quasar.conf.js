@@ -6,11 +6,17 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 /* eslint-env node */
+/* eslint-disable @typescript-eslint/no-var-requires */
+const { configure } = require('quasar/wrappers');
 
-module.exports = function (/* ctx */) {
+module.exports = configure(function (ctx) {
   return {
     // https://quasar.dev/quasar-cli/supporting-ts
-    supportTS: false,
+    supportTS: {
+      tsCheckerConfig: {
+        eslint: true
+      }
+    },
 
     // https://quasar.dev/quasar-cli/prefetch-feature
     // preFetch: true,
@@ -19,7 +25,8 @@ module.exports = function (/* ctx */) {
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/boot-files
     boot: [
-
+      
+      'i18n',
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -38,7 +45,7 @@ module.exports = function (/* ctx */) {
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
       'roboto-font', // optional, you are not bound to it
-      'material-icons' // optional, you are not bound to it
+      'material-icons', // optional, you are not bound to it
     ],
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
@@ -63,13 +70,16 @@ module.exports = function (/* ctx */) {
 
       // https://quasar.dev/quasar-cli/handling-webpack
       extendWebpack (cfg) {
+          // linting is slow in TS projects, we execute it only for production builds
+        if (ctx.prod) {
         cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /node_modules/
         })
-      }
+        }
+      },
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
@@ -115,9 +125,9 @@ module.exports = function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'GoodFoods',
-        short_name: 'GoodFoods',
-        description: 'Sistema de Pedidos de GoodFoods',
+        name: 'AppGoodFoods',
+        short_name: 'AppGoodFoods',
+        description: 'Sistema de Pedidos GoodFoods',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
@@ -194,4 +204,4 @@ module.exports = function (/* ctx */) {
       }
     }
   }
-}
+});

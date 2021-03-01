@@ -46,7 +46,7 @@
   </q-layout>
 </template>
 
-<script>
+<script lang="ts">
 import EssentialLink from 'components/EssentialLink.vue'
 
 const linksData = [
@@ -92,16 +92,15 @@ const linksData = [
     icon: 'favorite',
     link: 'https://awesome.quasar.dev'
   }
-]
+];
 
-export default {
-  name: 'MainLayout',
-  components: { EssentialLink },
-  data () {
-    return {
-      leftDrawerOpen: false,
-      essentialLinks: linksData
-    }
-  }
+import { Vue, Component } from 'vue-property-decorator';
+
+@Component({
+  components: { EssentialLink }
+})
+export default class MainLayout extends Vue {
+  leftDrawerOpen = false;
+  essentialLinks = linksData;
 }
 </script>

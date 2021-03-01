@@ -1,6 +1,6 @@
-# GoodFoods (appgoodfoods)
+# AppGoodFoods (appgoodfoods)
 
-Sistema de Pedidos de GoodFoods
+Sistema de Pedidos GoodFoods
 
 ## Install the dependencies
 ```bash
