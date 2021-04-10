@@ -211,7 +211,6 @@ export default {
           let datosItem = data.data.listDireccionUsuarios.items;
           let ranking = 0;
           if (datosItem.length > 0) {
-            console.log("🚀 - cargarDatos - datosItem", datosItem);
             self.MyDirectionData = datosItem;
             self.loading = false;
           }
@@ -240,10 +239,6 @@ export default {
     },
     addDireccion() {
       const self = this;
-      console.log(
-        "🚀 ~ file: myDirection.vue ~ line 301 ~ addDireccion ~ self.SubID",
-        self.SubID
-      );
 
       let idAdress = uuidv4();
       let datos = [];
@@ -258,7 +253,6 @@ export default {
         },
         estado: 1
       };
-      console.log("🚀 - addDireccion - datos", datos);
       Auth.currentUserInfo()
         .then(async () => {
           await self.$API

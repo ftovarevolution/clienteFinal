@@ -326,11 +326,6 @@ export default {
       const xCarrito = this.carrito;
       self.idPedido = idItemPedido;
 
-      console.log(
-        "🚀 ~ file: seguimientoPedido.vue ~ line 319 ~ carrito",
-        xCarrito
-      );
-
       Auth.currentUserInfo()
         .then(async () => {
           await self.$API
@@ -446,10 +441,6 @@ export default {
         estado: true,
         fechaHora: formattedString
       };
-      console.log(
-        "🚀 ~ file: seguimientoPedido.vue ~ line 396 ~ sendChat ~ info",
-        info
-      );
 
       this.text = null;
 

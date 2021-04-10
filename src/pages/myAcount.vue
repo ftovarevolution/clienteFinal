@@ -3,7 +3,9 @@
     <q-card>
       <q-card-section class="shadow-2">
         <div class="text-h4 text-grey-8">Mi Perfil</div>
-        <div class="text-h6 text-bold q-mt-sl">Bienvenido! {{ name }}</div>
+        <div class="text-h6 text-bold q-mt-sl">
+          Bienvenido! {{ userNameAux }}
+        </div>
         <div class="q-pa-md">
           <div class="row">
             <div class="col-4">
@@ -39,7 +41,7 @@
                 rounded
                 standout="bg-grey-4 text-white"
                 bottom-slots
-                v-model="name"
+                v-model="userNameAux"
                 label="Nombre"
                 lazy-rules
                 no-error-icon
@@ -63,7 +65,7 @@
                 rounded
                 standout="bg-grey-4 text-white"
                 bottom-slots
-                v-model="form.email"
+                v-model="emailAux"
                 no-error-icon
                 lazy-rules
                 :rules="[
@@ -91,7 +93,7 @@
                 rounded
                 standout="bg-grey-4 text-white"
                 bottom-slots
-                v-model="form.phone"
+                v-model="phone"
                 no-error-icon
                 lazy-rules
                 label="Teléfono"
@@ -111,47 +113,6 @@
                   />
                 </template>
               </q-input>
-              <!-- <q-input
-                rounded
-                standout="bg-grey-4 text-white"
-                v-model="password"
-                :type="isPwd ? 'password' : 'text'"
-                label="Contraseña"
-                lazy-rules
-                no-error-icon
-                :rules="[
-                  $rules.required('Campo Obligatorio..'),
-                  $rules.minLength(
-                    8,
-                    'La contraseña debe ser mayor a 8 digitos'
-                  )
-                ]"
-              >
-                <template v-slot:prepend>
-                  <q-icon color="primary" name="fal fa-lock-alt" />
-                </template>
-                <template v-slot:append>
-                  <q-btn
-                    color="primary"
-                    v-show="!isPwd"
-                    flat
-                    icon="fal fa-eye"
-                    class="cursor-pointer q-mr-sm"
-                    @click="isPwd = true"
-                    style="width: 36px;"
-                  />
-
-                  <q-btn
-                    color="primary"
-                    v-show="isPwd"
-                    flat
-                    icon="fal fa-eye-slash"
-                    class="cursor-pointer q-mr-sm"
-                    @click="isPwd = false"
-                    style="width: 36px;"
-                  />
-                </template>
-              </q-input> -->
             </q-card-section>
           </q-card>
           <div style="text-align: center; margin-top: 30px;">
@@ -178,30 +139,25 @@
 export default {
   data() {
     return {
-      name: "Franklin Tovar",
-      updateAccount: {
-        title: "Update Your Account Setting",
-        show: false
-      },
-      form: {
-        name: "Arshad Nawaz",
-        email: "saharanpunit@gmail.com",
-        phone: "1233211233",
-        password: ""
-      }
+      userNameAux: "",
+      emailAux: "",
+      phone: ""
     };
   },
   computed: {
     datosUser() {
       return this.$store.state.user.datosUser;
+    },
+    userName() {
+      return this.$store.state.login.userName;
+    },
+    UserVerify() {
+      return this.$store.state.login.UserVerify;
     }
   },
   mounted() {
-    this.datosUser;
-    console.log(
-      "🚀 ~ file: myAcount.vue ~ line 227 ~ mounted ~ this.datosUser",
-      this.datosUser
-    );
+    this.userNameAux = this.userName;
+    this.emailAux = this.UserVerify;
   },
   methods: {
     mispedido() {
@@ -232,9 +188,8 @@ export default {
         this[name]();
       }
     },
-    accountSettings() {
-      this.updateAccount.show = true;
-    },
+    accountSettings() {},
+    signUp() {},
     logout() {},
     orderHistory() {},
     onSubmit() {}

@@ -234,16 +234,7 @@ export default {
       leftDrawerOpen: false
     };
   },
-  watch: {
-    // carritoLenght(Valores, o) {
-    //   console.log("Carrito Cambiando ------>");
-    //   let totalItem = 0;
-    //   Valores.forEach(element => {
-    //     totalItem = totalItem + element.cantidad;
-    //   });
-    //   this.$store.commit("carrito/setcarritoLenght", totalItem);
-    // }
-  },
+  watch: {},
   methods: {
     myAcount() {
       this.$router.push("/myAcount");
@@ -254,7 +245,6 @@ export default {
       }
     },
     irDireccion() {
-      console.log("Entrando direccion");
       this.$router.push("/home");
     },
     home() {

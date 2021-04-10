@@ -25,3 +25,6 @@ export function setnegocioSelect(state, opened) {
 export function setnavigateNow(state, opened) {
   state.navigateNow = opened;
 }
+export function setshowHeader(state, opened) {
+  state.showHeader = opened;
+}

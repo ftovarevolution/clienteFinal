@@ -5,7 +5,7 @@ import Storage from "@aws-amplify/storage";
 import AwsExports from "../aws-exports";
 import { date } from "quasar";
 
-console.log(AwsExports);
+//console.log(AwsExports);
 
 Amplify.configure(AwsExports);
 

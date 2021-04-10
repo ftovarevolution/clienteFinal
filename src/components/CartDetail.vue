@@ -361,10 +361,6 @@ export default {
     eliminarItem(item) {
       for (let index = 0; index < this.carrito.length; index++) {
         const element = this.carrito[index];
-        console.log(
-          "🚀 ~ file: CartDetail.vue ~ line 363 ~ eliminarItem ~ element",
-          element
-        );
         if (element.id == item.id) {
           this.carrito.splice(index, 1);
           this.cuentaCarrito(this.carrito);
@@ -376,10 +372,6 @@ export default {
     async calculaTotales() {
       let auxSubTotal = 0.0;
       this.carrito.forEach(element => {
-        console.log(
-          "🚀 ~ file: CartDetail.vue ~ line 379 ~ calculaTotales ~ element",
-          element
-        );
         auxSubTotal = auxSubTotal + element.precio * element.cantidad;
         element.adicionales.forEach(adicionales => {
           auxSubTotal = auxSubTotal + adicionales.precio * element.cantidad;

@@ -13,3 +13,6 @@ export function setUserVerify(state, opened) {
 export function setSubID(state, opened) {
   state.SubID = opened;
 }
+export function setuserName(state, opened) {
+  state.userName = opened;
+}

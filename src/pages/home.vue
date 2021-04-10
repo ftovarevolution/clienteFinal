@@ -204,11 +204,8 @@ export default {
   },
   async beforeMount() {
     const self = this;
-    console.log("Estoy en create");
     const user = await Auth.currentAuthenticatedUser()
-      .then(() => {
-        console.log("Si esta entrando");
-      })
+      .then(() => {})
       .catch(e => {
         console.log(e);
         localStorage.register = "false";
@@ -222,7 +219,6 @@ export default {
     self.splash = true;
     Auth.currentUserInfo()
       .then(() => {
-        console.log("Si logeado");
         self.$store.commit("global/setshowHeader", true);
         self.$store.commit("global/setTitle", "Dónde Estás?");
         if (localStorage.email) {
@@ -232,7 +228,6 @@ export default {
           self.$store.commit("login/setRegister", true);
         }
         if (self.directionNowLat != 0) {
-          console.log("Entrando con direccion");
           self.centroInicial2 = {
             lat: self.directionNowLat,
             lon: self.directionNowLng
@@ -400,7 +395,6 @@ export default {
             },
             function(responses, status) {
               if (status === "OK") {
-                //console.log("buscaDireccion -> responses", responses);
                 let direccionConcat =
                   responses[0].formatted_address.trim() +
                   " " +
@@ -422,7 +416,6 @@ export default {
           );
         }
       } else {
-        console.log("no se puede buscar la direccion");
       }
     },
     llevamealcentro() {
@@ -438,7 +431,6 @@ export default {
       }, 1000);
     },
     getClassMap() {
-      //console.log("campo:", this.campo);
       if (!this.campo) {
         return "mapa1";
       }
@@ -511,7 +503,6 @@ export default {
         self.markers[self.campo].direccion = null;
         self.markers[self.campo].enbusqueda = true;
       } else if (field === "listo") {
-        console.log("Buscando Direccion");
         self.buscaDireccion(self.posicion_manual, self.campo);
         self.markers[self.campo].activo = true;
         setTimeout(() => {

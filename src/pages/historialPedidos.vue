@@ -76,10 +76,6 @@ export default {
       )
       .then(data => {
         let datosItem = data.data.listPedidoss.items;
-        console.log(
-          "🚀 ~ file: historialPedidos.vue ~ line 111 ~ mounted ~ datosItem",
-          datosItem
-        );
         self.data = datosItem;
         self.data.forEach(element => {
           let day = element.createdAt.substr(8, 2);
@@ -121,10 +117,6 @@ export default {
   methods: {
     elijePedido(pedido) {
       this.orden = pedido;
-      console.log(
-        "🚀 ~ file: historialPedidos.vue ~ line 122 ~ pedido",
-        pedido
-      );
       this.$store.commit("home/setMyOrdenDialog", true);
     }
   }

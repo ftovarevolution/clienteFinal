@@ -184,10 +184,6 @@ export default {
   },
   async mounted() {
     const self = this;
-    console.log(
-      "🚀 ~ file: CartDetail.vue ~ line 349 ~ mounted ~ this.carrito",
-      this.carrito
-    );
     const idItemPedido = uuidv4();
     let xvariableItem = [];
     self.carrito.forEach(element => {
@@ -198,10 +194,6 @@ export default {
         idPedido: "self.variables.codigoPedido"
       });
     });
-    console.log(
-      "🚀 ~ file: CartDetail.vue ~ line 297 ~ mounted ~ xvariableItem",
-      xvariableItem
-    );
     const miToKm = 1.60934;
     this.$store.commit("global/setnavigateNow", "/cart");
     this.negocio = this.negocioSelect.element.nombre;
@@ -246,10 +238,6 @@ export default {
     eliminarItem(item) {
       for (let index = 0; index < this.carrito.length; index++) {
         const element = this.carrito[index];
-        console.log(
-          "🚀 ~ file: CartDetail.vue ~ line 363 ~ eliminarItem ~ element",
-          element
-        );
         if (element.id == item.id) {
           this.carrito.splice(index, 1);
           this.cuentaCarrito(this.carrito);

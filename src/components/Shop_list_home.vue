@@ -110,7 +110,6 @@ export default {
           const valores = items.element.tag;
           val3 = items.element.nombre.toLowerCase();
           const greeting = val3.match(regex);
-          console.log("🚀 ~ file: line 86 ~greeting", greeting);
           if (greeting) {
             items.estado = true;
           } else {
@@ -202,7 +201,6 @@ export default {
         )
         .then(data => {
           let datosItem = data.data.listNegocioss.items;
-          console.log("🚀 - readData - datosItem", datosItem);
           let ranking = 0;
           if (datosItem.length > 0) {
             datosItem.forEach(async element => {
@@ -214,7 +212,6 @@ export default {
                 tiempo: element.tiempoAproxEntrega,
                 estado: true
               });
-              console.log("🚀 - readData - self.data", self.data);
             });
             self.loading = false;
           } else {

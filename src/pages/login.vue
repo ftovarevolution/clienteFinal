@@ -206,7 +206,6 @@ export default {
       if (this.email.length > 0) {
         this.email = this.email.toLowerCase();
         this.email = this.email.trim();
-        console.log("focusInput -> this.email", this.email);
       }
     },
     async signIn() {
@@ -226,10 +225,10 @@ export default {
           password: self.password
         })
         .then(user => {
-          console.log("🚀 - signIn - user", user);
           self.$q.loading.hide();
+          self.$store.commit("login/setuserName", user.attributes.name);
           self.$store.commit("login/setSubID", user.attributes.sub);
-          self.$store.commit("login/setUserVerify", self.email);
+          self.$store.commit("login/setUserVerify", user.attributes.email);
           self.$store.commit("login/setVerify", true);
           self.$store.commit("login/setRegister", true);
           localStorage.register = "true";

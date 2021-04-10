@@ -4,6 +4,7 @@ export default function() {
     recoverPass: false,
     verifyCode: false,
     userVerify: "",
+    userName: "",
     SubID: ""
   };
 }

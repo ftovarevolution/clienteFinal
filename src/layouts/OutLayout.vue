@@ -23,7 +23,6 @@ export default {
   },
 
   beforeCreate() {
-    console.log("beforeCreate -> localStorage", localStorage);
     if (localStorage.valuelogin) {
       if (
         localStorage.valuelogin === "1" &&

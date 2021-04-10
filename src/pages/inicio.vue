@@ -109,7 +109,6 @@ export default {
   },
   methods: {
     enterfun(e) {
-      console.log(e);
       this.$refs.pass.$el.focus();
     },
     registrarse() {

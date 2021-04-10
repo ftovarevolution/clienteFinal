@@ -7,3 +7,6 @@ export function getUserVerify(state) {
 export function getSubID(state) {
   return state.SubID;
 }
+export function getuserName(state) {
+  return state.userName;
+}

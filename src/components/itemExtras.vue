@@ -325,10 +325,7 @@ export default {
       if (lnOpciones >= this.optionFood.length) {
         this.selecFood = true;
       }
-      console.log("---------------------------------------");
-      this.opciones.forEach(element => {
-        console.log("🚀 --->", element.nombre);
-      });
+      this.opciones.forEach(element => {});
     },
     cargaDatos() {
       this.cantidad = 1;
